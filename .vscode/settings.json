@@ -1,0 +1,24 @@
+{
+  "githubPullRequests.hosts": [{"host": "https://github.com", "token": "fb9a91350e7ac7bd66455e3f79d06075ba0a13e3"}]
+  ,"java.configuration.updateBuildConfiguration": "automatic",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "bin/": true,
+    ".classpath": true,
+    ".project": true
+  },
+  "wpilib.online": true,
+  "git.alwaysShowStagedChangesResourceGroup": true,
+  "git.allowForcePush": true,
+  "git.alwaysSignOff": true,
+  "git.autofetch": true,
+  "git.enableCommitSigning": true,
+  "git.fetchOnPull": true,
+  "git.enableSmartCommit": true,
+  "git.rebaseWhenSync": true,
+  "git.showPushSuccessNotification": true
+}
