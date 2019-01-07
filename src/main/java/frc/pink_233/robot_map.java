@@ -1,11 +1,4 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
-package frc.robot;
+package frc.pink_233;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -13,14 +6,41 @@ package frc.robot;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
-public class RobotMap {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  // public static int leftMotor = 1;
-  // public static int rightMotor = 2;
+public class robot_map {
+	
+	//============================================
+	// 		DRIVE TRAIN VARIABLES
+	//============================================
+	// Motors
+	public static int leftFrontMotorPort = 2;
+	public static int leftBackMotorPort = 3;
+	public static int rightFrontMotorPort = 0;
+	public static int rightBackMotorPort = 1;
+	
+	// Encoders
+	public static int leftEncoderAPort = 0;
+	public static int leftEncoderBPort = 1;
+	public static int rightEncoderAPort = 2;
+	public static int rightEncoderBPort = 3;
 
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = 1;
+	
+	//============================================
+	// 		JOYSTICK VARIABLES
+	//============================================
+	public static int baseJoystickPort = 0;
+	
+	// Define all raw button numbers
+	public static int xButtonNumber = 1;
+	public static int aButtonNumber = 2;
+	public static int bButtonNumber = 3;
+	public static int yButtonNumber = 4;
+	public static int leftBumperButtonNumber = 5;
+	public static int rightBumperButtonNumber = 6;
+	public static int leftTriggerButtonNumber = 7;
+	public static int rightTriggerButtonNumber = 8;
+	public static int selectButtonNumber = 9;
+	public static int startButtonNumber = 10;
+	public static int leftJoystickButtonNumber = 11;
+	public static int rightJoystickButtonNumber = 12;
+	
 }
