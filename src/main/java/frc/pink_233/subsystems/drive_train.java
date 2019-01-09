@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -70,7 +69,6 @@ public class drive_train extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
 		setDefaultCommand(new tank_drive());
 	}
 
@@ -149,8 +147,7 @@ public class drive_train extends Subsystem {
 	 */
 	public void drive(Joystick base) {
 		// System.out.println("Drive1");
-		// drive(-base.getY(), -base.getAxis(AxisType.kThrottle));
-		drive(-base.getAxis(AxisType.kThrottle), -base.getY());
+		drive(-base.getRawAxis(1), -base.getRawAxis(3));
 	}
 
 	/**
@@ -203,8 +200,7 @@ public class drive_train extends Subsystem {
 	 * value in the SmartDashboard.
 	 */
 	public double getDistanceTraveled() {
-		double avgEncoders = (leftEncoder.getDistance() + rightEncoder
-				.getDistance()) / 2.0;
+		double avgEncoders = (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
 		SmartDashboard.putNumber("Encoder Avg", avgEncoders);
 		return avgEncoders;
 	}

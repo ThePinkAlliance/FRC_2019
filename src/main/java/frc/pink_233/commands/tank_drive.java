@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class tank_drive extends Command {
 
 		public tank_drive() {
-			// TODO Auto-generated constructor stub
 			requires(robot.drive_train);
 		}
 	
