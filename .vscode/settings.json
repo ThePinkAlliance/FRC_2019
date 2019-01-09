@@ -16,7 +16,6 @@
   "git.allowForcePush": true,
   "git.alwaysSignOff": true,
   "git.autofetch": true,
-  "git.enableCommitSigning": true,
   "git.fetchOnPull": true,
   "git.enableSmartCommit": true,
   "git.rebaseWhenSync": true,
