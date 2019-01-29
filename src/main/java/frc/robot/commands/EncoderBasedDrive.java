@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.pink_233.commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -13,16 +13,16 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import frc.pink_233.robot;
+import frc.robot.Robot;
 
-public class encoder_based_drive extends Command implements PIDSource, PIDOutput {
+public class EncoderBasedDrive extends Command implements PIDSource, PIDOutput {
 
-  
+  public static final String MYNAME               = "EncoderBasedDrive";
   public static final double CMD_TOLERANCE        = 1.0;
   public static final double CMD_Kp               = 0.33;
   public static final double CMD_Ki               = 0.0;
   public static final double CMD_Kd               = 0.0;
-  public static final double CMD_MAX_OUTPUT       = 1.0;
+  public static final double CMD_MAX_OUTPUT       = 0.45;
   public static final double CMD_MIN_OUTPUT       = 0.0;
   public static final double CMD_DEFAULT_DISTANCE = 30.0;
 
@@ -36,10 +36,10 @@ public class encoder_based_drive extends Command implements PIDSource, PIDOutput
   
   
 
-  public encoder_based_drive(double distance, double completeCmdByThisTimeSecs, double maxSpeed) {
+  public EncoderBasedDrive(double distance, double completeCmdByThisTimeSecs, double maxSpeed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(robot.drive_train);
+    requires(Robot.m_driveTrain);
     this.distance = distance;
     this.watchDogTime = completeCmdByThisTimeSecs;
     this.maxSpeed = maxSpeed;
@@ -57,28 +57,28 @@ public class encoder_based_drive extends Command implements PIDSource, PIDOutput
     watchDogTimer.start();
 
     //Get the current PID values
-    double P = robot.drive_train.getEncKp();
-    double I = robot.drive_train.getEncKi();
-    double D = robot.drive_train.getEncKd();
+    double P = Robot.m_driveTrain.getEncKp();
+    double I = Robot.m_driveTrain.getEncKi();
+    double D = Robot.m_driveTrain.getEncKd();
 
     //Setup the PID Controller to attempt drive by encoder
     setPIDSourceType(PIDSourceType.kDisplacement);  //distance traveled
     pidController = new PIDController(P, I, D, this, this);
-    pidController.setName("EncoderBasedDrive");
+    pidController.setName(MYNAME);
     pidController.setContinuous(false);
     pidController.setAbsoluteTolerance(CMD_TOLERANCE);
     pidController.reset();  //resets previous error, disables controller per doc
     pidController.setSetpoint(distance);
     pidController.setOutputRange(CMD_MIN_OUTPUT, maxSpeed);
-    robot.drive_train.resetEncoders();  //very important: start at zero.
+    Robot.m_driveTrain.resetEncoders();  //very important: start at zero.
 
     //GO
     pidController.enable();
     //Let the console know...
-    System.out.println("EncoderBasedDrive:  enabled PIDController for distance of: " + distance);
-    System.out.println("EncoderBasedDrive:  Kp: " + P + 
-                                          " Ki: " + I + 
-                                          " Kd: " + D);
+    System.out.println(MYNAME + ": enabled PIDController for distance of: " + distance);
+    System.out.println(MYNAME + ": Kp: " + P + 
+                                "  Ki: " + I + 
+                                "  Kd: " + D);
   
   }
 
@@ -91,18 +91,18 @@ public class encoder_based_drive extends Command implements PIDSource, PIDOutput
   @Override
   protected boolean isFinished() {
 
-    double distanceTraveled = robot.drive_train.getFrontDistanceAverage();
+    double distanceTraveled = Robot.m_driveTrain.getFrontDistanceAverage();
 
     //Honor thy watchdog timer...
     double elapsedTime = watchDogTimer.get();
     if (elapsedTime > watchDogTime) {
-      System.out.println("EncoderBasedDrive:  watchdog timer popped: " + 
+      System.out.println(MYNAME + ": watchdog timer popped: " + 
                           distanceTraveled + "/" + distance);
       return true;
     }
 
     if (pidController.onTarget() || distanceTraveled > distance) {
-      System.out.println("EncoderBasedDrive: onTarget or traveled far enough: " +
+      System.out.println(MYNAME + ": onTarget or traveled far enough: " +
                          distanceTraveled + "/" + distance);
        return true;
     }
@@ -114,7 +114,7 @@ public class encoder_based_drive extends Command implements PIDSource, PIDOutput
   @Override
   protected void end() {
     pidController.disable();
-    robot.drive_train.stopDriveTrain();
+    Robot.m_driveTrain.stopDriveTrain();
   }
 
   // Called when another command which requires one or more of the same
@@ -122,19 +122,19 @@ public class encoder_based_drive extends Command implements PIDSource, PIDOutput
   @Override
   protected void interrupted() {
     pidController.disable();
-    robot.drive_train.stopDriveTrain();
+    Robot.m_driveTrain.stopDriveTrain();
   }
 
   @Override 
   public void pidWrite(double output) {
      //write to drive train
-     robot.drive_train.tankDriveByEncoder(output, output);    
+     Robot.m_driveTrain.tankDriveByEncoder(output, output);    
   }
 
   @Override 
   public double pidGet() {
      //Get the amount left to target
-     return robot.drive_train.getFrontDistanceAverage();
+     return Robot.m_driveTrain.getFrontDistanceAverage();
   }
 
   @Override

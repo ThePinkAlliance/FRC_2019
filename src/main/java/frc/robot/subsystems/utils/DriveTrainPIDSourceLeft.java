@@ -5,23 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.pink_233.subsystems.utilities;
+package frc.robot.subsystems.utils;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import frc.pink_233.robot;
+import frc.robot.Robot;
 
 /**
  * Add your docs here.
  */
-public class drive_train_pid_source_left implements PIDSource {
+public class DriveTrainPIDSourceLeft implements PIDSource {
 
     private PIDSourceType pidSourceType = PIDSourceType.kDisplacement;
 
     @Override 
   public double pidGet() {
      //Get the amount left to target
-     return robot.drive_train.getFrontRightDistance();
+     return Robot.m_driveTrain.getFrontRightDistance();
   }
 
   @Override

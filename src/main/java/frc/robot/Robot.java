@@ -5,15 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.pink_233;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.pink_233.commands.tank_drive;
-import frc.pink_233.subsystems.drive_train;
+import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.ExampleSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,10 +23,11 @@ import frc.pink_233.subsystems.drive_train;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class robot extends TimedRobot {
-  public static drive_train drive_train = new drive_train();
-  public static oi m_oi;
-  public static robot_dashboard m_rDashboard;
+public class Robot extends TimedRobot {
+  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
+  public static DriveTrain m_driveTrain = new DriveTrain();
+  public static OI m_oi;
+  public static RobotDashboard m_rDashboard;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -38,17 +40,17 @@ public class robot extends TimedRobot {
   public void robotInit() {
     
     //Joystick
-    m_oi = new oi();
+    m_oi = new OI();
 
     //Dashboard
-    m_rDashboard = new robot_dashboard();
+    m_rDashboard = new RobotDashboard();
     m_rDashboard.displayEncoderValues();
-    m_chooser.setDefaultOption("Default Auto", new tank_drive());
+    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
 
     //DriveTrain
-    drive_train.setGovernor(0.50);
+    m_driveTrain.setGovernor(1);
 
 
   }

@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.pink_233.commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.pink_233.oi;
-import frc.pink_233.robot;
-import frc.pink_233.robot_dashboard;;
+import frc.robot.OI;
+import frc.robot.Robot;
+import frc.robot.RobotDashboard;
 
-public class tank_drive extends Command {
+public class JoystickDrive extends Command {
 
   private Joystick js = null; 
   
@@ -22,11 +22,11 @@ public class tank_drive extends Command {
    * Constructor: needs require and sets the member js so that it can be used
    * through out the instance of the object.
    */
-  public tank_drive() {
+  public JoystickDrive() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(robot.drive_train);
-    js = robot.m_oi.getBaseJoystick();
+    requires(Robot.m_driveTrain);
+    js = Robot.m_oi.getBaseJoystick();
   }
 
   // Called just before this Command runs the first time
@@ -63,10 +63,11 @@ public class tank_drive extends Command {
    */
   public void HandleTankDrive() {
     if (js != null) {
-      double left = js.getRawAxis(oi.leftStick);//js.getY(Hand.kLeft);
-      double right =  js.getRawAxis(oi.rightStick);//js.getY(Hand.kRight);
-      //System.out.println("LEFT: " + left + " RIGHT: " + right);
-      robot.drive_train.tankDriveByJoystick(left, right);
+      double left = js.getRawAxis(OI.leftStick);//js.getY(Hand.kLeft);
+      double right =  js.getRawAxis(OI.rightStick);//js.getY(Hand.kRight);
+      //if (left > 0.3 || right > 0.3)
+      //   System.out.println("LEFT: " + left + " RIGHT: " + right);
+      Robot.m_driveTrain.tankDriveByJoystick(left, right);
     }
   }
   
@@ -76,15 +77,28 @@ public class tank_drive extends Command {
   public void HandleButtons() {
     if (js != null) {
       //Reset Encoders
-      if (js.getRawButtonPressed(oi.xButtonNumber)) {
-        robot.drive_train.resetEncoders();
+      if (js.getRawButtonPressed(OI.xButtonNumber)) {
+        Robot.m_driveTrain.resetEncoders();
       }
 
-      if (js.getRawButtonPressed(oi.aButtonNumber)) {
-        encoder_based_drive_pid_control testCmd = new encoder_based_drive_pid_control(
-          SmartDashboard.getNumber(robot_dashboard.DT_ENC_PID_DISTANCE, 30), 
+      //Reset Gyro
+      if (js.getRawButtonPressed(OI.bButtonNumber)) {
+        Robot.m_driveTrain.resetGyro();
+      }
+
+      if (js.getRawButtonPressed(OI.aButtonNumber)) {
+        EncoderBasedDrive2PIDController testCmd = new EncoderBasedDrive2PIDController(
+          SmartDashboard.getNumber(RobotDashboard.DT_ENC_PID_DISTANCE, 30.0), 
           10, 
-          SmartDashboard.getNumber(robot_dashboard.DT_ENC_PID_MAX_OUTPUT, 1));
+          SmartDashboard.getNumber(RobotDashboard.DT_ENC_PID_MAX_OUTPUT, 1.0));
+        testCmd.start();
+      }
+
+      if (js.getRawButtonPressed(OI.yButtonNumber)) {
+        DriveStraightByGyro testCmd = new DriveStraightByGyro(
+          SmartDashboard.getNumber(RobotDashboard.DT_ENC_PID_DISTANCE, 30.0), 
+          10, 
+          SmartDashboard.getNumber(RobotDashboard.DT_ENC_PID_MAX_OUTPUT, 1.0));
         testCmd.start();
       }
     }

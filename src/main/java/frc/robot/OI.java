@@ -5,19 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.pink_233;
+package frc.robot;
 
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class oi {
+public class OI {
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
   //// joystick.
@@ -51,31 +50,29 @@ public class oi {
 	//============================================
 	public static int baseJoystickPort = 0;
   // Define all raw button numbers
-	public static int aButtonNumber = 0;
-	public static int bButtonNumber = 1;
-	public static int xButtonNumber = 2;
-	public static int yButtonNumber = 3;
-	public static int leftBumperButtonNumber = 4;
-	public static int rightBumperButtonNumber = 5;
-	public static int leftTriggerButtonNumber = 6;
-	public static int rightTriggerButtonNumber = 7;
-	public static int selectButtonNumber = 8;
-	public static int startButtonNumber = 9;
-	public static int leftJoystickButtonNumber = 10;
-  public static int rightJoystickButtonNumber = 11;
+	public static int aButtonNumber = 1;
+	public static int bButtonNumber = 2;
+	public static int xButtonNumber = 3;
+	public static int yButtonNumber = 4;
+	public static int leftBumperButtonNumber = 5;
+	public static int rightBumperButtonNumber = 6;
+	public static int leftTriggerButtonNumber = 7;
+	public static int rightTriggerButtonNumber = 8;
+	public static int selectButtonNumber = 9;
+	public static int startButtonNumber = 10;
+	public static int leftJoystickButtonNumber = 11;
+  public static int rightJoystickButtonNumber = 12;
   //Axis values
   public static int LXAxis = 0;
   public static int leftStick = 1; //aka LYAxis
-  public static int leftTrigger = 2;
-  public static int rightTrigger = 3;
-  public static int RXAxis = 4;
-  public static int rightStick = 5; //aka RYAxis
+  public static int RXAxis = 2;
+  public static int rightStick = 3; //aka RYAxis
 
   //public Joystick base = new Joystick(baseJoystickPort);
   public Joystick base = null; 
   public Button testButton = null; 
 	
-	public oi() {
+	public OI() {
 
     try {
 
@@ -92,6 +89,7 @@ public class oi {
     }
 
   }
+
   
   public void setupBaseJoystick() {
     if (base != null) {

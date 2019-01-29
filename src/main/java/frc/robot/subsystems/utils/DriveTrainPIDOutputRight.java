@@ -5,22 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.pink_233.subsystems.utilities;
+package frc.robot.subsystems.utils;
 
 import edu.wpi.first.wpilibj.PIDOutput;
-import frc.pink_233.robot;
+import frc.robot.*;
 
 /**
  * Right side pid output implementation.
  */
-public class drive_train_pid_output_right implements PIDOutput {
+public class DriveTrainPIDOutputRight implements PIDOutput {
 
-    public drive_train_pid_output_right() {
+    public DriveTrainPIDOutputRight() {
 
     }
 
     @Override
     public void pidWrite(double output) {
-       robot.drive_train.rightMotor(output);
+       Robot.m_driveTrain.rightMotor(output);
     }
 }

@@ -1,20 +1,13 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+package frc.robot.subsystems;
 
-package frc.pink_233.subsystems;
-
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import frc.pink_233.commands.tank_drive;
+import frc.robot.commands.JoystickDrive;
+import frc.robot.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
 /**
@@ -45,19 +38,19 @@ public class drive_train extends Subsystem {
   public final double DISTANCE_PER_PULSE = (double)(Math.PI*WHEEL_DIAMETER)/PULSE_PER_REVOLUTION;
 
 
-  private WPI_TalonSRX _rightFront = null;
-  private WPI_TalonSRX _rightRear = null;
-  private WPI_TalonSRX _leftFront = null;
-  private WPI_TalonSRX _leftRear = null;
+  private CANSparkMax _rightFront = null;
+  private CANSparkMax _rightRear = null;
+  private CANSparkMax _leftFront = null;
+  private CANSparkMax _leftRear = null;
   //private Faults _faults_L = new Faults();
   //private Faults _faults_R = new Faults();
   private DifferentialDrive _diffDrive = null;
   private double _governor = 1.0;
 
-  private Encoder _enc_leftRear = null;
-  private Encoder _enc_leftFront = null;
-  private Encoder _enc_rightRear = null;
-  private Encoder _enc_rightFront = null;
+  // private CANEncoder _enc_leftRear = null;
+  private CANEncoder _enc_leftFront = null;
+  // private CANEncoder _enc_rightRear = null;
+  private CANEncoder _enc_rightFront = null;
   private double  _enc_Kp = 1.0;
   private double  _enc_Ki = 0.0;
   private double  _enc_Kd = 0.0;
@@ -65,32 +58,26 @@ public class drive_train extends Subsystem {
   public drive_train() {
 
     //Motor setup
-    _rightFront = new WPI_TalonSRX(ESC_FRONT_RIGHT);
-    _rightRear = new WPI_TalonSRX(ESC_REAR_RIGHT);
-    _leftFront = new WPI_TalonSRX(ESC_FRONT_LEFT);
-    _leftRear = new WPI_TalonSRX(ESC_REAR_LEFT);
+    _rightFront = new CANSparkMax(RobotMap.rightFrontMotorPort, MotorType.kBrushless);
+    _rightRear = new CANSparkMax(RobotMap.rightBackMotorPort, MotorType.kBrushless);
+    _leftFront = new CANSparkMax(RobotMap.leftFrontMotorPort, MotorType.kBrushless);
+    _leftRear = new CANSparkMax(RobotMap.leftBackMotorPort, MotorType.kBrushless);
     _rightFront.setInverted(false);
     _leftFront.setInverted(true);
     _rightRear.setInverted(false);
     _leftRear.setInverted(true);
-    setNeutralMode(NeutralMode.Brake);
     
     //_faults_L = new Faults();
     //_faults_R = new Faults();
-    _rightRear.set(ControlMode.Follower, ESC_FRONT_RIGHT);
-    _leftRear.set(ControlMode.Follower, ESC_FRONT_LEFT);
+    _rightRear.follow(_rightFront);
+    _leftRear.follow(_leftFront);
 
    
     //Encoder setup
-    _enc_leftFront = new Encoder(ENC_DIO_FRONT_LEFT[0], ENC_DIO_FRONT_LEFT[1], ENC_INVERT_COUNT_FALSE, Encoder.EncodingType.k4X);
-    _enc_leftRear = new Encoder(ENC_DIO_REAR_LEFT[0], ENC_DIO_REAR_LEFT[1], ENC_INVERT_COUNT_FALSE, Encoder.EncodingType.k4X);
-    _enc_rightFront = new Encoder(ENC_DIO_FRONT_RIGHT[0], ENC_DIO_FRONT_RIGHT[1], ENC_INVERT_COUNT_FALSE, Encoder.EncodingType.k4X);
-    _enc_rightRear = new Encoder(ENC_DIO_REAR_RIGHT[0], ENC_DIO_REAR_RIGHT[1], ENC_INVERT_COUNT_FALSE, Encoder.EncodingType.k4X);
-    SetupEncoder(_enc_leftFront, "LEFTFRONT", true);
-    SetupEncoder(_enc_leftRear, "LEFTREAR" , true);
-    SetupEncoder(_enc_rightFront, "RIGHTFRONT", false);
-    SetupEncoder(_enc_rightRear,  "RIGHTREAR", false);
-
+    _enc_leftFront = new CANEncoder(_leftFront);
+    // _enc_leftRear = new CANEncoder(_leftRear);
+    _enc_rightFront = new CANEncoder(_rightFront);
+    // _enc_rightRear = new CANEncoder(_rightRear);
 
     _diffDrive = new DifferentialDrive(_leftFront, _rightFront);
     _diffDrive.setRightSideInverted(false);
@@ -101,7 +88,7 @@ public class drive_train extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new tank_drive());
+    setDefaultCommand(new JoystickDrive());
   }
 
   public void setGovernor(double percent) {
@@ -116,62 +103,25 @@ public class drive_train extends Subsystem {
     _diffDrive.tankDrive(0,0);
   }
 
-  public void resetEncoders() {
-    if (_enc_leftFront != null)
-      _enc_leftFront.reset();
-    if (_enc_leftRear != null)
-      _enc_leftRear.reset();
+  public double getFrontRightPosition() {
     if (_enc_rightFront != null)
-      _enc_rightFront.reset();
-    if (_enc_rightRear != null)
-      _enc_rightRear.reset();
-  }
-
-  private void SetupEncoder(Encoder enc, String name, boolean reverseDirection) {
-    enc.setName(name);
-    System.out.println("Encoder: " + enc.getName());
-    enc.setMaxPeriod(.1);
-    enc.setMinRate(10);
-    System.out.println("Distance per Pulse: " + DISTANCE_PER_PULSE);
-    enc.setDistancePerPulse(DISTANCE_PER_PULSE);
-    enc.setReverseDirection(reverseDirection);
-    enc.setSamplesToAverage(7);
-  }
-
-  public double getFrontRightDistance() {
-    if (_enc_rightFront != null)
-       return _enc_rightFront.getDistance();
+       return _enc_rightFront.getPosition();
     else
        return 0.0;
   }
 
-  public double getFrontLeftDistance() {
+  public double getFrontLeftPosition() {
     if (_enc_leftFront != null)
-       return _enc_leftFront.getDistance();
+       return _enc_leftFront.getPosition();
     else
        return 0.0;
   }
   public double getFrontDistanceAverage() {
-    double left = getFrontLeftDistance();
-    double right = getFrontRightDistance();
+    double left = getFrontLeftPosition();
+    double right = getFrontRightPosition();
     //Make this more resilient if needed (e.g. base it off of single encoder)
     //in case one of them is null
     return (double)((left + right) / 2.0);
-  }
-
-  /**
-   * Talon SRX specific: neutral modes are Coast or Brake
-   * @param neutralMode
-   */
-  public void setNeutralMode(NeutralMode neutralMode) {
-    if (_leftFront != null)
-      _leftFront.setNeutralMode(neutralMode);
-    if (_leftRear != null)
-      _leftRear.setNeutralMode(neutralMode);
-    if (_rightFront != null)
-      _rightFront.setNeutralMode(neutralMode);
-    if (_rightRear != null)
-      _rightRear.setNeutralMode(neutralMode);
   }
 
   public void setEncKp(double value) {

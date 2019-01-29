@@ -5,21 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.pink_233.commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.PIDController;
-import frc.pink_233.robot;
-import frc.pink_233.subsystems.utilities.drive_train_pid_output_left;
-import frc.pink_233.subsystems.utilities.drive_train_pid_output_right;
-import frc.pink_233.subsystems.utilities.drive_train_pid_source_left;
-import frc.pink_233.subsystems.utilities.drive_train_pid_source_right;
+import frc.robot.Robot;
+import frc.robot.subsystems.utils.DriveTrainPIDOutputLeft;
+import frc.robot.subsystems.utils.DriveTrainPIDOutputRight;
+import frc.robot.subsystems.utils.DriveTrainPIDSourceLeft;
+import frc.robot.subsystems.utils.DriveTrainPIDSourceRight;
 
-public class encoder_based_drive_pid_control extends Command {
+public class EncoderBasedDrive2PIDController extends Command {
 
-  
+  public static final String MYNAME = "EncoderBasedDrive2PIDController";
   public static final double CMD_TOLERANCE        = 1.0;
   public static final double CMD_Kp               = 0.33;
   public static final double CMD_Ki               = 0.0;
@@ -29,12 +29,12 @@ public class encoder_based_drive_pid_control extends Command {
   public static final double CMD_DEFAULT_DISTANCE = 30.0;
 
   private PIDController pidControllerL = null;
-  private drive_train_pid_output_left pidOutputL = null;
-  private drive_train_pid_source_left pidSourceL = null;
+  private DriveTrainPIDOutputLeft pidOutputL = null;
+  private DriveTrainPIDSourceLeft pidSourceL = null;
 
   private PIDController pidControllerR = null;
-  private drive_train_pid_output_right pidOutputR = null;
-  private drive_train_pid_source_right pidSourceR = null;
+  private DriveTrainPIDOutputRight pidOutputR = null;
+  private DriveTrainPIDSourceRight pidSourceR = null;
 
   private double distance = 0.0;
   private double maxSpeed = CMD_MAX_OUTPUT;
@@ -44,10 +44,10 @@ public class encoder_based_drive_pid_control extends Command {
   
   
 
-  public encoder_based_drive_pid_control(double distance, double completeCmdByThisTimeSecs, double maxSpeed) {
+  public EncoderBasedDrive2PIDController(double distance, double completeCmdByThisTimeSecs, double maxSpeed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(robot.drive_train);
+    requires(Robot.m_driveTrain);
     this.distance = distance;
     this.watchDogTime = completeCmdByThisTimeSecs;
     this.maxSpeed = maxSpeed;
@@ -65,15 +65,15 @@ public class encoder_based_drive_pid_control extends Command {
     watchDogTimer.start();
 
     //Get the current PID values (using one set of PID values for both sides - for now)
-    double P = robot.drive_train.getEncKp();
-    double I = robot.drive_train.getEncKi();
-    double D = robot.drive_train.getEncKd();
+    double P = Robot.m_driveTrain.getEncKp();
+    double I = Robot.m_driveTrain.getEncKi();
+    double D = Robot.m_driveTrain.getEncKd();
 
     //Setup the PID Controller to attempt drive by encoder
     //setPIDSourceType(PIDSourceType.kDisplacement);  //distance traveled
-    pidSourceL = new drive_train_pid_source_left();
+    pidSourceL = new DriveTrainPIDSourceLeft();
     pidSourceL.setPIDSourceType(PIDSourceType.kDisplacement);
-    pidOutputL = new drive_train_pid_output_left();
+    pidOutputL = new DriveTrainPIDOutputLeft();
     pidControllerL = new PIDController(P, I, D, pidSourceL, pidOutputL);
     pidControllerL.setName("2PIDR");
     pidControllerL.setContinuous(false);
@@ -82,9 +82,9 @@ public class encoder_based_drive_pid_control extends Command {
     pidControllerL.setSetpoint(distance);
     pidControllerL.setOutputRange(CMD_MIN_OUTPUT, maxSpeed);
 
-    pidSourceR = new drive_train_pid_source_right();
+    pidSourceR = new DriveTrainPIDSourceRight();
     pidSourceR.setPIDSourceType(PIDSourceType.kDisplacement);
-    pidOutputR = new drive_train_pid_output_right();
+    pidOutputR = new DriveTrainPIDOutputRight();
     pidControllerR = new PIDController(P, I, D, pidSourceR, pidOutputR);
     pidControllerR.setName("2PIDR");
     pidControllerR.setAbsoluteTolerance(CMD_TOLERANCE);
@@ -93,17 +93,17 @@ public class encoder_based_drive_pid_control extends Command {
     pidControllerR.setOutputRange(CMD_MIN_OUTPUT, maxSpeed);
 
 
-    robot.drive_train.resetEncoders();  //very important: start at zero.
+    Robot.m_driveTrain.resetEncoders();  //very important: start at zero.
 
     //GO
     pidControllerR.enable();
     pidControllerL.enable();
 
     //Let the console know...
-    System.out.println("EncoderBasedDrive:  enabled PIDController for distance of: " + distance);
-    System.out.println("EncoderBasedDrive:  Kp: " + P + 
-                                          " Ki: " + I + 
-                                          " Kd: " + D);
+    System.out.println(MYNAME + ":  enabled PIDController for distance of: " + distance);
+    System.out.println(MYNAME + ":  Kp: " + P + 
+                                  " Ki: " + I + 
+                                  " Kd: " + D);
   
   }
 
@@ -116,14 +116,14 @@ public class encoder_based_drive_pid_control extends Command {
   @Override
   protected boolean isFinished() {
 
-    double distanceTraveledL = robot.drive_train.getFrontLeftDistance();
-    double distanceTraveledR = robot.drive_train.getFrontRightDistance();
+    double distanceTraveledL = Robot.m_driveTrain.getFrontLeftDistance();
+    double distanceTraveledR = Robot.m_driveTrain.getFrontRightDistance();
 
     //Honor thy watchdog timer...
     double elapsedTime = watchDogTimer.get();
     if (elapsedTime > watchDogTime) {
-      System.out.println("EncoderBasedDrive:  watchdog timer popped: " + 
-                          distanceTraveledL + "/" + distanceTraveledR);
+      System.out.println(MYNAME + ": watchdog timer popped: " + 
+                                    distanceTraveledL + "/" + distanceTraveledR);
       return true;
     }
 
@@ -134,20 +134,20 @@ public class encoder_based_drive_pid_control extends Command {
     //soon as it reaches the setpoint without impacting the completion of the other motor.
     if (leftSideDone) {
       pidControllerL.disable();
-      robot.drive_train.leftMotorStop();
-      System.out.println("LEFT: onTarget or traveled far enough: " +
+      Robot.m_driveTrain.leftMotorStop();
+      System.out.println(MYNAME + ": LEFT: onTarget or traveled far enough: " +
                          distanceTraveledL);
     } 
 
     if (rightSideDone) {
       pidControllerR.disable();
-      robot.drive_train.rightMotorStop();
-      System.out.println("RIGHT: onTarget or traveled far enough: " +
+      Robot.m_driveTrain.rightMotorStop();
+      System.out.println(MYNAME + ": RIGHT: onTarget or traveled far enough: " +
                          distanceTraveledR);
     }
     
     if (leftSideDone && rightSideDone) {
-      System.out.println("DONE: onTarget or traveled far enough :" +
+      System.out.println(MYNAME + ": DONE: onTarget or traveled far enough :" +
                          distanceTraveledL + "/" + distanceTraveledR);
        return true;
     }
@@ -160,8 +160,8 @@ public class encoder_based_drive_pid_control extends Command {
   protected void end() {
     pidControllerL.disable();
     pidControllerR.disable();
-    robot.drive_train.leftMotorStop();
-    robot.drive_train.rightMotorStop();
+    Robot.m_driveTrain.leftMotorStop();
+    Robot.m_driveTrain.rightMotorStop();
   }
 
   // Called when another command which requires one or more of the same
@@ -170,7 +170,7 @@ public class encoder_based_drive_pid_control extends Command {
   protected void interrupted() {
     pidControllerL.disable();
     pidControllerR.disable();
-    robot.drive_train.leftMotorStop();
-    robot.drive_train.rightMotorStop();
+    Robot.m_driveTrain.leftMotorStop();
+    Robot.m_driveTrain.rightMotorStop();
   }
 }

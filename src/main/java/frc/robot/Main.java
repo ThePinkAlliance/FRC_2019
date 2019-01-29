@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.pink_233;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
 
@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.RobotBase;
  * Unless you know what you are doing, do not modify this file except to
  * change the parameter class to the startRobot call.
  */
-public final class main {
-  private main() {
+public final class Main {
+  private Main() {
   }
 
   /**
@@ -23,7 +23,7 @@ public final class main {
    *
    * <p>If you change your main robot class, change the parameter type.
    */
-  public static void Main(String... args) {
-    RobotBase.startRobot(robot::new);
+  public static void main(String... args) {
+    RobotBase.startRobot(Robot::new);
   }
 }
