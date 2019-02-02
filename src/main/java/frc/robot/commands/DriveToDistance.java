@@ -7,78 +7,71 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.OI;
 import frc.robot.Robot;
 
-public class JoystickDrive extends Command {
+public class DriveToDistance extends Command {
 
-  private Joystick js = null; 
-  
-  /**
-   * Constructor: needs require and sets the member js so that it can be used
-   * through out the instance of the object.
-   */
-  public JoystickDrive() {
+  private double distance = 0;
+  private double watchDogTime = 10;
+  private double maxSpeed = 0.7;
+  private double startLeft = 0.0;
+  private double startRight = 0.0;
+  private boolean bDistanceReached = false;
+  private Timer watchDogTimer = null;
+
+  public DriveToDistance(double distance, double watchDogTime, double maxSpeed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_driveTrain);
-    js = Robot.m_oi.getBaseJoystick();
+    this.distance = distance;
+    this.watchDogTime = watchDogTime;
+    this.maxSpeed = maxSpeed;
+    watchDogTimer = new Timer();
+    watchDogTimer.reset();
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    
+    watchDogTimer.start();
+    startLeft = Robot.m_driveTrain.getFrontLeftPosition();
+    startRight = Robot.m_driveTrain.getFrontRightPosition();
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    HandleButtons();
-    HandleTankDrive();
+
+     bDistanceReached = Robot.m_driveTrain.drive_to_distance2(distance, startLeft, startRight);
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    boolean bTimerPopped = false;
+    double currentTime = watchDogTimer.get();
+
+    if (currentTime >= watchDogTime)
+       bTimerPopped = true;
+
+    return (bTimerPopped || bDistanceReached);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_driveTrain.stopDriveTrain();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-  }
-
-  /** 
-   * Perform tankdrive action during execute() calls
-   */
-  public void HandleTankDrive() {
-    if (js != null) {
-      double left = js.getRawAxis(OI.leftStick);//js.getY(Hand.kLeft);
-      double right =  js.getRawAxis(OI.rightStick);//js.getY(Hand.kRight);
-      if (left > 0.2 || right > 0.2)
-         System.out.println("LEFT: " + left + " RIGHT: " + right);
-      Robot.m_driveTrain.tankDriveByJoystick(left, right);
-    }
-  }
-  
-  /**
-   * Perform any button actions during execute calls
-   */
-  public void HandleButtons() {
-    if (js != null) {
-
-      //Reset Gyro
-      if (js.getRawButtonPressed(OI.bButtonNumber)) {
-        Robot.m_driveTrain.resetGyro();
-      }
-    }
+    Robot.m_driveTrain.stopDriveTrain();
   }
 }

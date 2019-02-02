@@ -11,6 +11,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.DriveToDistance;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -50,9 +51,9 @@ public class OI {
 	//============================================
 	public static int baseJoystickPort = 0;
   // Define all raw button numbers
-	public static int aButtonNumber = 1;
-	public static int bButtonNumber = 2;
-	public static int xButtonNumber = 3;
+	public static int xButtonNumber = 1;
+	public static int aButtonNumber = 2;
+	public static int bButtonNumber = 3;
 	public static int yButtonNumber = 4;
 	public static int leftBumperButtonNumber = 5;
 	public static int rightBumperButtonNumber = 6;
@@ -93,7 +94,7 @@ public class OI {
   
   public void setupBaseJoystick() {
     if (base != null) {
-       //testButton.whenPressed(new EncoderBasedDrive(30.0, 10.0, 0.6));
+       testButton.whenPressed(new DriveToDistance(30.0, 1.0, 0.6));
     }
   }
 	

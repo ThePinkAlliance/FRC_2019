@@ -7,23 +7,20 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
-public class JoystickDrive extends Command {
+public class MoveClimber extends Command {
 
-  private Joystick js = null; 
-  
-  /**
-   * Constructor: needs require and sets the member js so that it can be used
-   * through out the instance of the object.
-   */
-  public JoystickDrive() {
+  private Joystick js = null;
+
+  public MoveClimber() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_driveTrain);
+    requires(Robot.m_climber);
     js = Robot.m_oi.getBaseJoystick();
   }
 
@@ -35,8 +32,7 @@ public class JoystickDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    HandleButtons();
-    HandleTankDrive();
+    ReadJoystick();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -56,29 +52,16 @@ public class JoystickDrive extends Command {
   protected void interrupted() {
   }
 
-  /** 
-   * Perform tankdrive action during execute() calls
-   */
-  public void HandleTankDrive() {
+  public void ReadJoystick() {
+    
     if (js != null) {
-      double left = js.getRawAxis(OI.leftStick);//js.getY(Hand.kLeft);
-      double right =  js.getRawAxis(OI.rightStick);//js.getY(Hand.kRight);
-      if (left > 0.2 || right > 0.2)
-         System.out.println("LEFT: " + left + " RIGHT: " + right);
-      Robot.m_driveTrain.tankDriveByJoystick(left, right);
-    }
-  }
-  
-  /**
-   * Perform any button actions during execute calls
-   */
-  public void HandleButtons() {
-    if (js != null) {
+      double stickValue = js.getRawAxis(OI.RXAxis);
 
-      //Reset Gyro
-      if (js.getRawButtonPressed(OI.bButtonNumber)) {
-        Robot.m_driveTrain.resetGyro();
+      if(stickValue > -0.1 && stickValue < 0.1) {
+        stickValue = 0;
       }
+
+      Robot.m_climber.moveClimber(stickValue);
     }
   }
 }

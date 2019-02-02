@@ -32,6 +32,8 @@ public class RobotMap {
 	public static int leftBackMotorPort = 3;
 	public static int rightFrontMotorPort = 0;
 	public static int rightBackMotorPort = 1;
+
+	public static int testClimberCANID = 4;
 	
 	// Encoders
 	public static int leftEncoderAPort = 0;

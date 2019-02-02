@@ -18,7 +18,7 @@ public class DriveTrain extends Subsystem {
   // Define Motors
   private CANSparkMax _rightFront = new CANSparkMax(RobotMap.rightFrontMotorPort, MotorType.kBrushless);
   private CANSparkMax _rightRear = new CANSparkMax(RobotMap.rightBackMotorPort, MotorType.kBrushless);
-  private CANSparkMax _leftFront = new CANSparkMax(RobotMap.leftBackMotorPort, MotorType.kBrushless);
+  private CANSparkMax _leftFront = new CANSparkMax(RobotMap.leftFrontMotorPort, MotorType.kBrushless);
   private CANSparkMax _leftRear = new CANSparkMax(RobotMap.leftBackMotorPort, MotorType.kBrushless);
 
   private DifferentialDrive _diffDrive = new DifferentialDrive(_leftFront, _rightFront);
@@ -34,8 +34,8 @@ public class DriveTrain extends Subsystem {
   public static final double PULSE_PER_REVOLUTION = 250;  // TODO: Revisit this value!!
   public final double DISTANCE_PER_PULSE = (double)(Math.PI*WHEEL_DIAMETER)/PULSE_PER_REVOLUTION;
   public final double PULSES_PER_INCH = 1/DISTANCE_PER_PULSE;
-  public final double baseKp = 1;
-  public final double baseKd = 1;
+  public final double baseKp = 0.3;
+  public final double baseKd = 0.0;
 
   // Define Gyro
   private AHRS _ahrs = new AHRS(SPI.Port.kMXP);
@@ -45,9 +45,9 @@ public class DriveTrain extends Subsystem {
   public DriveTrain() {
     //--------Motor Setup--------//
     _rightFront.setInverted(false);
-    _leftFront.setInverted(true);
+    _leftFront.setInverted(false);
     _rightRear.setInverted(false);
-    _leftRear.setInverted(true);
+    _leftRear.setInverted(false);
 
     _rightRear.follow(_rightFront);
     _leftRear.follow(_leftFront);
@@ -161,7 +161,21 @@ public class DriveTrain extends Subsystem {
   }
 
    // Method that drives the robot a set distance
-   public boolean drive_to_distance(double target_distance) {
+   public boolean drive_to_distance2(double target_distance, double left_starting_position, double right_starting_position) {
+    //double left_starting_position = _enc_leftFront.getPosition();
+    //double right_starting_position = _enc_rightFront.getPosition();
+    double left_motor_command = (baseKp * (left_starting_position - target_distance) + 
+                                (baseKd * _enc_leftFront.getVelocity()));
+    double right_motor_command = (baseKp * (right_starting_position - target_distance) +
+                                 (baseKd * _enc_rightFront.getVelocity()));
+    _diffDrive.tankDrive(left_motor_command, right_motor_command);
+
+    return (((target_distance + left_starting_position) - _enc_leftFront.getPosition()) < 0 && 
+           ((target_distance + right_starting_position) - _enc_rightFront.getPosition()) < 0);
+  }
+
+  // Method that drives the robot a set distance
+  public boolean drive_to_distance(double target_distance) {
     double left_starting_position = _enc_leftFront.getPosition();
     double right_starting_position = _enc_rightFront.getPosition();
     double left_motor_command = (baseKp * (left_starting_position - target_distance) + 
@@ -170,8 +184,8 @@ public class DriveTrain extends Subsystem {
                                  (baseKd * _enc_rightFront.getVelocity()));
     _diffDrive.tankDrive(left_motor_command, right_motor_command);
 
-    return (target_distance + left_starting_position) - _enc_leftFront.getPosition() == 0 && 
-           (target_distance + right_starting_position) - _enc_rightFront.getPosition() == 0;
+    return (((target_distance + left_starting_position) - _enc_leftFront.getPosition()) < 0 && 
+           ((target_distance + right_starting_position) - _enc_rightFront.getPosition()) < 0);
   }
 
   // Method that turns to a set angle
@@ -208,7 +222,7 @@ public class DriveTrain extends Subsystem {
     double leftGoverned = left * Math.abs(_governor);
     double rightGoverned = right * Math.abs(_governor);
     if (Math.abs(left) > 0.1  || Math.abs(right) > 0.1) {
-      System.out.println("Left: " + left +  " ---    Right: " + right);
+      System.out.println("JONDIXON: Left: " + left +  " ---    Right: " + right);
       _diffDrive.tankDrive(leftGoverned, rightGoverned);
     }
 	}

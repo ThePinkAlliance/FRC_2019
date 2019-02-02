@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -23,6 +24,7 @@ import frc.robot.subsystems.DriveTrain;
  */
 public class Robot extends TimedRobot {
   public static DriveTrain m_driveTrain = new DriveTrain();
+  public static Climber m_climber = new Climber();
   public static OI m_oi;
   public static RobotDashboard m_rDashboard;
 
@@ -111,6 +113,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+
+    //Robot.m_driveTrain.drive_to_distance(20);
 
     m_rDashboard.displayContinuousData();
     m_rDashboard.getContinuousData();
