@@ -8,11 +8,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotDashboard;
 
 public class JoystickDrive extends Command {
 
@@ -76,31 +74,12 @@ public class JoystickDrive extends Command {
    */
   public void HandleButtons() {
     if (js != null) {
-      //Reset Encoders
-      if (js.getRawButtonPressed(OI.xButtonNumber)) {
-        Robot.m_driveTrain.resetEncoders();
-      }
 
       //Reset Gyro
       if (js.getRawButtonPressed(OI.bButtonNumber)) {
         Robot.m_driveTrain.resetGyro();
       }
 
-      if (js.getRawButtonPressed(OI.aButtonNumber)) {
-        EncoderBasedDrive2PIDController testCmd = new EncoderBasedDrive2PIDController(
-          SmartDashboard.getNumber(RobotDashboard.DT_ENC_PID_DISTANCE, 30.0), 
-          10, 
-          SmartDashboard.getNumber(RobotDashboard.DT_ENC_PID_MAX_OUTPUT, 1.0));
-        testCmd.start();
-      }
-
-      if (js.getRawButtonPressed(OI.yButtonNumber)) {
-        DriveStraightByGyro testCmd = new DriveStraightByGyro(
-          SmartDashboard.getNumber(RobotDashboard.DT_ENC_PID_DISTANCE, 30.0), 
-          10, 
-          SmartDashboard.getNumber(RobotDashboard.DT_ENC_PID_MAX_OUTPUT, 1.0));
-        testCmd.start();
       }
     }
   }
-}

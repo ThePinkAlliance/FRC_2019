@@ -8,8 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DriveStraightByGyro;
-import frc.robot.commands.EncoderBasedDrive;
 
 /**
  * RobotDashboard: helper class to encapsulate displaying data to the dashboard.
@@ -76,9 +74,8 @@ public class RobotDashboard {
      */
     public void displayEncoderValues() {
         if (Robot.m_driveTrain != null) {
-            SmartDashboard.putNumber(ENC_LABEL_RIGHT_FRONT, Robot.m_driveTrain.getFrontRightDistance());
-            SmartDashboard.putNumber(ENC_LABEL_LEFT_FRONT, Robot.m_driveTrain.getFrontLeftDistance());
-            SmartDashboard.putNumber(ENC_LABEL_FRONT, Robot.m_driveTrain.getFrontDistanceAverage());
+            SmartDashboard.putNumber(ENC_LABEL_RIGHT_FRONT, Robot.m_driveTrain.getFrontRightPosition());
+            SmartDashboard.putNumber(ENC_LABEL_LEFT_FRONT, Robot.m_driveTrain.getFrontLeftPosition());
         }
     }
 
@@ -93,73 +90,15 @@ public class RobotDashboard {
     }
 
     /**
-     * Display DriveTrain Encoder PID values
-     */
-    public void displayDriveTrainEncoderPIDValues() {
-        //DriveTrain subsystem
-        if (Robot.m_driveTrain != null) {
-            SmartDashboard.putNumber(DT_ENC_PID_DISTANCE, EncoderBasedDrive.CMD_DEFAULT_DISTANCE);
-            SmartDashboard.putNumber(DT_ENC_PID_MAX_OUTPUT, EncoderBasedDrive.CMD_MAX_OUTPUT);
-            SmartDashboard.putNumber(DT_ENC_Kp, EncoderBasedDrive.CMD_Kp);
-            SmartDashboard.putNumber(DT_ENC_Ki, EncoderBasedDrive.CMD_Ki);
-            SmartDashboard.putNumber(DT_ENC_Kd, EncoderBasedDrive.CMD_Kd);
-        }
-    }
-
-    /**
-     * Display DriveTrain Navx PID values
-     */
-    public void displayDriveTrainNavxPIDValues() {
-        //DriveTrain subsystem
-        if (Robot.m_driveTrain != null) {
-            SmartDashboard.putNumber(DT_NAVX_PID_ANGLE, DriveStraightByGyro.CMD_DEFAULT_ANGLE);
-            SmartDashboard.putNumber(DT_NAVX_PID_MAX_OUTPUT, DriveStraightByGyro.CMD_MAX_OUTPUT);
-            SmartDashboard.putNumber(DT_NAVX_Kp, DriveStraightByGyro.CMD_Kp);
-            SmartDashboard.putNumber(DT_NAVX_Ki, DriveStraightByGyro.CMD_Ki);
-            SmartDashboard.putNumber(DT_NAVX_Kd, DriveStraightByGyro.CMD_Kd);
-        }
-    }
-
-    /**
-     * Grab the DriveTrain Encoder PID values from the Dashboard and set them 
-     * on the drive train
-     */
-    public void getDriveTrainEncoderPIDValues() {
-        //DriveTrain subsystem
-        if (Robot.m_driveTrain != null) {
-            Robot.m_driveTrain.setEncKp(SmartDashboard.getNumber(DT_ENC_Kp, EncoderBasedDrive.CMD_Kp));
-            Robot.m_driveTrain.setEncKi(SmartDashboard.getNumber(DT_ENC_Ki, EncoderBasedDrive.CMD_Ki));
-            Robot.m_driveTrain.setEncKd(SmartDashboard.getNumber(DT_ENC_Kd, EncoderBasedDrive.CMD_Kd));
-        }
-    }
-
-    /**
-     * Grab the DriveTrain Navx PID values from the Dashboard and set them 
-     * on the drive train
-     */
-    public void getDriveTrainNavxPIDValues() {
-        //DriveTrain subsystem
-        if (Robot.m_driveTrain != null) {
-            Robot.m_driveTrain.setNavxKp(SmartDashboard.getNumber(DT_NAVX_Kp, DriveStraightByGyro.CMD_Kp));
-            Robot.m_driveTrain.setNavxKi(SmartDashboard.getNumber(DT_NAVX_Ki, DriveStraightByGyro.CMD_Ki));
-            Robot.m_driveTrain.setNavxKd(SmartDashboard.getNumber(DT_NAVX_Kd, DriveStraightByGyro.CMD_Kd));
-        }
-    }
-
-    /**
      * Grabs values from the dashboard on a continuous basis (telelop / autonomous)
      */
     public void getContinuousData() {
-        getDriveTrainEncoderPIDValues();
-        getDriveTrainNavxPIDValues();
     }
 
     /**
      * Prints one time values to the dashboard to establish the widget
      */
     public void displayInitialValues() {
-        displayDriveTrainEncoderPIDValues();
-        displayDriveTrainNavxPIDValues();
         displayEncoderValues();
         displayGyroValues();
     }
