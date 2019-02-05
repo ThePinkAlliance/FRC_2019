@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.DriveToDistance;
+import frc.robot.commands.ToggleBeak;
+import frc.robot.commands.ToggleNeck;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -72,6 +74,8 @@ public class OI {
   //public Joystick base = new Joystick(baseJoystickPort);
   public Joystick base = null; 
   public Button testButton = null; 
+  public Button baseB = null;
+  public Button baseY = null;
 	
 	public OI() {
 
@@ -80,6 +84,8 @@ public class OI {
       //Setup your joystick
       base = new Joystick(baseJoystickPort);
       testButton = new JoystickButton(base, aButtonNumber);
+      baseB = new JoystickButton(base, bButtonNumber);
+      baseY = new JoystickButton(base, yButtonNumber);
 
       //Enable buttons / actions 
       setupBaseJoystick();
@@ -90,11 +96,12 @@ public class OI {
     }
 
   }
-
   
   public void setupBaseJoystick() {
     if (base != null) {
        testButton.whenPressed(new DriveToDistance(30.0, 1.0, 0.6));
+       baseB.whenPressed(new ToggleBeak());
+       baseY.whenPressed(new ToggleNeck());
     }
   }
 	
