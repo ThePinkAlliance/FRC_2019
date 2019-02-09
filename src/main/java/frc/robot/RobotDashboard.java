@@ -41,6 +41,10 @@ public class RobotDashboard {
     public static final String DT_NAVX_Ki = "DT_NAVX_Ki";
     public static final String DT_NAVX_Kd = "DT_NAVX_Kd";
 
+    //PD for DriveTrain
+    public static final String BASE_KP = "Base Kp Value";
+    public static final String BASE_KD = "Base Kd Value";
+
     
     private boolean bDisplayContinuousData = true;
 
@@ -89,10 +93,25 @@ public class RobotDashboard {
         }
     }
 
+    public void displayPIDValues() {
+        if (Robot.m_driveTrain != null) {
+            SmartDashboard.putNumber(BASE_KD, Robot.m_driveTrain.baseKd);
+            SmartDashboard.putNumber(BASE_KP, Robot.m_driveTrain.baseKp);
+        }
+    }
+
+    public void getPIDValues() {
+        if (Robot.m_driveTrain != null) {
+            Robot.m_driveTrain.baseKd = SmartDashboard.getNumber(BASE_KD, Robot.m_driveTrain.baseKd);
+            Robot.m_driveTrain.baseKp = SmartDashboard.getNumber(BASE_KP, Robot.m_driveTrain.baseKp);
+        }
+    }
+
     /**
      * Grabs values from the dashboard on a continuous basis (telelop / autonomous)
      */
     public void getContinuousData() {
+        getPIDValues();
     }
 
     /**
@@ -101,6 +120,7 @@ public class RobotDashboard {
     public void displayInitialValues() {
         displayEncoderValues();
         displayGyroValues();
+        displayPIDValues();
     }
 
     /**
@@ -109,5 +129,6 @@ public class RobotDashboard {
     public void displayContinuousData() {
         displayEncoderValues();
         displayGyroValues();
+        displayPIDValues();
     }
 }

@@ -16,11 +16,12 @@ import frc.robot.Robot;
 public class MoveClimber extends Command {
 
   private Joystick js = null;
+  private double stickValue = 0;
 
   public MoveClimber() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_climber);
+    // requires(Robot.m_climber);
     js = Robot.m_oi.getBaseJoystick();
   }
 
@@ -55,13 +56,13 @@ public class MoveClimber extends Command {
   public void ReadJoystick() {
     
     if (js != null) {
-      double stickValue = js.getRawAxis(OI.RXAxis);
+      stickValue = js.getRawAxis(OI.RXAxis);
 
       if(stickValue > -0.1 && stickValue < 0.1) {
         stickValue = 0;
       }
 
-      Robot.m_climber.moveClimber(stickValue);
+      // Robot.m_climber.moveClimber(stickValue);
     }
   }
 }

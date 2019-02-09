@@ -1,38 +1,68 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.RobotMap;
+import frc.robot.commands.MoveElevator;
 
-/**
- * Add your docs here.
- */
+// Subsystem used for defining Elevator hardware and methods
 public class Elevator extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  // Declare Subsystem Variables
   public WPI_TalonSRX _elevator = null;
   public Encoder _enc_elevator = null;
+  public static final int[] ENC_DIO_ELEVATOR = {0,1};
+  public static final boolean ENC_INVERT_COUNT_FALSE = false;
+  public static final boolean ENC_INVERT_COUNT_TRUE = true;
+  public static final int DISTANCE_PER_PULSE = 200; // TODO: Revisit this value
+  public static final double MAX_PERIOD = 0.1; // TODO: Revisit this value
+  public static final int MIN_RATE = 10; // TODO: Revisit this value
+  public static final int SAMPLES_TO_AVERAGE = 7; // TODO: Revisit this value
 
+  // Subsystem Constructor
   public Elevator() {
-    _elevator = new WPI_TalonSRX(RobotMap.elevatorMotorPort);
-    // _enc_elevator = new Encoder(sourceA, sourceB);
+    // Define Subsystem Hardware
+    // _elevator = new WPI_TalonSRX(RobotMap.elevatorMotorPort);
+    _elevator.setNeutralMode(NeutralMode.Brake);
+    _enc_elevator = new Encoder(ENC_DIO_ELEVATOR[0], ENC_DIO_ELEVATOR[1], ENC_INVERT_COUNT_FALSE, Encoder.EncodingType.k4X);
+    SetupEncoder(_enc_elevator,  "ELEVATOR", false);
   }
 
+  // Method to define the default command for the Elevator
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new MoveElevator());
   }
 
+  // Method to setup an encoder
+  private void SetupEncoder(Encoder enc, String name, boolean reverseDirection) {
+    enc.setName(name);
+    System.out.println("Encoder: " + enc.getName());
+    enc.setMaxPeriod(MAX_PERIOD);
+    enc.setMinRate(MIN_RATE);
+    System.out.println("Distance per Pulse: " + DISTANCE_PER_PULSE);
+    enc.setDistancePerPulse(DISTANCE_PER_PULSE);
+    enc.setReverseDirection(reverseDirection);
+    enc.setSamplesToAverage(SAMPLES_TO_AVERAGE);
+    enc.reset();
+  }
+
+  // Method that returns the current Elevator height
+  public double getElevatorHeight() {
+    if (_enc_elevator != null) {
+      return _enc_elevator.getDistance();
+    } else {
+      return 0;
+    }
+  }
+
+  // Method that resets the Elevator encoder
+  public void resetElevatorEncoder() {
+    _enc_elevator.reset();
+  }
+
+  // Method to move the Elevator based off the joystickValue
   public void moveElevator(double joystickValue) {
     _elevator.set(joystickValue);
   }

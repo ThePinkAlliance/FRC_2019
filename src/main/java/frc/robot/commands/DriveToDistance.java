@@ -15,7 +15,7 @@ public class DriveToDistance extends Command {
 
   private double distance = 0;
   private double watchDogTime = 10;
-  private double maxSpeed = 0.7;
+  // private double maxSpeed = 0.7;
   private double startLeft = 0.0;
   private double startRight = 0.0;
   private boolean bDistanceReached = false;
@@ -27,7 +27,7 @@ public class DriveToDistance extends Command {
     requires(Robot.m_driveTrain);
     this.distance = distance;
     this.watchDogTime = watchDogTime;
-    this.maxSpeed = maxSpeed;
+    // this.maxSpeed = maxSpeed;
     watchDogTimer = new Timer();
     watchDogTimer.reset();
   }
@@ -35,10 +35,9 @@ public class DriveToDistance extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
     watchDogTimer.start();
-    startLeft = Robot.m_driveTrain.getFrontLeftPosition();
-    startRight = Robot.m_driveTrain.getFrontRightPosition();
+    startLeft = Math.abs(Robot.m_driveTrain.getFrontLeftPosition());
+    startRight = Math.abs(Robot.m_driveTrain.getFrontRightPosition()); 
     
   }
 
@@ -46,7 +45,7 @@ public class DriveToDistance extends Command {
   @Override
   protected void execute() {
 
-     bDistanceReached = Robot.m_driveTrain.drive_to_distance2(distance, startLeft, startRight);
+     bDistanceReached = Robot.m_driveTrain.drive_to_distance(distance, startLeft, startRight);
 
   }
 

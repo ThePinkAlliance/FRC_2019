@@ -1,43 +1,38 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- * Add your docs here.
- */
+// Subsystem used for defining Hatch hardware and methods
 public class Hatch extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  // Declare Subsystem Variables
   public Compressor _compressor = null;
   public Solenoid _beak = null;
   public Solenoid _neck = null;
   public boolean _beakOpen = false;
   public boolean _neckUp = false;
 
+  // Subsystem Constructor
   public Hatch() {
-    _compressor = new Compressor(0);
-    _beak = new Solenoid(1);
-    _neck = new Solenoid(2);
+    // Define Subsystem Hardware
+    //_compressor = new Compressor(RobotMap.compressorPort);
+    //_beak = new Solenoid(RobotMap.beakPort);
+    //_neck = new Solenoid(RobotMap.neckPort);
   }
 
+  // Method to define the default command for the Hatch
   @Override
   public void initDefaultCommand() {
   }
 
+  // Method to toggle the Beak solenoid on the Hatch
   public void toggleBeak() {
     _beakOpen = !_beakOpen;
     _beak.set(_beakOpen);
   }
 
+  // Method to toggle the Neck solenoid on the Hatch
   public void toggleNeck() {
     _neckUp = !_neckUp;
     _neck.set(_neckUp);

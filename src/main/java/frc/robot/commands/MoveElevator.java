@@ -1,27 +1,23 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
-
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
+// Command used to move the Elevator
 public class MoveElevator extends Command {
-
+  // Declare Command Variables
   private Joystick js = null;
+  private double stickValue = 0;
 
+  // Command Constructor
   public MoveElevator() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.m_elevator);
+    // Declare Subsystem Dependencies
+    // requires(Robot.m_elevator);
+    // Define Command Varibales
     js = Robot.m_oi.getBaseJoystick();
+    stickValue = js.getRawAxis(OI.LXAxis);
   }
 
   // Called just before this Command runs the first time
@@ -46,22 +42,20 @@ public class MoveElevator extends Command {
   protected void end() {
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  // Called when another command which requires one or more of the same subsystems is scheduled to run
   @Override
   protected void interrupted() {
   }
 
+  // Method to set motor power based of the stickValue
   public void ReadJoystick() {
-    
+    // Read out stickValue
     if (js != null) {
-      double stickValue = js.getRawAxis(OI.LXAxis);
-
       if(stickValue > -0.1 && stickValue < 0.1) {
         stickValue = 0;
       }
-
-      Robot.m_elevator.moveElevator(stickValue);
+      // Set _elevator Motor to stickValue
+      // Robot.m_elevator.moveElevator(stickValue);
     }
   }
 }
