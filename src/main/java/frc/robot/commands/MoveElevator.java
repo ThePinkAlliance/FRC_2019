@@ -14,10 +14,9 @@ public class MoveElevator extends Command {
   // Command Constructor
   public MoveElevator() {
     // Declare Subsystem Dependencies
-    // requires(Robot.m_elevator);
+    requires(Robot.m_elevator);
     // Define Command Varibales
     js = Robot.m_oi.getBaseJoystick();
-    stickValue = js.getRawAxis(OI.LXAxis);
   }
 
   // Called just before this Command runs the first time
@@ -50,12 +49,15 @@ public class MoveElevator extends Command {
   // Method to set motor power based of the stickValue
   public void ReadJoystick() {
     // Read out stickValue
+
     if (js != null) {
+      stickValue = js.getRawAxis(OI.LXAxis);
+
       if(stickValue > -0.1 && stickValue < 0.1) {
         stickValue = 0;
       }
       // Set _elevator Motor to stickValue
-      // Robot.m_elevator.moveElevator(stickValue);
+      Robot.m_elevator.moveElevator(stickValue);
     }
   }
 }

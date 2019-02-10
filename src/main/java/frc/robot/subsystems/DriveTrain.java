@@ -36,9 +36,9 @@ public class DriveTrain extends Subsystem {
   // Subsystem Constructor
   public DriveTrain() {
     // Define Subsystem Hardware
-    _rightFront.setInverted(false);
+    _rightFront.setInverted(true);
     _leftFront.setInverted(false);
-    _rightRear.setInverted(false);
+    _rightRear.setInverted(true);
     _leftRear.setInverted(false);
     _rightRear.follow(_rightFront);
     _leftRear.follow(_leftFront);

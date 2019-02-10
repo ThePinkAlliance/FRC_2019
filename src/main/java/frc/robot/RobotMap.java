@@ -32,8 +32,8 @@ public class RobotMap {
 	public static int leftBackMotorPort = 3;
 	public static int rightFrontMotorPort = 0;
 	public static int rightBackMotorPort = 1;
-	// public static int elevatorMotorPort = 99;
-	public static int climberCANID = 4;
+	public static int elevatorMotorPort =4;
+	public static int climberCANID = 5;
 	// public static int collectorMotorPort = 99;
 	// public static int collectorRotateMotorPort = 99;
 	
@@ -44,7 +44,7 @@ public class RobotMap {
 	// public static int rightEncoderBPort = 3;
 
 	// // Pnuematics
-	// public static int compressorPort = 99;
-	// public static int beakPort = 98;
-	// public static int neckPort = 97;
+	//public static int compressorPort = 99;
+	public static int beakPort = 0;
+	public static int neckPort = 1;
 }
