@@ -24,12 +24,20 @@ public class Elevator extends Subsystem {
   public static final int MIN_RATE = 10; // TODO: Revisit this value
   public static final int SAMPLES_TO_AVERAGE = 7; // TODO: Revisit this value
 
+  private double _elev_kp = 1.0;
+  private double _elev_ki = 0.0;
+  private double _elev_kd = 0.0;
+
+
+
+
   // Subsystem Constructor
   public Elevator() {
     // Define Subsystem Hardware
     _elevator = new CANSparkMax(RobotMap.elevatorMotorPort, MotorType.kBrushless);
     _enc_elevator = new CANEncoder(_elevator);
     //SetupEncoder(_enc_elevator,  "ELEVATOR", false);
+
   }
 
   // Method to define the default command for the Elevator
@@ -52,13 +60,13 @@ public class Elevator extends Subsystem {
   }*/
 
   // Method that returns the current Elevator height
-  /*public double getElevatorHeight() {
+  public double getElevatorHeight() {
     if (_enc_elevator != null) {
-      return _enc_elevator.getDistance();
+      return _enc_elevator.getPosition();
     } else {
       return 0;
     }
-  }*/
+  }
 
   // Method that resets the Elevator encoder
   /*public void resetElevatorEncoder() {
@@ -69,4 +77,18 @@ public class Elevator extends Subsystem {
   public void moveElevator(double joystickValue) {
     _elevator.set(joystickValue*.25);
   }
+
+  public double getElevKp() {
+    return this._elev_kp;
+  }
+
+  public double getElevKi() {
+    return this._elev_ki;
+  }
+
+  public double getElevKd() {
+    return this._elev_kd;
+  }
+
+
 }
