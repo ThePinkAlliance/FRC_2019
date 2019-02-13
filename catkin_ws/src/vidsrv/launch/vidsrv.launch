@@ -1,7 +1,16 @@
 <launch>
-    <!-- runs web video server -->
-    <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+    <!-- runs web video server front -->
+    <node name="front_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
         <param name="video_device" value="/dev/video0" />
+        <param name="image_width" value="320" />
+        <param name="image_height" value="240" />
+        <param name="framerate" value="120" />
+        <param name="pixel_format" value="yuyv" />
+        <param name="camera_frame_id" value="usb_cam" />
+    </node>
+    <!-- runs web video server rear -->
+    <node name="rear_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+        <param name="video_device" value="/dev/video1" />
         <param name="image_width" value="320" />
         <param name="image_height" value="240" />
         <param name="framerate" value="120" />
@@ -10,5 +19,4 @@
     </node>
     <!-- launch web vid server -->
     <node name="web_video_server" pkg="web_video_server" type="web_video_server" />
-    <node name="python_test" pkg="python_test" type="subtest.py" />
 </launch>

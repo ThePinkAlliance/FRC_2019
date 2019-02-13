@@ -11,7 +11,7 @@ from cv_bridge import CvBridge, CvBridgeError
 
 class VisionSystem(object):
     def __init__(self, min_thresh=227, max_tresh=255):
-        self.subscriber = rospy.Subscriber("usb_cam/image_raw", Image, self.callback, queue_size = 1)
+        self.subscriber = rospy.Subscriber("front_cam/image_raw", Image, self.callback, queue_size = 1)
 
         self.publisher = rospy.Publisher("/detectedcontours/image_raw", Image)
 
