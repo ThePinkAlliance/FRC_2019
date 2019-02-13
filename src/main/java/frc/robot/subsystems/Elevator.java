@@ -1,13 +1,11 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.RobotMap;
 import frc.robot.commands.MoveElevator;
 
@@ -24,9 +22,13 @@ public class Elevator extends Subsystem {
   public static final int MIN_RATE = 10; // TODO: Revisit this value
   public static final int SAMPLES_TO_AVERAGE = 7; // TODO: Revisit this value
 
+  public CANPIDController _elevatorCANPID = null;
+
   private double _elev_kp = 1.0;
   private double _elev_ki = 0.0;
   private double _elev_kd = 0.0;
+  private double _elev_max_output = 1.0;
+  private double _elev_min_output = -1.0;
 
 
 
@@ -38,6 +40,12 @@ public class Elevator extends Subsystem {
     _enc_elevator = new CANEncoder(_elevator);
     //SetupEncoder(_enc_elevator,  "ELEVATOR", false);
 
+    _elevatorCANPID = new CANPIDController(_elevator);
+    // None of these commands will persist unless burnFlash() is called
+    _elevatorCANPID.setP(_elev_kp);
+    _elevatorCANPID.setI(_elev_ki);
+    _elevatorCANPID.setD(_elev_kd);
+    _elevatorCANPID.setOutputRange(_elev_min_output, _elev_max_output);
   }
 
   // Method to define the default command for the Elevator

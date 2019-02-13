@@ -19,7 +19,7 @@ public class DriveTrain extends Subsystem {
   private CANSparkMax _leftFront = new CANSparkMax(RobotMap.leftFrontMotorPort, MotorType.kBrushless);
   private CANSparkMax _leftRear = new CANSparkMax(RobotMap.leftBackMotorPort, MotorType.kBrushless);
   private DifferentialDrive _diffDrive = new DifferentialDrive(_leftFront, _rightFront);
-  private double _governor = 1.0;
+  public double _governor = 1;
   CANEncoder _enc_leftFront = new CANEncoder(_leftFront);
   CANEncoder _enc_leftRear = new CANEncoder(_leftRear);
   CANEncoder _enc_rightFront = new CANEncoder(_rightFront);
@@ -192,10 +192,10 @@ public class DriveTrain extends Subsystem {
     right = right > 0 ? right*-1 : -right;
     //Apply governor for safety.  This brute safety needs to be taken into account
     //by either removing it or using it when tuning PID controllers, etc.
-    double leftGoverned = left * Math.abs(_governor);
-    double rightGoverned = right * Math.abs(_governor);
+    double leftGoverned = left * _governor;
+    double rightGoverned = right * _governor;
     if (Math.abs(left) > 0.1  || Math.abs(right) > 0.1) {
-      System.out.println("JONDIXON: Left: " + left +  " ---    Right: " + right);
+      System.out.println("JONDIXON: Left: " + leftGoverned +  " ---    Right: " + rightGoverned);
       _diffDrive.tankDrive(leftGoverned, -rightGoverned);
     }
 	}
