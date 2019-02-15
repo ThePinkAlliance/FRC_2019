@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
-import frc.robot.subsystems.Utils.ElevatorPIDSource;
+// import frc.robot.Robot;
+// import frc.robot.subsystems.Utils.ElevatorPIDSource;
 
 
 //class currently configured to move to specified target before watchdog.
@@ -20,7 +20,7 @@ public class MoveElevatorByPID extends Command implements PIDOutput{
 
   private Timer watchDogTimer = null;
   private PIDController heightController = null;
-  private ElevatorPIDSource elevatorPIDSource = null;
+  // private ElevatorPIDSource elevatorPIDSource = null;
 
   //need to confirm these by dragging the elevator up and watching
   //encoder values
@@ -34,16 +34,16 @@ public class MoveElevatorByPID extends Command implements PIDOutput{
 
   private double desiredHeight = 0.0;
   private double watchDogTime = 0.0;
-  private double desiredSpeed = 0.0;
+  // private double desiredSpeed = 0.0;
 
   public MoveElevatorByPID(double targetHeight, double completeByTime, double speed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_elevator);
+    // requires(Robot.m_elevator);
 
     this.desiredHeight = targetHeight;
     this.watchDogTime = completeByTime;
-    this.desiredSpeed = speed;
+    // this.desiredSpeed = speed;
 
   }
 
@@ -56,13 +56,13 @@ public class MoveElevatorByPID extends Command implements PIDOutput{
 
 
 
-    double P = Robot.m_elevator.getElevKp();
-    double I = Robot.m_elevator.getElevKi();
-    double D = Robot.m_elevator.getElevKd();
+    // double P = Robot.m_elevator.getElevKp();
+    // double I = Robot.m_elevator.getElevKi();
+    // double D = Robot.m_elevator.getElevKd();
 
-    elevatorPIDSource = new ElevatorPIDSource();
+    // elevatorPIDSource = new ElevatorPIDSource();
 
-    heightController = new PIDController(P, I, D, elevatorPIDSource, this);
+    // heightController = new PIDController(P, I, D, elevatorPIDSource, this);
 
     heightController.setInputRange(MinimumEncoderValue, MaximumEncoderValue);
     heightController.setOutputRange(MinimumOutputSpeed, MaximumOutputSpeed);
@@ -100,7 +100,7 @@ public class MoveElevatorByPID extends Command implements PIDOutput{
   protected void end() {
     heightController.disable();
     heightController.close();
-    Robot.m_elevator._elevator.set(0);
+    // Robot.m_elevator._elevator.set(0);
   }
 
   // Called when another command which requires one or more of the same
@@ -109,12 +109,12 @@ public class MoveElevatorByPID extends Command implements PIDOutput{
   protected void interrupted() {
     heightController.disable();
     heightController.close();
-    Robot.m_elevator._elevator.set(0);
+    // Robot.m_elevator._elevator.set(0);
   }
 
   @Override
   public void pidWrite(double output) {
 
-    Robot.m_elevator._elevator.set(output);
+    // Robot.m_elevator._elevator.set(output);
   }
 }

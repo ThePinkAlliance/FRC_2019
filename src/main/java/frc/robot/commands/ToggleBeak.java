@@ -9,13 +9,13 @@ public class ToggleBeak extends Command {
   // Command Constructor
   public ToggleBeak() {
     // Declare subsystem dependencies
-    requires(Robot.m_hatch);
+    // requires(Robot.m_hatch);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_hatch.toggleBeak();
+    // Robot.m_hatch.toggleBeak();
   }
 
   // Called repeatedly when this Command is scheduled to run

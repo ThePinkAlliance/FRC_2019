@@ -7,61 +7,66 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.CANPIDController;
-import com.revrobotics.ControlType;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
-import edu.wpi.first.wpilibj.Timer;
 
-public class ElevatorPIDControl extends Command {
-  
-  private Timer watchDogTimer = null;
-  CANPIDController _elevatorPIDController = null;
-  double targetPos = 0.0;
-  private double watchDogTime = 0.0;
+public class Collect extends Command {
+  private Joystick js = null;
+  private double stickValue = 0;
 
-  public ElevatorPIDControl(double targetPosition) {
+  public Collect() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    // requires(Robot.m_elevator);
-    // _elevatorPIDController = Robot.m_elevator._elevator.getPIDController();
-    targetPos = targetPosition;
+    requires(Robot.m_ball);
+    js = new Joystick(OI.towerJoystickPort);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    _elevatorPIDController.setReference(targetPos, ControlType.kPosition);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if (Robot.m_ball.collectedOpticalSwitch.get()) {
+      Robot.m_ball.collect();
+      System.out.println("Switch:True");
+      ReadJoystick();
+    } else {
+      Robot.m_ball.hold();
+      System.out.println("Switch: False");
+      ReadJoystick();
+    }
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    
-    boolean bTimerPopped = false;
-
-    double elapsedTime = watchDogTimer.get();
-
-
-    if ( elapsedTime >= watchDogTime ) {
-      bTimerPopped = true;
-    }
-    return bTimerPopped;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_ball.hold();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.m_ball.hold();
   }
-}
+
+  // Method to set motor power based of the stickValue
+  public void ReadJoystick() {
+    // Read out stickValue
+        stickValue = js.getRawAxis(OI.leftStick);
+      // Set _elevator Motor to stickValue
+      Robot.m_ball.moveBall(stickValue);
+    }
+  }

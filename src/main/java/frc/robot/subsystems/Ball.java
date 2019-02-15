@@ -1,46 +1,57 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Spark;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.MoveCollector;
-import frc.robot.commands.MoveCollector.CollectorTargetPosition;
+import frc.robot.commands.Hold;
 
 public class Ball extends Subsystem {
-  public WPI_TalonSRX _collectorMotor = null;
-  public CANSparkMax _collectorRotateMotor = null;
-  public CANEncoder _enc_collectorRotate = null;
+  public Spark _collectorMotor = null;
+  public Spark _collectorRotateMotor = null;
+  public DigitalInput collectedOpticalSwitch = null;
+
   public static double rotateKd = 0.1;
   public static double rotateKp = 0.1;
+  public double collectSpeed = -1;
+  public double holdSpeed = -0.2;
+  public double ejectSpeed = 1;
+  private double _governor = 0.25;
 
   public Ball() {
-    // _collectorMotor = new WPI_TalonSRX(RobotMap.collectorMotorPort);
-    // _collectorRotateMotor = new CANSparkMax(RobotMap.collectorRotateMotorPort, MotorType.kBrushless);
-    _enc_collectorRotate = new CANEncoder(_collectorRotateMotor);
+    _collectorMotor = new Spark(RobotMap.collectorMotorPort);
+    _collectorRotateMotor = new Spark(RobotMap.collectorRotateMotorPort);
+    collectedOpticalSwitch = new DigitalInput(RobotMap.collectedOpticalSwitchPort);
   }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new MoveCollector(CollectorTargetPosition.JOYSTICK));
-  }
-
-  public double getCurrentPosition() {
-    double currentPosition = _enc_collectorRotate.getPosition();
-    return currentPosition;
+    // setDefaultCommand();
+    setDefaultCommand(new Hold());
   }
 
   // Method to move the Collector based off the joystickValue
   public void moveBall(double joystickValue) {
     _collectorRotateMotor.set(joystickValue);
+    System.out.println("Collector Rotate Value: "+ joystickValue);
   }
 
-  public void rotateToPosition(double position, double starting_position) {
-    double rotateMotorCommand = (rotateKp * (starting_position - position) +
-    (rotateKd * _enc_collectorRotate.getVelocity()));
-    _collectorRotateMotor.set(rotateMotorCommand);
+  public void collect() {
+    _collectorMotor.set(collectSpeed);
+    System.out.println("Collector Power: " + _collectorMotor.get());
+  }
+
+  public void hold() {
+    _collectorMotor.set(holdSpeed);
+  }
+
+  public void eject() {
+    _collectorMotor.set(ejectSpeed);
+  }
+
+  public boolean getCollectState() {
+    return collectedOpticalSwitch.get();
   }
 }

@@ -9,13 +9,13 @@ public class ToggleNeck extends Command {
   // Command Constructor
   public ToggleNeck() {
     // Declare subsystem dependencies
-    requires(Robot.m_hatch);
+    // requires(Robot.m_hatch);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_hatch.toggleNeck();
+    // Robot.m_hatch.toggleNeck();
   }
 
   // Called repeatedly when this Command is scheduled to run

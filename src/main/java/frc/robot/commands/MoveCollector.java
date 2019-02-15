@@ -14,28 +14,28 @@ import frc.robot.OI;
 
 public class MoveCollector extends Command {
   private Joystick js = null;
-  public CollectorTargetPosition position;
+  // public CollectorTargetPosition position;
   private double stickValue = 0;
-  private double CollectPosition = 0;
-  private double RocketPosition = 50;
-  private double CargoPosition = 150;
-  private double StowPosition = 200;
+  // private double CollectPosition = 0;
+  // private double RocketPosition = 50;
+  // private double CargoPosition = 150;
+  // private double StowPosition = 200;
 
-  public enum CollectorTargetPosition {
-    COLLECT,
-    ROCKET,
-    CARGO,
-    STOW,
-    JOYSTICK;
-  }
+  // public enum CollectorTargetPosition {
+  //   COLLECT,
+  //   ROCKET,
+  //   CARGO,
+  //   STOW,
+  //   JOYSTICK;
+  // }
 
-  public MoveCollector(CollectorTargetPosition position) {
+  public MoveCollector(/*CollectorTargetPosition position*/) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    // requires(Robot.m_ball);
-    js = Robot.m_oi.getBaseJoystick();
+    requires(Robot.m_ball);
+    js = Robot.m_oi.getTowerJoystick();
     stickValue = js.getRawAxis(OI.LXAxis);
-    this.position = position;
+    // this.position = position;
   }
 
   // Called just before this Command runs the first time
@@ -47,6 +47,8 @@ public class MoveCollector extends Command {
   @Override
   protected void execute() {
     // RotateToPosition();
+    ReadJoystick();
+    Robot.m_ball._collectorMotor.set(Robot.m_ball.holdSpeed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -58,6 +60,7 @@ public class MoveCollector extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_ball._collectorRotateMotor.set(0);
   }
 
   // public void RotateToPosition() {
@@ -108,6 +111,7 @@ public class MoveCollector extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.m_ball._collectorRotateMotor.set(0);
   }
 
    // Method to set motor power based of the stickValue
@@ -118,7 +122,7 @@ public class MoveCollector extends Command {
         stickValue = 0;
       }
       // Set _elevator Motor to stickValue
-      // Robot.m_ball.moveBall(stickValue);
+      Robot.m_ball.moveBall(stickValue);
     }
   }
 }

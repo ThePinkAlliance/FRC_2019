@@ -29,6 +29,7 @@ public class Elevator extends Subsystem {
   private double _elev_kd = 0.0;
   private double _elev_max_output = 1.0;
   private double _elev_min_output = -1.0;
+  private double _governor = 0.25;
 
 
 
@@ -83,7 +84,7 @@ public class Elevator extends Subsystem {
 
   // Method to move the Elevator based off the joystickValue
   public void moveElevator(double joystickValue) {
-    _elevator.set(joystickValue*.25);
+    _elevator.set(joystickValue* _governor);
   }
 
   public double getElevKp() {

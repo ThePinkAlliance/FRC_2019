@@ -7,51 +7,37 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.CANPIDController;
-import com.revrobotics.ControlType;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
-import edu.wpi.first.wpilibj.Timer;
 
-public class ElevatorPIDControl extends Command {
-  
-  private Timer watchDogTimer = null;
-  CANPIDController _elevatorPIDController = null;
-  double targetPos = 0.0;
-  private double watchDogTime = 0.0;
-
-  public ElevatorPIDControl(double targetPosition) {
+public class Hold extends Command {
+  public Joystick js = null;
+  public double stickValue = 0.0;
+  public Hold() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    // requires(Robot.m_elevator);
-    // _elevatorPIDController = Robot.m_elevator._elevator.getPIDController();
-    targetPos = targetPosition;
+    requires(Robot.m_ball);
+    js = new Joystick(1);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    _elevatorPIDController.setReference(targetPos, ControlType.kPosition);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.m_ball.hold();
+    ReadJoystick();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    
-    boolean bTimerPopped = false;
-
-    double elapsedTime = watchDogTimer.get();
-
-
-    if ( elapsedTime >= watchDogTime ) {
-      bTimerPopped = true;
-    }
-    return bTimerPopped;
+    return false;
   }
 
   // Called once after isFinished returns true
@@ -64,4 +50,12 @@ public class ElevatorPIDControl extends Command {
   @Override
   protected void interrupted() {
   }
-}
+
+  // Method to set motor power based of the stickValue
+  public void ReadJoystick() {
+    // Read out stickValue
+      stickValue = js.getRawAxis(OI.leftStick);
+      // Set _elevator Motor to stickValue
+      Robot.m_ball.moveBall(stickValue);
+    }
+  }

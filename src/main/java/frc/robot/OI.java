@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.DriveToDistance;
+import frc.robot.commands.Hold;
 import frc.robot.commands.ToggleBeak;
 import frc.robot.commands.ToggleNeck;
+import frc.robot.commands.Collect;
+import frc.robot.commands.Eject;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -51,7 +54,8 @@ public class OI {
   //============================================
 	// 		JOYSTICK VARIABLES:  XBOX CONTROLLER
 	//============================================
-	public static int baseJoystickPort = 0;
+  public static int baseJoystickPort = 0;
+  public static int towerJoystickPort = 1;
   // Define all raw button numbers
 	public static int xButtonNumber = 1;
 	public static int aButtonNumber = 2;
@@ -73,9 +77,13 @@ public class OI {
 
   //public Joystick base = new Joystick(baseJoystickPort);
   public Joystick base = null; 
+  public Joystick tower = null;
   public Button testButton = null; 
   public Button baseB = null;
   public Button baseY = null;
+  public Button baseRightBumper = null;
+  public Button baseLeftBumper = null;
+  public Button towerRightTrigger = null;
 	
 	public OI() {
 
@@ -83,12 +91,16 @@ public class OI {
 
       //Setup your joystick
       base = new Joystick(baseJoystickPort);
+      tower = new Joystick(towerJoystickPort);
       testButton = new JoystickButton(base, aButtonNumber);
       baseB = new JoystickButton(base, bButtonNumber);
       baseY = new JoystickButton(base, yButtonNumber);
+      baseRightBumper = new JoystickButton(base, rightBumperButtonNumber);
+      baseLeftBumper = new JoystickButton(base, leftBumperButtonNumber);
 
       //Enable buttons / actions 
       setupBaseJoystick();
+      setupTowerJoystick();
 
     } catch (Exception e) {
       System.out.println("Error setting up joystick.");
@@ -99,13 +111,27 @@ public class OI {
   
   public void setupBaseJoystick() {
     if (base != null) {
-       testButton.whenPressed(new DriveToDistance(30.0, 1.0, 0.6));
-       baseB.whenPressed(new ToggleBeak());
-       baseY.whenPressed(new ToggleNeck());
+      //  testButton.whenPressed(new DriveToDistance(30.0, 1.0, 0.6));
+      //  baseB.whenPressed(new ToggleBeak());
+      //  baseY.whenPressed(new ToggleNeck());
+       baseRightBumper.whenPressed(new Collect());
+       baseRightBumper.whenReleased(new Hold());
+
+       baseLeftBumper.whenPressed(new Eject());
+       baseLeftBumper.whenReleased(new Hold());
+    }
+  }
+
+  public void setupTowerJoystick() {
+    if (tower != null) {
     }
   }
 	
 	public Joystick getBaseJoystick() {
 		return base;
-	}
+  }
+  
+  public Joystick getTowerJoystick() {
+    return tower;
+  }
 }
