@@ -67,6 +67,6 @@ public class Collect extends Command {
     // Read out stickValue
         stickValue = js.getRawAxis(OI.leftStick);
       // Set _elevator Motor to stickValue
-      Robot.m_ball.moveBall(stickValue);
+      // Robot.m_ball.moveBall(stickValue);
     }
   }

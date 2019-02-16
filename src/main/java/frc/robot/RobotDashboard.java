@@ -9,6 +9,7 @@ public class RobotDashboard {
   public static final String ENC_LABEL_RIGHT_FRONT = "Right Front Distance(in)";
   public static final String ENC_LABEL_LEFT_FRONT = "Left Front Distance(in)";
   public static final String ENC_LABEL_FRONT = "Front Distance Average(in)";
+  public static final String ENC_LABEL_ELEVATOR = "Elevator Height (Encoder Counts)";
 
   // PID for EncoderBasedDrive
   public static final String DT_ENC_PID_DISTANCE = "DT_ENC_PID_DISTANCE";
@@ -65,6 +66,7 @@ public class RobotDashboard {
         if (Robot.m_driveTrain != null) {
             SmartDashboard.putNumber(ENC_LABEL_RIGHT_FRONT, Robot.m_driveTrain.getFrontRightPosition());
             SmartDashboard.putNumber(ENC_LABEL_LEFT_FRONT, Robot.m_driveTrain.getFrontLeftPosition());
+            SmartDashboard.putNumber(ENC_LABEL_ELEVATOR, Robot.m_elevator.getElevatorHeight());
         }
     }
 

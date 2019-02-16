@@ -5,13 +5,13 @@ package frc.robot;
 public class RobotMap {
 	// Motors
 	public static int rightFrontMotorPort = 0;
-	public static int rightBackMotorPort = 1;
+	// public static int rightBackMotorPort = 1;
 	public static int leftFrontMotorPort = 2;
 	public static int leftBackMotorPort = 3;
-	public static int elevatorMotorPort = 4;
-	public static int climberMotorPort = 5;
-	public static int collectorMotorPort = 1;
-	public static int collectorRotateMotorPort = 0;
+	public static int climberMotorPort = 4;
+	public static int elevatorMotorPort = 5;
+	// public static int collectorMotorPort = 99;
+	// public static int collectorRotateMotorPort = 98;
 
 	// Pnuematics
 	public static int beakPort = 0;

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-// import frc.robot.Robot;
+import frc.robot.Robot;
 // import frc.robot.subsystems.Utils.ElevatorPIDSource;
 
 
@@ -39,7 +39,7 @@ public class MoveElevatorByPID extends Command implements PIDOutput{
   public MoveElevatorByPID(double targetHeight, double completeByTime, double speed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    // requires(Robot.m_elevator);
+    requires(Robot.m_elevator);
 
     this.desiredHeight = targetHeight;
     this.watchDogTime = completeByTime;

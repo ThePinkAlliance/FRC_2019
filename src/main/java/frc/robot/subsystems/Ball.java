@@ -17,11 +17,10 @@ public class Ball extends Subsystem {
   public double collectSpeed = -1;
   public double holdSpeed = -0.2;
   public double ejectSpeed = 1;
-  private double _governor = 0.25;
 
   public Ball() {
-    _collectorMotor = new Spark(RobotMap.collectorMotorPort);
-    _collectorRotateMotor = new Spark(RobotMap.collectorRotateMotorPort);
+    // _collectorMotor = new Spark(RobotMap.collectorMotorPort);
+    // _collectorRotateMotor = new Spark(RobotMap.collectorRotateMotorPort);
     collectedOpticalSwitch = new DigitalInput(RobotMap.collectedOpticalSwitchPort);
   }
 
@@ -29,7 +28,7 @@ public class Ball extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand();
-    setDefaultCommand(new Hold());
+    // setDefaultCommand(new Hold());
   }
 
   // Method to move the Collector based off the joystickValue

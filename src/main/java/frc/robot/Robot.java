@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
-// import frc.robot.subsystems.Elevator;
-// import frc.robot.subsystems.Hatch;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Hatch;
 import frc.robot.subsystems.Ball;
 
 /**
@@ -29,8 +29,8 @@ public class Robot extends TimedRobot {
   public static Ball m_ball = new Ball();
   public static DriveTrain m_driveTrain = new DriveTrain();
   // public static Climber m_climber = new Climber();
-  // public static Hatch m_hatch = new Hatch();
-  // public static Elevator m_elevator = new Elevator();
+  public static Hatch m_hatch = new Hatch();
+  public static Elevator m_elevator = new Elevator();
   public static OI m_oi;
   public static RobotDashboard m_rDashboard;
 
@@ -83,6 +83,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    m_rDashboard.displayContinuousData();
   }
 
   /**

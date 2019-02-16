@@ -111,9 +111,10 @@ public class OI {
   
   public void setupBaseJoystick() {
     if (base != null) {
-      //  testButton.whenPressed(new DriveToDistance(30.0, 1.0, 0.6));
-      //  baseB.whenPressed(new ToggleBeak());
-      //  baseY.whenPressed(new ToggleNeck());
+       testButton.whenPressed(new DriveToDistance(30.0, 1.0, 0.6));
+       baseB.whenPressed(new ToggleBeak());
+       baseY.whenPressed(new ToggleNeck());
+       
        baseRightBumper.whenPressed(new Collect());
        baseRightBumper.whenReleased(new Hold());
 

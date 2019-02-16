@@ -67,8 +67,7 @@ public class JoystickDrive extends Command {
     if (js != null) {
       double left = js.getRawAxis(OI.leftStick);//js.getY(Hand.kLeft);
       double right =  js.getRawAxis(OI.rightStick);//js.getY(Hand.kRight);
-      if (left > 0.2 || right > 0.2)
-         System.out.println("LEFT: " + left + " RIGHT: " + right);
+      System.out.println("LEFT: " + left + " RIGHT: " + right);
       Robot.m_driveTrain.tankDriveByJoystick(left, right);
     }
   }

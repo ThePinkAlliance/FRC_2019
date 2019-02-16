@@ -16,7 +16,7 @@ public class MoveElevator extends Command {
   // Command Constructor
   public MoveElevator() {
     // Declare Subsystem Dependencies
-    // requires(Robot.m_elevator);
+    requires(Robot.m_elevator);
     // Define Command Varibales
     js = Robot.m_oi.getTowerJoystick();
   }
@@ -41,27 +41,26 @@ public class MoveElevator extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    // Robot.m_elevator._elevator.set(0);
+    Robot.m_elevator._elevator.set(0);
   }
 
   // Called when another command which requires one or more of the same subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    // Robot.m_elevator._elevator.set(0);
+    Robot.m_elevator._elevator.set(0);
   }
 
   // Method to set motor power based of the stickValue
   public void ReadJoystick() {
     // Read out stickValue
+    stickValue = js.getRawAxis(OI.rightStick);
 
-    if (js != null) {
-      stickValue = js.getRawAxis(OI.leftStick);
-
-      if(stickValue > -0.1 && stickValue < 0.1) {
-        stickValue = 0;
-      }
-      // Set _elevator Motor to stickValue
-      // Robot.m_elevator.moveElevator(stickValue);
+    if(stickValue > -0.1 && stickValue < 0.1) {
+      stickValue = 0;
     }
+      
+    // Set _elevator Motor to stickValue
+    Robot.m_elevator.moveElevator(stickValue);
+    System.out.println("Elevator Power: " + stickValue);
   }
 }
