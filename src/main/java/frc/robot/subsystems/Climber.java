@@ -19,7 +19,7 @@ public class Climber extends Subsystem {
   public static final double MAX_PERIOD = 0.1; // TODO: Revisit this value
   public static final int MIN_RATE = 10; // TODO: Revisit this value
   public static final int SAMPLES_TO_AVERAGE = 7; // TODO: Revisit this value
-
+  
   // Subsystem Constuctor
   public Climber() {
     // Define Subsystem Hardware

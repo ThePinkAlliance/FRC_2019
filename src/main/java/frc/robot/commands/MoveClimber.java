@@ -21,8 +21,8 @@ public class MoveClimber extends Command {
   public MoveClimber() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    // requires(Robot.m_climber);
-    js = Robot.m_oi.getBaseJoystick();
+    requires(Robot.m_climber);
+    js = Robot.m_oi.getTowerJoystick();
   }
 
   // Called just before this Command runs the first time
@@ -56,13 +56,13 @@ public class MoveClimber extends Command {
   public void ReadJoystick() {
     
     if (js != null) {
-      stickValue = js.getRawAxis(OI.RXAxis);
+      stickValue = js.getRawAxis(OI.leftStick);
 
       if(stickValue > -0.1 && stickValue < 0.1) {
         stickValue = 0;
       }
 
-      // Robot.m_climber.moveClimber(stickValue);
+      Robot.m_climber.moveClimber(stickValue);
     }
   }
 }

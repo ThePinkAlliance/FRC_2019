@@ -15,10 +15,10 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class DriveTrain extends Subsystem {
   // Declare Subsystem Variables
   private CANSparkMax _rightFront = new CANSparkMax(RobotMap.rightFrontMotorPort, MotorType.kBrushless);
-  // private CANSparkMax _rightRear = new CANSparkMax(RobotMap.rightBackMotorPort, MotorType.kBrushless);
+  private CANSparkMax _rightRear = new CANSparkMax(RobotMap.rightBackMotorPort, MotorType.kBrushless);
   private CANSparkMax _leftFront = new CANSparkMax(RobotMap.leftFrontMotorPort, MotorType.kBrushless);
   private CANSparkMax _leftRear = new CANSparkMax(RobotMap.leftBackMotorPort, MotorType.kBrushless);
-  private DifferentialDrive _diffDrive = new DifferentialDrive(_leftFront, _rightFront);
+  private DifferentialDrive _diffDrive = null; //setup in ctor
   public double _governor = 1;
   CANEncoder _enc_leftFront = new CANEncoder(_leftFront);
   CANEncoder _enc_leftRear = new CANEncoder(_leftRear);
@@ -36,12 +36,12 @@ public class DriveTrain extends Subsystem {
   // Subsystem Constructor
   public DriveTrain() {
     // Define Subsystem Hardware
-    _rightFront.setInverted(true);
     _leftFront.setInverted(false);
-    // _rightRear.setInverted(true);
+    _rightRear.setInverted(false);
     _leftRear.setInverted(false);
     _rightRear.follow(_rightFront);
     _leftRear.follow(_leftFront);
+    _diffDrive = new DifferentialDrive(_leftFront, _rightFront);
     resetGyro();
   }
 
@@ -197,7 +197,7 @@ public class DriveTrain extends Subsystem {
     if (Math.abs(left) > 0.1  || Math.abs(right) > 0.1) {
       System.out.println("JONDIXON: Left: " + left +  " ---    Right: " + right);
       // _diffDrive.tankDrive(leftGoverned, -rightGoverned);
-      _diffDrive.tankDrive(left, right);
     }
+    _diffDrive.tankDrive(left, right);
 	}
 }

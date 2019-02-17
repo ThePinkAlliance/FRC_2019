@@ -17,11 +17,18 @@ public class Elevator extends Subsystem {
 
   private double _governor = 1;
 
+  private double encoderBottom = 10;
+
+  public double getEncoderBottom() {
+    return encoderBottom;
+  }
+
   // Subsystem Constructor
   public Elevator() {
     // Define Subsystem Hardware
     _elevator = new CANSparkMax(RobotMap.elevatorMotorPort, MotorType.kBrushless);
     _enc_elevator = new CANEncoder(_elevator);
+    setBottomHeight();
   }
 
   // Method to define the default command for the Elevator
@@ -35,9 +42,15 @@ public class Elevator extends Subsystem {
     return _enc_elevator.getPosition();
   }
 
+  // To be called in the constructor only, sets the bottom for duration of match
+  public void setBottomHeight() {
+    _enc_elevator.setPosition(0);
+    encoderBottom = 0;
+  }
+
   // Method to move the Elevator based off the joystickValue
   public void moveElevator(double joystickValue) {
-    System.out.println("Setting Elevator Power to " + joystickValue);
+    //System.out.println("Setting Elevator Power to " + joystickValue);
     _elevator.set(joystickValue);
   }
 }
