@@ -62,7 +62,7 @@ public class MoveElevator extends Command {
       
     //Software Hardstop at the bottom
     //If stick value is positive == GOING DOWN
-    //If encoder value going down changes from negative to positive
+    //If encoder value going down changes from ne gative to positive
     //then the bottom has been reached.
     //The bottom is set at code startup to what ever
     //the starting position is.  See EB,A,JD for more information.

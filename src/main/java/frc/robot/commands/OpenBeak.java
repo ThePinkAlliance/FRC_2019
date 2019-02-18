@@ -10,8 +10,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ToggleBeak extends Command {
-  public ToggleBeak() {
+public class OpenBeak extends Command {
+  public OpenBeak() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_hatch);
@@ -20,8 +20,7 @@ public class ToggleBeak extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_hatch._manualToggle = true;
-    Robot.m_hatch.toggleBeak();
+    Robot.m_hatch._beak.set(true);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -32,22 +31,11 @@ public class ToggleBeak extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    Robot.m_hatch._manualToggle = false;
-    if(Robot.m_hatch._beak.get()) {
-      if (!Robot.m_hatch.limitSwitchHatchCollected.get()) {
-        return false;
-      } else {
-        return false;
-      }  
-    } else if (!Robot.m_hatch._beak.get()) {
-      if (Robot.m_hatch.limitSwitchHatchCollected.get()) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
+    if (Robot.m_hatch.limitSwitchHatchCollected.get()) {
       return false;
-    }
+    } else {
+      return true;
+    }  
   }
 
   // Called once after isFinished returns true

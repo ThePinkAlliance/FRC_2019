@@ -18,5 +18,8 @@ public class RobotMap {
 	public static int neckPort = 1;
 
 	// Switches
-	public static int collectedOpticalSwitchPort = 0;
+	public static int limitSwitchHatchCollectedPort = 0;
+	public static int elevatorBottomLimitSwitchPort = 1;
+	public static int elevatorTopLimitSwitchPort = 2;
+	public static int collectedOpticalSwitchPortPort = 3;
 }

@@ -21,7 +21,7 @@ public class Ball extends Subsystem {
   public Ball() {
     // _collectorMotor = new Spark(RobotMap.collectorMotorPort);
     // _collectorRotateMotor = new Spark(RobotMap.collectorRotateMotorPort);
-    collectedOpticalSwitch = new DigitalInput(RobotMap.collectedOpticalSwitchPort);
+    // collectedOpticalSwitch = new DigitalInput(RobotMap.collectedOpticalSwitchPort);
   }
 
   @Override

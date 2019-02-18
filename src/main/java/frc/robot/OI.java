@@ -9,12 +9,17 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.buttons.Button;
+
+import com.revrobotics.CANDigitalInput.LimitSwitch;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.Hold;
+import frc.robot.commands.OpenBeak;
 import frc.robot.commands.ToggleBeak;
 import frc.robot.commands.ToggleNeck;
+import frc.robot.commands.CloseBeak;
 import frc.robot.commands.Collect;
 import frc.robot.commands.Eject;
 
@@ -81,6 +86,8 @@ public class OI {
   public Button testButton = null; 
   public Button baseB = null;
   public Button baseY = null;
+  public Button baseA = null;
+  public Button baseX = null;
   public Button baseRightBumper = null;
   public Button baseLeftBumper = null;
   public Button towerRightTrigger = null;
@@ -92,7 +99,8 @@ public class OI {
       //Setup your joystick
       base = new Joystick(baseJoystickPort);
       tower = new Joystick(towerJoystickPort);
-      testButton = new JoystickButton(base, aButtonNumber);
+      baseA = new JoystickButton(base, aButtonNumber);
+      baseX = new JoystickButton(base, xButtonNumber);
       baseB = new JoystickButton(base, bButtonNumber);
       baseY = new JoystickButton(base, yButtonNumber);
       baseRightBumper = new JoystickButton(base, rightBumperButtonNumber);
@@ -111,9 +119,10 @@ public class OI {
   
   public void setupBaseJoystick() {
     if (base != null) {
-       testButton.whenPressed(new DriveToDistance(30.0, 1.0, 0.6));
-       baseB.whenPressed(new ToggleBeak());
        baseY.whenPressed(new ToggleNeck());
+       baseB.whenPressed(new ToggleBeak());
+       baseA.whenPressed(new OpenBeak());
+       baseX.whenPressed(new CloseBeak());
        
        baseRightBumper.whenPressed(new Collect());
        baseRightBumper.whenReleased(new Hold());
