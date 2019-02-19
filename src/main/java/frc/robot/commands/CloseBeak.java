@@ -20,6 +20,7 @@ public class CloseBeak extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    // Close beak
     Robot.m_hatch._beak.set(false);
   }
 
@@ -31,6 +32,7 @@ public class CloseBeak extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    // If limit switch is pressed, finished
     if (!Robot.m_hatch.limitSwitchHatchCollected.get()) {
       return false;
     } else {

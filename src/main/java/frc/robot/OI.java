@@ -10,6 +10,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 
+// TODO: do we need this? it's not used
 import com.revrobotics.CANDigitalInput.LimitSwitch;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.Hold;
 import frc.robot.commands.OpenBeak;
-import frc.robot.commands.ToggleBeak;
+//import frc.robot.commands.ToggleBeak; //not being used
 import frc.robot.commands.ToggleNeck;
 import frc.robot.commands.CloseBeak;
 import frc.robot.commands.Collect;
@@ -101,7 +102,7 @@ public class OI {
       tower = new Joystick(towerJoystickPort);
       baseA = new JoystickButton(base, aButtonNumber);
       baseX = new JoystickButton(base, xButtonNumber);
-      baseB = new JoystickButton(base, bButtonNumber);
+      //baseB = new JoystickButton(base, bButtonNumber);
       baseY = new JoystickButton(base, yButtonNumber);
       baseRightBumper = new JoystickButton(base, rightBumperButtonNumber);
       baseLeftBumper = new JoystickButton(base, leftBumperButtonNumber);
@@ -120,7 +121,7 @@ public class OI {
   public void setupBaseJoystick() {
     if (base != null) {
        baseY.whenPressed(new ToggleNeck());
-       baseB.whenPressed(new ToggleBeak());
+       //baseB.whenPressed(new ToggleBeak());
        baseA.whenPressed(new OpenBeak());
        baseX.whenPressed(new CloseBeak());
        

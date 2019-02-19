@@ -184,10 +184,11 @@ public class DriveTrain extends Subsystem {
     return drive_to_distance(target_distance, getFrontLeftPosition(), getFrontRightPosition()) && turn_to_angle(target_angle);
   }
   
-  // Method to drive based on joysticks while accounting for govenor
+  // Method to drive based on joysticks while accounting for governor
   public void tankDriveByJoystick(double left, double right) {
     //For this setup (ESC forward green), If LEFT negative make positive, if positive make negative
     //For this setup (ESC forward green), If RIGHT positive make negative, if negative make positive
+    //TODO: don't need ternary? can just do left = -left; and right *= -right;
     left = left < 0 ? left*-1 : -left;
     right = right > 0 ? right*-1 : -right;
     //Apply governor for safety.  This brute safety needs to be taken into account
