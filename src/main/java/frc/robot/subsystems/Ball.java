@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 
@@ -9,7 +11,7 @@ import frc.robot.commands.Hold;
 
 public class Ball extends Subsystem {
   public Spark _collectorMotor = null;
-  public Spark _collectorRotateMotor = null;
+  public WPI_TalonSRX _collectorRotateMotor = null;
   public DigitalInput collectedOpticalSwitch = null;
 
   public static double rotateKd = 0.1;
@@ -19,16 +21,16 @@ public class Ball extends Subsystem {
   public double ejectSpeed = 1;
 
   public Ball() {
-    // _collectorMotor = new Spark(RobotMap.collectorMotorPort);
-    // _collectorRotateMotor = new Spark(RobotMap.collectorRotateMotorPort);
-    // collectedOpticalSwitch = new DigitalInput(RobotMap.collectedOpticalSwitchPort);
+    _collectorMotor = new Spark(RobotMap.collectorMotorPort);
+    _collectorRotateMotor = new WPI_TalonSRX(RobotMap.collectorRotateMotorPort);
+    collectedOpticalSwitch = new DigitalInput(RobotMap.collectedOpticalSwitchPort);
   }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand();
-    // setDefaultCommand(new Hold());
+    setDefaultCommand(new Hold());
   }
 
   // Method to move the Collector based off the joystickValue

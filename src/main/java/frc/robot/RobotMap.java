@@ -11,10 +11,10 @@ public class RobotMap {
 	public static int rightBackMotorPort = 13;  
 	public static int leftFrontMotorPort = 2;
 	public static int leftBackMotorPort = 3;
-	public static int climberMotorPort = 4;
+	public static int climberMotorPort = 99;
 	public static int elevatorMotorPort = 5;
-	// public static int collectorMotorPort = 99;
-	// public static int collectorRotateMotorPort = 98;
+	public static int collectorMotorPort = 1;
+	public static int collectorRotateMotorPort = 4;
 
 	// Pnuematics
 	public static int beakPort = 0;
@@ -24,7 +24,7 @@ public class RobotMap {
 	public static int limitSwitchHatchCollectedPort = 0;
 	public static int elevatorBottomLimitSwitchPort = 1;
 	public static int elevatorTopLimitSwitchPort = 2;
-	public static int collectedOpticalSwitchPortPort = 3;
+	public static int collectedOpticalSwitchPort = 3;
 	public static int climberBackLeftTopSwitchPort = 4;
 	public static int climberBackLeftBottomSwitchPort = 5;
 	public static int climberBackRightTopSwitchPort = 6;
