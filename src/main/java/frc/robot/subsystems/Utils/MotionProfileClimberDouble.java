@@ -110,8 +110,6 @@ public class MotionProfileClimberDouble {
 	Notifier _notifier = null;
     Thread workerThread = null;
 
-    private String _direction = MotionProfileClimber.DIRECTION_UP; 
-
 	/**
 	 * C'tor
 	 * 

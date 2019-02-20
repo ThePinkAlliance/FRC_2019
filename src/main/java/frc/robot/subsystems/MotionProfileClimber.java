@@ -27,16 +27,8 @@ public class MotionProfileClimber extends Subsystem {
   // here. Call these from Commands.
   TalonSRX _talon1 = null;
   TalonSRX _talon2 = null;
-  DigitalInput switchTopF = null;
-  DigitalInput switchBottomF = null;
-  DigitalInput switchWallF = null;
-
-  public final static String LOCATION_LEFT = "LEFT";
-  public final static String LOCATION_RIGHT = "RIGHT";
-  public final static String LOCATION_FRONT = "FRONT";
-  public final static String LOCATION_BACK = "BACK";
-  public final static String DIRECTION_UP = "UP";
-  public final static String DIRECTION_DOWN = "DOWN";
+  DigitalInput switchTop = null;
+  DigitalInput switchBottom = null;
 
   public final static boolean SWITCH_CLOSED = true;
   public final static boolean SWITCH_OPEN = false;
@@ -62,25 +54,24 @@ public class MotionProfileClimber extends Subsystem {
     DOWN
   }
   
-  public MotionProfileClimber(int left, 
-                              int right, 
+  //NOTALON ID for instance without a follower
+  public final static int TALON_ID_NULL = -1;
+  
+  public MotionProfileClimber(int talon1, 
+                              int talon2, 
                               int dioIdTop,
-                              int dioIdBottom,
-                              int dioIdWall, 
+                              int dioIdBottom, 
                               PodPosition face,
                               PodPosition side) {
     this.face = face;
     this.side = side;
-    _talon1 = new TalonSRX(left);
-    _example = new MotionProfileClimberDouble(_talon1, null);
-    switchTopF = new DigitalInput(dioIdTop);
-    switchBottomF = new DigitalInput(dioIdBottom);
-    switchWallF = new DigitalInput(dioIdWall);
-
+    _talon1 = new TalonSRX(talon1);
+    if (talon2 != TALON_ID_NULL)
+       _talon2 = new TalonSRX(talon2);
+    _example = new MotionProfileClimberDouble(_talon1, _talon2);
+    switchTop = new DigitalInput(dioIdTop);
+    switchBottom = new DigitalInput(dioIdBottom);
     setupTalon();
-
-
-
   }
 
   public void invertTalon1(boolean invert) {
@@ -122,9 +113,6 @@ public class MotionProfileClimber extends Subsystem {
     }
     */
 
-       
-      
-
 	
 		/* Configure Selected Sensor for Motion Profile */
 	  
@@ -164,7 +152,7 @@ public class MotionProfileClimber extends Subsystem {
   }
 
   public boolean limitTop() {
-    if (switchTopF.get()) {
+    if (switchTop.get()) {
       return SWITCH_OPEN;
     } else {
       return SWITCH_CLOSED;
@@ -172,15 +160,7 @@ public class MotionProfileClimber extends Subsystem {
   }
 
   public boolean limitBottom() {
-    if (switchBottomF.get()) {
-      return SWITCH_OPEN;
-    } else {
-      return SWITCH_CLOSED;
-    }
-  }
-
-  public boolean limitWall() {
-    if (switchWallF.get()) {
+    if (switchBottom.get()) {
       return SWITCH_OPEN;
     } else {
       return SWITCH_CLOSED;

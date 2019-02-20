@@ -83,7 +83,6 @@ public class MotionProfileTestClimberDouble extends Command {
     boolean bMPDone = mp.isMotionProfileDone();
     boolean bTop = climberPod.limitTop(); 
     boolean bBottom = climberPod.limitBottom();
-    boolean bWall = climberPod.limitWall();
     boolean bLimit = (direction == ClimberDirection.UP ? bTop : bBottom);
 
     if (elapsedTime >= watchDogTime) {
@@ -91,7 +90,7 @@ public class MotionProfileTestClimberDouble extends Command {
       return true;
     }
 
-    return (bMPDone || bLimit || bWall);
+    return (bMPDone || bLimit);
   }
 
   // Called once after isFinished returns true

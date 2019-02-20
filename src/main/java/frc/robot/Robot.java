@@ -16,6 +16,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Hatch;
+import frc.robot.subsystems.MotionProfileClimber;
 import frc.robot.subsystems.Ball;
 
 /**
@@ -29,6 +30,18 @@ public class Robot extends TimedRobot {
   public static Ball m_ball = new Ball();
   public static DriveTrain m_driveTrain = new DriveTrain();
   public static Climber m_climber = new Climber();
+  public static MotionProfileClimber m_climberPodBackLeft = new MotionProfileClimber(RobotMap.leftBackClimberPort,
+                                                                                     MotionProfileClimber.TALON_ID_NULL,
+                                                                                     0, //top dio id
+                                                                                     1, //bottom dio id
+                                                                                     MotionProfileClimber.PodPosition.BACK, 
+                                                                                     MotionProfileClimber.PodPosition.LEFT);
+  public static MotionProfileClimber m_climberPodBackRight = new MotionProfileClimber(RobotMap.rightBackClimberPort,
+                                                                                      MotionProfileClimber.TALON_ID_NULL,
+                                                                                      0, //top dio id
+                                                                                      1, //bottom dio id
+                                                                                      MotionProfileClimber.PodPosition.BACK, 
+                                                                                      MotionProfileClimber.PodPosition.RIGHT);
   public static Hatch m_hatch = new Hatch();
   public static Elevator m_elevator = new Elevator();
   public static OI m_oi;
