@@ -94,6 +94,11 @@ public class RobotDashboard {
         }
     }
 
+    public void displaySwitchValues() {
+        SmartDashboard.putBoolean("Elevator Bottom Limit", Robot.m_elevator.getElevatorBottomSwitch());
+        SmartDashboard.putBoolean("Elevator Top Limit", Robot.m_elevator.getElevatorTopSwitch());
+    }
+
     /**
      * Grabs values from the dashboard on a continuous basis (telelop / autonomous)
      */
@@ -108,6 +113,7 @@ public class RobotDashboard {
         displayEncoderValues();
         displayGyroValues();
         displayPIDValues();
+        displaySwitchValues();
     }
 
     /**
@@ -117,5 +123,6 @@ public class RobotDashboard {
         displayEncoderValues();
         displayGyroValues();
         displayPIDValues();
+        displaySwitchValues();
     }
 }

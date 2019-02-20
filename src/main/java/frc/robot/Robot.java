@@ -32,14 +32,14 @@ public class Robot extends TimedRobot {
   public static Climber m_climber = new Climber();
   public static MotionProfileClimber m_climberPodBackLeft = new MotionProfileClimber(RobotMap.leftBackClimberPort,
                                                                                      MotionProfileClimber.TALON_ID_NULL,
-                                                                                     0, //top dio id
-                                                                                     1, //bottom dio id
+                                                                                     4, //top dio id
+                                                                                     5, //bottom dio id
                                                                                      MotionProfileClimber.PodPosition.BACK, 
                                                                                      MotionProfileClimber.PodPosition.LEFT);
   public static MotionProfileClimber m_climberPodBackRight = new MotionProfileClimber(RobotMap.rightBackClimberPort,
                                                                                       MotionProfileClimber.TALON_ID_NULL,
-                                                                                      0, //top dio id
-                                                                                      1, //bottom dio id
+                                                                                      6, //top dio id
+                                                                                      7, //bottom dio id
                                                                                       MotionProfileClimber.PodPosition.BACK, 
                                                                                       MotionProfileClimber.PodPosition.RIGHT);
   public static Hatch m_hatch = new Hatch();

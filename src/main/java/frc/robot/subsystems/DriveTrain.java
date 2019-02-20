@@ -196,9 +196,9 @@ public class DriveTrain extends Subsystem {
     // double leftGoverned = left * _governor;
     // double rightGoverned = right * _governor;
     if (Math.abs(left) > 0.1  || Math.abs(right) > 0.1) {
-      System.out.println("JONDIXON: Left: " + left +  " ---    Right: " + right);
+      System.out.println("JONDIXON: Left: " + left * 0.815 +  " ---    Right: " + right * 0.815);
       // _diffDrive.tankDrive(leftGoverned, -rightGoverned);
     }
-    _diffDrive.tankDrive(left, right);
+    _diffDrive.tankDrive(left * 0.815, right * 0.815);
 	}
 }

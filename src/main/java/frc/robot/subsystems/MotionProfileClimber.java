@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.subsystems.utils.Constants;
@@ -93,8 +94,12 @@ public class MotionProfileClimber extends Subsystem {
 
 		_talon1.changeMotionControlFramePeriod(5);
 		if (_talon2 != null) {
-		_talon2.changeMotionControlFramePeriod(5);
+    _talon2.changeMotionControlFramePeriod(5);
+    _talon1.setNeutralMode(NeutralMode.Brake);
+
     }
+
+    _talon1.setNeutralMode(NeutralMode.Brake);
     
     /**
      * the commands will call set inverted based on direction
@@ -148,7 +153,7 @@ public class MotionProfileClimber extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new ClimberDefault(this));
+    // setDefaultCommand(new ClimberDefault(this));
   }
 
   public boolean limitTop() {

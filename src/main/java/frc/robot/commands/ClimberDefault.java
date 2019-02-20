@@ -23,7 +23,7 @@ public class ClimberDefault extends Command {
     // eg. requires(chassis);
     requires(theClimberPod);
     this.climberPod = theClimberPod;
-    js = Robot.m_oi.getBaseJoystick();
+    js = Robot.m_oi.getTowerJoystick();
   }
 
   // Called just before this Command runs the first time
@@ -52,8 +52,9 @@ public class ClimberDefault extends Command {
            value = 0;
       }
       //System.out.println(value + " value from joystick");
-      climberPod.set(value);
-
+      // climberPod.set(value);
+      Robot.m_climberPodBackRight.set(-value);
+      Robot.m_climberPodBackLeft.set(value);
     }
   }
 

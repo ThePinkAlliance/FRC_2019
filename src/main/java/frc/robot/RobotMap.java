@@ -4,8 +4,8 @@ package frc.robot;
 // actuators are wired into to a variable name.
 public class RobotMap {
 	// Motors
-	public static int rightBackClimberPort = 21; //From collector POV
-	public static int leftBackClimberPort = 22;  //From collector POV
+	public static int rightBackClimberPort = 22; //From collector POV
+	public static int leftBackClimberPort = 21;  //From collector POV
 	public static int climberSmartsForwardMotor = 20;  //From collector POV
 	public static int rightFrontMotorPort = 11;
 	public static int rightBackMotorPort = 13;  

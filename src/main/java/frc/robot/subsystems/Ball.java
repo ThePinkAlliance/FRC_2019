@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -23,6 +24,7 @@ public class Ball extends Subsystem {
   public Ball() {
     _collectorMotor = new Spark(RobotMap.collectorMotorPort);
     _collectorRotateMotor = new WPI_TalonSRX(RobotMap.collectorRotateMotorPort);
+    _collectorRotateMotor.setNeutralMode(NeutralMode.Brake);
     collectedOpticalSwitch = new DigitalInput(RobotMap.collectedOpticalSwitchPort);
   }
 

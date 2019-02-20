@@ -5,6 +5,7 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
@@ -16,20 +17,17 @@ public class Elevator extends Subsystem {
   public CANSparkMax _elevator = null;
   public CANPIDController elevator_pidController;
   public CANEncoder _enc_elevator = null;
+  public DigitalInput _elevatorTopSwitch = null;
+  public DigitalInput _elevatorBottonSwitch = null;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
-
-  private double encoderBottom = 10;
-
-  public double getEncoderBottom() {
-    return encoderBottom;
-  }
 
   // Subsystem Constructor
   public Elevator() {
     // Define Subsystem Hardware
     _elevator = new CANSparkMax(RobotMap.elevatorMotorPort, MotorType.kBrushless);
     _enc_elevator = new CANEncoder(_elevator);
-    setBottomHeight();
+    _elevatorTopSwitch = new DigitalInput(2);
+    _elevatorBottonSwitch = new DigitalInput(1);
     initMotor();
   }
 
@@ -39,20 +37,31 @@ public class Elevator extends Subsystem {
     setDefaultCommand(new MoveElevator());
   }
 
+  public boolean getElevatorTopSwitch() {
+    return _elevatorTopSwitch.get();
+  }
+
+  public boolean getElevatorBottomSwitch() {
+    return _elevatorBottonSwitch.get();
+  }
+
   // Method that returns the current Elevator height
   public double getElevatorHeight() {
     return _enc_elevator.getPosition();
   }
 
-  // To be called in the constructor only, sets the bottom for duration of match
-  public void setBottomHeight() {
-    _enc_elevator.setPosition(0);
-    encoderBottom = 0;
-  }
-
   // Method to move the Elevator based off the joystickValue
   public void moveElevator(double joystickValue) {
-    //System.out.println("Setting Elevator Power to " + joystickValue);
+    // System.out.println("Setting Elevator Power to " + joystickValue);
+    if (joystickValue < 0) {
+      if (!getElevatorTopSwitch()) { // IS Pressed
+        joystickValue = 0;
+      }
+    } else if (joystickValue > 0) {
+      if (!getElevatorBottomSwitch()) { //Is Pressed
+        joystickValue = 0;
+      }
+    }
     _elevator.set(joystickValue);
   }
 

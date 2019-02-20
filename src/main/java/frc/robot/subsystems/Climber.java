@@ -32,7 +32,7 @@ public class Climber extends Subsystem {
   // Method to define the default command for the Climber
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new MoveClimber());
+    // setDefaultCommand(new MoveClimber());
   }
 
   // Method to setup an encoder
