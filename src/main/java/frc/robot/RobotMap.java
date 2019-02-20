@@ -6,7 +6,7 @@ public class RobotMap {
 	// Motors
 	public static int rightBackClimberPort = 21; //From collector POV
 	public static int leftBackClimberPort = 22;  //From collector POV
-	public static int climberForwardMotor = 20;  //From collector POV
+	public static int climberSmartsForwardMotor = 20;  //From collector POV
 	public static int rightFrontMotorPort = 11;
 	public static int rightBackMotorPort = 13;  
 	public static int leftFrontMotorPort = 2;
@@ -29,7 +29,7 @@ public class RobotMap {
 	public static int climberBackLeftBottomSwitchPort = 5;
 	public static int climberBackRightTopSwitchPort = 6;
 	public static int climberBackRightBottoSwitchmPort = 7;
-	public static int bellyPanLeftSwitchPort = 8;
-	public static int bellyPanrightSwitchPort = 9;
+	public static int bellyPanFrontSwitchPort = 8;
+	public static int bellyPanRearSwitchPort = 9;
 
 }
