@@ -13,12 +13,14 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class Collect extends Command {
+
+  // Init sticks
   private Joystick js = null;
   private double stickValue = 0;
 
   public Collect() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    
+    // Requires Ball collector
     requires(Robot.m_ball);
     js = new Joystick(OI.towerJoystickPort);
   }
@@ -31,11 +33,15 @@ public class Collect extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
+    // If collectedOpticalSwitch, collect ball
     if (Robot.m_ball.collectedOpticalSwitch.get()) {
       Robot.m_ball.collect();
-      System.out.println("Switch:True");
+      System.out.println("Switch: True");
       ReadJoystick();
-    } else {
+    } 
+    // Else, hold ball that has been collected
+    else {
       Robot.m_ball.hold();
       System.out.println("Switch: False");
       ReadJoystick();

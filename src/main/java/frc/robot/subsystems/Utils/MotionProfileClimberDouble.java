@@ -28,7 +28,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 
 import edu.wpi.first.wpilibj.Notifier;
-import frc.robot.subsystems.MotionProfileClimber;
 import frc.robot.subsystems.MotionProfileClimber.ClimberDirection;
 
 import com.ctre.phoenix.ErrorCode;
@@ -348,7 +347,7 @@ public class MotionProfileClimberDouble {
 			if ((i + 1) == totalCnt)
 				point.isLastPoint = true; /* set this to true on the last point  */
 
-			ErrorCode ec = _talon.pushMotionProfileTrajectory(point);
+			//ErrorCode ec = _talon.pushMotionProfileTrajectory(point);
 			//System.out.println(ec);
 		}
 	}

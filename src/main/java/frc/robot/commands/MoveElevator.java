@@ -15,8 +15,10 @@ public class MoveElevator extends Command {
 
   // Command Constructor
   public MoveElevator() {
-    // Declare Subsystem Dependencies
+
+    // Requires Elevator Subsystem
     requires(Robot.m_elevator);
+
     // Define Command Varibales
     js = Robot.m_oi.getTowerJoystick();
   }
@@ -60,6 +62,7 @@ public class MoveElevator extends Command {
       stickValue = 0;
     }
 
+    // TODO: Add a gain like the rese here, bro (JD)
     Robot.m_elevator.moveElevator(stickValue);
     //System.out.println("Elevator Power: " + stickValue);
   }

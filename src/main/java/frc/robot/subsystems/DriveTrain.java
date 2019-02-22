@@ -13,17 +13,26 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 // Subsystem used for defining DriveTrain hardware and methods
 public class DriveTrain extends Subsystem {
-  // Declare Subsystem Variables
+
+  // Declare Motor controllers
   private CANSparkMax _rightFront = new CANSparkMax(RobotMap.rightFrontMotorPort, MotorType.kBrushless);
   private CANSparkMax _rightRear = new CANSparkMax(RobotMap.rightBackMotorPort, MotorType.kBrushless);
   private CANSparkMax _leftFront = new CANSparkMax(RobotMap.leftFrontMotorPort, MotorType.kBrushless);
   private CANSparkMax _leftRear = new CANSparkMax(RobotMap.leftBackMotorPort, MotorType.kBrushless);
+
+
   private DifferentialDrive _diffDrive = null; //setup in ctor
+
+  // TODO: move to class of gains, bro (JD)
   public double _governor = 1;
+
+  // Declare encoders
   CANEncoder _enc_leftFront = new CANEncoder(_leftFront);
   CANEncoder _enc_leftRear = new CANEncoder(_leftRear);
   CANEncoder _enc_rightFront = new CANEncoder(_rightFront);
   CANEncoder _enc_rightRear = new CANEncoder(_rightRear);
+
+  // Declare class variables
   public static final double WHEEL_DIAMETER = 6.0;
   public static final double PULSE_PER_REVOLUTION = 125;  // TODO: Revisit this value!!
   public final double DISTANCE_PER_PULSE = (double)(Math.PI*WHEEL_DIAMETER)/PULSE_PER_REVOLUTION;
@@ -35,12 +44,15 @@ public class DriveTrain extends Subsystem {
 
   // Subsystem Constructor
   public DriveTrain() {
-    // Define Subsystem Hardware
+
+    // Set up Subsystem Hardware
     _leftFront.setInverted(false);
     _rightRear.setInverted(false);
     _leftRear.setInverted(false);
     _rightRear.follow(_rightFront);
     _leftRear.follow(_leftFront);
+
+    // Construct Diff Drive, reset gyro
     _diffDrive = new DifferentialDrive(_leftFront, _rightFront);
     resetGyro();
   }
@@ -48,6 +60,8 @@ public class DriveTrain extends Subsystem {
   // Method to define the default command for the DriveTrain
   @Override
   public void initDefaultCommand() {
+  
+    // Default command: JoystickDrive
     setDefaultCommand(new JoystickDrive());
   }
 
@@ -125,6 +139,7 @@ public class DriveTrain extends Subsystem {
     _leftFront.set(0);
   }
 
+  // Based on angle error, returns pos or neg error
   public double get_left_angle_error(double desired_angle, double starting_angle) {
     double target_angle = desired_angle + starting_angle;
     double left_angle_error = (target_angle - _ahrs.getAngle());
@@ -137,6 +152,7 @@ public class DriveTrain extends Subsystem {
     }
   }
 
+  // Based on angle error, returns pos or neg error
   public double get_right_angle_error(double desired_angle, double starting_angle) {
     double target_angle = desired_angle + starting_angle;
     double right_angle_error = (target_angle - _ahrs.getAngle());
@@ -195,6 +211,7 @@ public class DriveTrain extends Subsystem {
     //by either removing it or using it when tuning PID controllers, etc.
     // double leftGoverned = left * _governor;
     // double rightGoverned = right * _governor;
+    // TODO: Get this governor set up as gains, bro (JD)
     if (Math.abs(left) > 0.1  || Math.abs(right) > 0.1) {
       System.out.println("JONDIXON: Left: " + left * 0.815 +  " ---    Right: " + right * 0.815);
       // _diffDrive.tankDrive(leftGoverned, -rightGoverned);

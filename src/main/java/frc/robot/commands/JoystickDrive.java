@@ -21,8 +21,8 @@ public class JoystickDrive extends Command {
    * through out the instance of the object.
    */
   public JoystickDrive() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    
+    // Requires Drive Train
     requires(Robot.m_driveTrain);
     js = Robot.m_oi.getBaseJoystick();
   }

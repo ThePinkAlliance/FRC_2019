@@ -13,11 +13,15 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class Eject extends Command {
+
+  // Init joysticks
   private Joystick js = null;
   private double stickValue = 0;
+
+
   public Eject() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    
+    // Requires Ball collector
     requires(Robot.m_ball);
     js = new Joystick(OI.towerJoystickPort);
   }

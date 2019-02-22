@@ -7,7 +7,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
+//import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.MotionProfileClimber;
@@ -16,13 +16,13 @@ import frc.robot.subsystems.utils.MotionProfileClimberDouble;
 
 public class MotionProfileTestClimberDouble extends Command {
 
-  private Joystick js = null; 
+  //private Joystick js = null; 
   private MotionProfileClimberDouble mp = null;
   private ClimberDirection direction = ClimberDirection.UP;
   private Timer watchDog = null;
   private double watchDogTime = 0.0;
-  private final double UNWIND_TIME = 0.0;  //one sec to let talon unwind
-  private double doneTime = 0;
+  //private final double UNWIND_TIME = 0.0;  //one sec to let talon unwind
+  //private double doneTime = 0;
   private MotionProfileClimber climberPod = null;
   
   /**

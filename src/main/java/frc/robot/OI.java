@@ -10,15 +10,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 
-// TODO: do we need this? it's not used
-import com.revrobotics.CANDigitalInput.LimitSwitch;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.Hold;
 import frc.robot.commands.OpenBeak;
-//import frc.robot.commands.ToggleBeak; //not being used
 import frc.robot.commands.ToggleNeck;
 import frc.robot.commands.CloseBeak;
 import frc.robot.commands.Collect;

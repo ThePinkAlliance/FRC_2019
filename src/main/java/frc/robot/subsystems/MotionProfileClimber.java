@@ -16,7 +16,6 @@ import frc.robot.subsystems.utils.Constants;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.ClimberDefault;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble;
 
 

@@ -13,11 +13,14 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class Hold extends Command {
+
+  // Init sticks
   public Joystick js = null;
   public double stickValue = 0.0;
+
   public Hold() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+
+    // Requires Ball collector
     requires(Robot.m_ball);
     js = new Joystick(1);
   }

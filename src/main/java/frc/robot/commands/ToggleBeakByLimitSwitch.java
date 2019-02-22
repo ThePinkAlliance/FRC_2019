@@ -12,8 +12,8 @@ import frc.robot.Robot;
 
 public class ToggleBeakByLimitSwitch extends Command {
   public ToggleBeakByLimitSwitch() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+
+    // Requires hatch subsystem
     requires(Robot.m_hatch);
   }
 

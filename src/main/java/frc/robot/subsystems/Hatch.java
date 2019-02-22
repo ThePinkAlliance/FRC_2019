@@ -13,7 +13,6 @@ public class Hatch extends Subsystem {
   public Solenoid _neck = null;
   public DigitalInput limitSwitchHatchCollected = null;
   public boolean _beakOpen = true;
-  //public boolean _beakToggle = false; // not being used
   public boolean _neckUp = false;
   public boolean _manualToggle = false;
 
@@ -31,14 +30,7 @@ public class Hatch extends Subsystem {
     setDefaultCommand(new ToggleBeakByLimitSwitch());
   }
 
-  /*
-  //NOT BEING USED
-  // Method to toggle the Beak solenoid on the Hatch
-  public void toggleBeak() {
-    _beakToggle = !_beakToggle;
-    _beak.set(_beakToggle);
-  }
-  */
+
 
   // Method to toggle the Neck solenoid on the Hatch
   public void toggleNeck() {

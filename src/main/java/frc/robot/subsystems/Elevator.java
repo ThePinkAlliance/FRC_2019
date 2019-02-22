@@ -168,31 +168,39 @@ public class Elevator extends Subsystem {
     if((allE != allowedErr)) { elevator_pidController.setSmartMotionAllowedClosedLoopError(allE,0); allE = allowedErr; }
   }
 
+  // Method to get encoder position
   public double getEncPosition() {
     return _elevator.getEncoder().getPosition();
   }
 
+  // Method to set encoder position
   public void setEncoderPosition(int position) {
     _elevator.setEncPosition(0);
   }
+
+  // Method to set speed
   public void set(double speed) {
     _elevator.set(speed);
   }
 
+  // Method to stop motor
   public void stopMotor() {
     if (_elevator != null) {
        _elevator.stopMotor();
     }
   }
 
+  // Method that returns PID Controller
   public CANPIDController getPIDController() {
     return elevator_pidController;
   }
 
+  // Method that returns the encoder
   public CANEncoder getEncoder() {
     return _enc_elevator;
   }
 
+  // Method that returns elevator motor
   public CANSparkMax getMotor() {
     return _elevator;
   }

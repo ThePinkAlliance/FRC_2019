@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.MoveClimber;
 
 // Subsystem used for defineing Climber hardware and methods
 public class Climber extends Subsystem {
