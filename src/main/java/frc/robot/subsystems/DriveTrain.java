@@ -1,42 +1,37 @@
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 import frc.robot.commands.JoystickDrive;
-import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import frc.robot.subsystems.utils.Gains;
 
 // Subsystem used for defining DriveTrain hardware and methods
 public class DriveTrain extends Subsystem {
 
-  // Declare Motor controllers
+  // Define Motor controllers
   private CANSparkMax _rightFront = new CANSparkMax(RobotMap.rightFrontMotorPort, MotorType.kBrushless);
   private CANSparkMax _rightRear = new CANSparkMax(RobotMap.rightBackMotorPort, MotorType.kBrushless);
   private CANSparkMax _leftFront = new CANSparkMax(RobotMap.leftFrontMotorPort, MotorType.kBrushless);
   private CANSparkMax _leftRear = new CANSparkMax(RobotMap.leftBackMotorPort, MotorType.kBrushless);
 
+  // Define DifferentialDrive for this Subsystem
+  private DifferentialDrive _diffDrive = new DifferentialDrive(_leftFront, _rightFront);
 
-  private DifferentialDrive _diffDrive = null; //setup in ctor
-
-  // TODO: move to class of gains, bro (JD)
-  public double _governor = 1;
-
-  // Declare encoders
-  CANEncoder _enc_leftFront = new CANEncoder(_leftFront);
+  // Define encoders
   CANEncoder _enc_leftRear = new CANEncoder(_leftRear);
-  CANEncoder _enc_rightFront = new CANEncoder(_rightFront);
+  CANEncoder _enc_leftFront = new CANEncoder(_leftFront);
   CANEncoder _enc_rightRear = new CANEncoder(_rightRear);
+  CANEncoder _enc_rightFront = new CANEncoder(_rightFront);
 
   // Declare class variables
-  public static final double WHEEL_DIAMETER = 6.0;
-  public static final double PULSE_PER_REVOLUTION = 125;  // TODO: Revisit this value!!
-  public final double DISTANCE_PER_PULSE = (double)(Math.PI*WHEEL_DIAMETER)/PULSE_PER_REVOLUTION;
-  public final double PULSES_PER_INCH = 1/DISTANCE_PER_PULSE;
+  public double leftGoverned = 0.0;
+  public double rightGoverned = 0.0;
   public double baseKp = 0.3;
   public double baseKd = 0.0;
   private AHRS _ahrs = new AHRS(SPI.Port.kMXP);
@@ -52,8 +47,7 @@ public class DriveTrain extends Subsystem {
     _rightRear.follow(_rightFront);
     _leftRear.follow(_leftFront);
 
-    // Construct Diff Drive, reset gyro
-    _diffDrive = new DifferentialDrive(_leftFront, _rightFront);
+    // Reset Gyro
     resetGyro();
   }
 
@@ -65,15 +59,6 @@ public class DriveTrain extends Subsystem {
     setDefaultCommand(new JoystickDrive());
   }
 
-  // Method to set Govenor percentage to limit max power of the subsystem
-  public void setGovernor(double percent) {
-    this._governor = percent;
-  }
-
-  // Method that returns the currnet govenor
-  public double getGovernor() {
-    return this._governor;
-  }
 
   // Method that will stop the Drive Train's Movement
   public void stopDriveTrain() {
@@ -139,6 +124,12 @@ public class DriveTrain extends Subsystem {
     _leftFront.set(0);
   }
 
+  // Method that stops the drive train motors
+  public void drivetrainStop() {
+    rightMotorStop();
+    leftMotorStop();
+  }
+
   // Based on angle error, returns pos or neg error
   public double get_left_angle_error(double desired_angle, double starting_angle) {
     double target_angle = desired_angle + starting_angle;
@@ -202,20 +193,16 @@ public class DriveTrain extends Subsystem {
   
   // Method to drive based on joysticks while accounting for governor
   public void tankDriveByJoystick(double left, double right) {
-    //For this setup (ESC forward green), If LEFT negative make positive, if positive make negative
-    //For this setup (ESC forward green), If RIGHT positive make negative, if negative make positive
-    //TODO: don't need ternary? can just do left = -left; and right *= -right;
-    left = left < 0 ? left*-1 : -left;
-    right = right > 0 ? right*-1 : -right;
-    //Apply governor for safety.  This brute safety needs to be taken into account
-    //by either removing it or using it when tuning PID controllers, etc.
-    // double leftGoverned = left * _governor;
-    // double rightGoverned = right * _governor;
-    // TODO: Get this governor set up as gains, bro (JD)
-    if (Math.abs(left) > 0.1  || Math.abs(right) > 0.1) {
-      System.out.println("JONDIXON: Left: " + left * 0.815 +  " ---    Right: " + right * 0.815);
-      // _diffDrive.tankDrive(leftGoverned, -rightGoverned);
-    }
-    _diffDrive.tankDrive(left * 0.815, right * 0.815);
+
+    // Invert motor direction and account for gain
+    leftGoverned = -left * Gains.baseMotorGain;
+    rightGoverned = -right * Gains.baseMotorGain;
+
+    // Add Telemetry 
+    System.out.println("||----------Drive Train----------||");
+    System.out.println("Left: " + leftGoverned +  " ---    Right: " + rightGoverned);
+
+    // Set Motor Power
+    _diffDrive.tankDrive(leftGoverned, rightGoverned);
 	}
 }

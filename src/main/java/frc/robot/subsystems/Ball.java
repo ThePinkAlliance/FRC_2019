@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -13,12 +14,13 @@ public class Ball extends Subsystem {
   // Init motor controllers
   public Spark _collectorMotor = null;
   public WPI_TalonSRX _collectorRotateMotor = null;
+  public Encoder _enc_collectorRotate = null;
 
   // Init digital inputs
   public DigitalInput collectedOpticalSwitch = null;
 
   // Setup values
-  public static double rotateKd = 0.1;
+  public static double rotateKd = 0.005;
   public static double rotateKp = 0.1;
   public double collectSpeed = -1;
   public double holdSpeed = -0.2;
@@ -29,6 +31,7 @@ public class Ball extends Subsystem {
     // Construct motor controllers
     _collectorMotor = new Spark(RobotMap.collectorMotorPort);
     _collectorRotateMotor = new WPI_TalonSRX(RobotMap.collectorRotateMotorPort);
+    _enc_collectorRotate = new Encoder(2, 3, false);
     _collectorRotateMotor.setNeutralMode(NeutralMode.Brake);
 
     // Construct digital inputs
@@ -45,6 +48,11 @@ public class Ball extends Subsystem {
   public void moveBall(double joystickValue) {
     _collectorRotateMotor.set(joystickValue);
     System.out.println("Collector Rotate Value: "+ joystickValue);
+  }
+
+  public void setRotateMotorCmd(double target_position) {
+    double rotate_motor_command = rotateKp * (target_position - _enc_collectorRotate.get());
+    _collectorRotateMotor.set(rotate_motor_command);
   }
 
   // Method to rotate the ball collector to collect a ball

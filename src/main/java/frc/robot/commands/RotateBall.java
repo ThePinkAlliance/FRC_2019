@@ -12,14 +12,24 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.OI;
 
-public class MoveCollector extends Command {
+public class RotateBall extends Command {
 
   // Init sticks
   private Joystick js = null;
   private double stickValue = 0;
+  private double COLLECT_POS = 0;
+  private double LOW_ROCKET_POS = 100;
+  private double CARGO_POS = 200;
+  RotateToPosition target_position;
 
+  public enum RotateToPosition {
+    COLLECT,
+    LOW_ROCKET,
+    CARGO,
+    JOYSTICK;
+  }
 
-  public MoveCollector(/*CollectorTargetPosition position*/) {
+  public RotateBall(RotateToPosition target_position) {
 
     // Requires Ball collector
     requires(Robot.m_ball);
@@ -37,7 +47,25 @@ public class MoveCollector extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    ReadJoystick();
+    switch(target_position) {
+      case COLLECT:
+        Robot.m_ball.setRotateMotorCmd(COLLECT_POS);
+        if (stickValue > 0.1 || stickValue < -0.1) {
+          target_position = RotateToPosition.JOYSTICK;
+        }
+      case LOW_ROCKET:
+        Robot.m_ball.setRotateMotorCmd(LOW_ROCKET_POS);
+        if (stickValue > 0.1 || stickValue < -0.1) {
+          target_position = RotateToPosition.JOYSTICK;
+        }
+      case CARGO:
+        Robot.m_ball.setRotateMotorCmd(CARGO_POS);
+        if (stickValue > 0.1 || stickValue < -0.1) {
+          target_position = RotateToPosition.JOYSTICK;
+        }
+      case JOYSTICK:
+        ReadJoystick();
+    }
     Robot.m_ball._collectorMotor.set(Robot.m_ball.holdSpeed);
   }
 

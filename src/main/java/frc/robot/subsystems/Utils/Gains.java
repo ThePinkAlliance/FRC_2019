@@ -4,6 +4,8 @@
 package frc.robot.subsystems.utils;
 
 public class Gains {
+
+	public static final double baseMotorGain = 1.0;
 	public final double kP;
 	public final double kI;
 	public final double kD;

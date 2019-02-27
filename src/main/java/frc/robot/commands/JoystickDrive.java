@@ -1,87 +1,64 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
+// A Command which controls the DriveTrain subsystem using a Tank Drive control system
 public class JoystickDrive extends Command {
 
-  private Joystick js = null; 
-  
-  /**
-   * Constructor: needs require and sets the member js so that it can be used
-   * through out the instance of the object.
-   */
-  public JoystickDrive() {
-    
-    // Requires Drive Train
-    requires(Robot.m_driveTrain);
-    js = Robot.m_oi.getBaseJoystick();
-  }
+	// Declare variables for this Command
+	private Joystick js = Robot.m_oi.getBaseJoystick();
+	private double right = 0.0;
+	private double left = 0.0;
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-  }
+	// Construct this Command
+	public JoystickDrive() {
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    HandleButtons();
-    HandleTankDrive();
-  }
+		// Requires DriveTrain
+		requires(Robot.m_driveTrain);
+	}
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+	// Called repeatedly while this Command is running
+	@Override protected void execute() {
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-    Robot.m_driveTrain.leftMotorStop();
-    Robot.m_driveTrain.rightMotorStop();
-  }
+		// Get the left joystick while accounting for mechanical deviation
+		if (-0.1 > js.getRawAxis(OI.leftStick) && js.getRawAxis(OI.leftStick) > 0.1) {
+			left = js.getRawAxis(OI.leftStick);
+		} else {
+			left = 0.0;
+		}
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    Robot.m_driveTrain.leftMotorStop();
-    Robot.m_driveTrain.rightMotorStop();
-  }
+		// Get the right joystick while accounting for mechanical deviation
+		if (-0.1 > js.getRawAxis(OI.rightStick) && js.getRawAxis(OI.rightStick) > 0.1) {
+			right = js.getRawAxis(OI.rightStick);
+		} else {
+			right = 0.0;
+		}
 
-  /** 
-   * Perform tankdrive action during execute() calls
-   */
-  public void HandleTankDrive() {
-    if (js != null) {
-      double left = js.getRawAxis(OI.leftStick);//js.getY(Hand.kLeft);
-      double right =  js.getRawAxis(OI.rightStick);//js.getY(Hand.kRight);
-      System.out.println("LEFT: " + left + " RIGHT: " + right);
-      Robot.m_driveTrain.tankDriveByJoystick(left, right);
-    }
-  }
-  
-  /**
-   * Perform any button actions during execute calls
-   */
-  public void HandleButtons() {
-    if (js != null) {
+		// Use tank drive to move the base using the joystick values defined above
+		Robot.m_driveTrain.tankDriveByJoystick(left, right);
+	}
 
-      //Reset Gyro
-      if (js.getRawButtonPressed(OI.bButtonNumber)) {
-        Robot.m_driveTrain.resetGyro();
-      }
-    }
-  }
+	// Make this return true when this Command no longer needs to run execute()
+	@Override protected boolean isFinished() {
+
+		// Return false so this Command runs until interrupted
+		return false;
+	}
+
+	// Called once after isFinished returns true
+	@Override protected void end() {
+
+		// Stop the DriveTrain motors
+		Robot.m_driveTrain.drivetrainStop();
+	}
+
+	// Called when another command which requires one or more of the same subsystems is scheduled to run
+	@Override protected void interrupted() {
+
+		// Stop the DriveTrain motors
+		Robot.m_driveTrain.drivetrainStop();
+	}
 }
