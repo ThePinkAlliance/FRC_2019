@@ -67,7 +67,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", m_chooser);
 
     //DriveTrain
-    m_driveTrain.setGovernor(1);
 
 
   }
