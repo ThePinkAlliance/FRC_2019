@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.ToggleBeakByLimitSwitch;
 
 // Subsystem used for defining Hatch hardware and methods
 public class Hatch extends Subsystem {
@@ -27,7 +26,7 @@ public class Hatch extends Subsystem {
   // Method to define the default command for the Hatch
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new ToggleBeakByLimitSwitch());
+    // setDefaultCommand(new ToggleBeakByLimitSwitch());
   }
 
 

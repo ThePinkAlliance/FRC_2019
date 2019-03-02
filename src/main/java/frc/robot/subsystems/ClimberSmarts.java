@@ -37,7 +37,7 @@ public class ClimberSmarts extends Subsystem {
     _rearOpticalLimitSwitch = new DigitalInput(RobotMap.bellyPanRearSwitchPort);
 
     // Define Motors for this Subsystem
-    _climberWheels = new WPI_VictorSPX(RobotMap.climberSmartsForwardMotor);
+    _climberWheels = new WPI_VictorSPX(RobotMap.climberSmartsForwardRightMotor);
   }
 
   @Override

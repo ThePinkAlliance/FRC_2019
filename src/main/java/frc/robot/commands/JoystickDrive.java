@@ -24,18 +24,10 @@ public class JoystickDrive extends Command {
 	@Override protected void execute() {
 
 		// Get the left joystick while accounting for mechanical deviation
-		if (-0.1 > js.getRawAxis(OI.leftStick) && js.getRawAxis(OI.leftStick) > 0.1) {
 			left = js.getRawAxis(OI.leftStick);
-		} else {
-			left = 0.0;
-		}
 
 		// Get the right joystick while accounting for mechanical deviation
-		if (-0.1 > js.getRawAxis(OI.rightStick) && js.getRawAxis(OI.rightStick) > 0.1) {
 			right = js.getRawAxis(OI.rightStick);
-		} else {
-			right = 0.0;
-		}
 
 		// Use tank drive to move the base using the joystick values defined above
 		Robot.m_driveTrain.tankDriveByJoystick(left, right);

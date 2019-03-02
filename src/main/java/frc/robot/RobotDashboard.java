@@ -95,8 +95,8 @@ public class RobotDashboard {
     }
 
     public void displaySwitchValues() {
-        SmartDashboard.putBoolean("Elevator Bottom Limit", Robot.m_elevator.getElevatorBottomSwitch());
-        SmartDashboard.putBoolean("Elevator Top Limit", Robot.m_elevator.getElevatorTopSwitch());
+        // SmartDashboard.putBoolean("Elevator Bottom Limit", Robot.m_elevator.getElevatorBottomSwitch());
+        // SmartDashboard.putBoolean("Elevator Top Limit", Robot.m_elevator.getElevatorTopSwitch());
     }
 
     /**

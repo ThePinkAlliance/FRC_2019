@@ -31,7 +31,7 @@ public class Ball extends Subsystem {
     // Construct motor controllers
     _collectorMotor = new Spark(RobotMap.collectorMotorPort);
     _collectorRotateMotor = new WPI_TalonSRX(RobotMap.collectorRotateMotorPort);
-    _enc_collectorRotate = new Encoder(2, 3, false);
+    // _enc_collectorRotate = new Encoder(2, 3, false);
     _collectorRotateMotor.setNeutralMode(NeutralMode.Brake);
 
     // Construct digital inputs

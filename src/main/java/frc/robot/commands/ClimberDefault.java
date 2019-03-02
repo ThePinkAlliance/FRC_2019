@@ -53,8 +53,8 @@ public class ClimberDefault extends Command {
       }
       //System.out.println(value + " value from joystick");
       // climberPod.set(value);
-      Robot.m_climberPodBackRight.set(-value);
-      Robot.m_climberPodBackLeft.set(value);
+      // Robot.m_climberPodBackRight.set(-value);
+      // Robot.m_climberPodBackLeft.set(value);
     }
   }
 
