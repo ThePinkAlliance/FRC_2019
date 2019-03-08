@@ -64,6 +64,6 @@ public class MoveElevator extends Command {
 
     // TODO: Add a gain like the rese here, bro (JD)
     Robot.m_elevator.moveElevator(stickValue);
-    //System.out.println("Elevator Power: " + stickValue);
+    ////system..out.println("Elevator Power: " + stickValue);
   }
 }

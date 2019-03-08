@@ -30,9 +30,8 @@ public class ToggleBeakByLimitSwitch extends Command {
   @Override
   protected void execute() {
     // If limit switch is pressed, open the beak
-    if (!Robot.m_hatch.limitSwitchHatchCollected.get()) {
-      Robot.m_hatch._beak.set(true);
-    
+    if (!Robot.m_hatch.leftLimitSwitchHatchCollected.get() || !Robot.m_hatch.rightLimitSwitchHatchCollected.get()) {
+      Robot.m_hatch._beak.set(false); // Open Beak
     }
   }
 

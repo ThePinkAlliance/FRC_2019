@@ -22,14 +22,15 @@ public class RobotMap {
 	public static int neckPort = 1;
 
 	// Switches
-	public static int limitSwitchHatchCollectedPort = 0;
-	public static int elevatorBottomLimitSwitchPort = 1;
-	public static int elevatorTopLimitSwitchPort = 2;
+	public static int leftLimitSwitchHatchCollectedPort = 0;
+	public static int rightLimitSwitchHatchCollectedPort = 1;
+	// public static int elevatorBottomLimitSwitchPort = 1;
+	// public static int elevatorTopLimitSwitchPort = 2;
 	public static int collectedOpticalSwitchPort = 3;
-	public static int climberBackLeftTopSwitchPort = 4;
-	public static int climberBackLeftBottomSwitchPort = 5;
-	public static int climberBackRightTopSwitchPort = 6;
-	public static int climberBackRightBottoSwitchmPort = 7;
+	// public static int climberBackLeftTopSwitchPort = 4;
+	// public static int climberBackLeftBottomSwitchPort = 5;
+	// public static int climberBackRightTopSwitchPort = 6;
+	// public static int climberBackRightBottoSwitchmPort = 7;
 	public static int bellyPanFrontSwitchPort = 8;
 	public static int bellyPanRearSwitchPort = 9;
 

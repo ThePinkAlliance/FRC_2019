@@ -31,7 +31,7 @@ public class OpenBeak extends Command {
   @Override
   protected boolean isFinished() {
     // If the limit switch is not pressed, not finished
-    if (Robot.m_hatch.limitSwitchHatchCollected.get()) {
+    if (!Robot.m_hatch.leftLimitSwitchHatchCollected.get() || !Robot.m_hatch.rightLimitSwitchHatchCollected.get()) {
       return false;
     } else {
       return true;

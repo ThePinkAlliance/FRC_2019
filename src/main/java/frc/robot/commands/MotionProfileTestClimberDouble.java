@@ -38,7 +38,7 @@ public class MotionProfileTestClimberDouble extends Command {
     requires(theClimberPod);
     this.climberPod = theClimberPod;
 
-    //set the direction
+    // set the direction
     this.direction = direction;
    
     //cache your alloted time to complete this command
@@ -63,7 +63,7 @@ public class MotionProfileTestClimberDouble extends Command {
     mp.setMotionProfileMode();
     //mp.startWorking(movingUp); //only used by threading alternative
     mp.startMotionProfile();
-    System.out.println("MotionProfileTestClimberDouble(): initialized");
+    //system..out.println("MotionProfileTestClimberDouble(): initialized");
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -77,7 +77,7 @@ public class MotionProfileTestClimberDouble extends Command {
   @Override
   protected boolean isFinished() {
     //boolean mpPressed = Robot.m_oi.getBaseJoystick().getRawButton(OI.aButtonNumber);
-    //System.out.println("mpPressed: " + mpPressed);
+    ////system..out.println("mpPressed: " + mpPressed);
     double elapsedTime = watchDog.get();
     
     boolean bMPDone = mp.isMotionProfileDone();
@@ -86,7 +86,7 @@ public class MotionProfileTestClimberDouble extends Command {
     boolean bLimit = (direction == ClimberDirection.UP ? bTop : bBottom);
 
     if (elapsedTime >= watchDogTime) {
-      System.out.println("Watch Dog timer popped.");
+      //system..out.println("Watch Dog timer popped.");
       return true;
     }
 

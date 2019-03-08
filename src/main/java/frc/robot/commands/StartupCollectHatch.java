@@ -7,66 +7,52 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.subsystems.MotionProfileClimber;
 
-public class ClimberDefault extends Command {
-
-  private Joystick js = null; 
-  private MotionProfileClimber climberPod = null;
-
-  public ClimberDefault(MotionProfileClimber theClimberPod) {
+public class StartupCollectHatch extends Command {
+  public StartupCollectHatch() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(theClimberPod);
-    this.climberPod = theClimberPod;
-    js = Robot.m_oi.getTowerJoystick();
+    requires(Robot.m_hatch);
+    requires(Robot.m_elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.m_hatch._beak.set(true);
+    Robot.m_hatch._neck.set(true);
+    try {
+      Thread.sleep(2000);
+    } catch(Exception ex) {
+
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (js != null) {
-
-      if (js.getRawButtonPressed(OI.aButtonNumber)) {
-        climberPod.resetEncoderPosition(0);
-      }
-
-      double value =  js.getRawAxis(OI.rightStick);
-      /**
-       * YOU MUST CHECK JS VALUE and verify whether positive is down / negative is up
-       */
-      if (value > 0.0) {
-        if (climberPod.limitBottom() == MotionProfileClimber.SWITCH_CLOSED)
-           value = 0;
-      } else {
-        if (climberPod.limitTop() == MotionProfileClimber.SWITCH_CLOSED)
-           value = 0;
-      }
-      ////system..out.println(value + " value from joystick");
-      // climberPod.set(value);
-      // Robot.m_climberPodBackRight.set(-value);
-      // Robot.m_climberPodBackLeft.set(value);
+    Robot.m_elevator.moveElevatorToPosition(-21);
+    if (!Robot.m_hatch.leftLimitSwitchHatchCollected.get() || !Robot.m_hatch.rightLimitSwitchHatchCollected.get()) {
+      Robot.m_hatch._beak.set(false); // Open Beak
     }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    if (!Robot.m_hatch.leftLimitSwitchHatchCollected.get() || !Robot.m_hatch.rightLimitSwitchHatchCollected.get() || Robot.m_elevator._enc_elevator.getPosition() == -20) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_hatch._neck.set(false);
   }
 
   // Called when another command which requires one or more of the same

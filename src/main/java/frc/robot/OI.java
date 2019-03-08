@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 
@@ -15,7 +8,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.Hold;
 import frc.robot.commands.OpenBeak;
+import frc.robot.commands.RaiseElevatorToPosition;
+import frc.robot.commands.StartupCollectHatch;
 import frc.robot.commands.ToggleNeck;
+import frc.robot.commands.AutomatedCollect;
 import frc.robot.commands.CloseBeak;
 import frc.robot.commands.Collect;
 import frc.robot.commands.Eject;
@@ -25,34 +21,6 @@ import frc.robot.commands.Eject;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  //// CREATING BUTTONS
-  // One type of button is a joystick button which is any button on a
-  //// joystick.
-  // You create one by telling it which joystick it's on and which button
-  // number it is.
-  // Joystick stick = new Joystick(port);
-  // Button button = new JoystickButton(stick, buttonNumber);
-
-  // There are a few additional built in buttons you can use. Additionally,
-  // by subclassing Button you can create custom triggers and bind those to
-  // commands the same as any other Button.
-
-  //// TRIGGERING COMMANDS WITH BUTTONS
-  // Once you have a button, it's trivial to bind it to a button in one of
-  // three ways:
-
-  // Start the command when the button is pressed and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenPressed(new ExampleCommand());
-
-  // Run the command while the button is being held down and interrupt it once
-  // the button is released.
-  // button.whileHeld(new ExampleCommand());
-
-  // Start the command when the button is released and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenReleased(new ExampleCommand());
-
   //============================================
 	// 		JOYSTICK VARIABLES:  XBOX CONTROLLER
 	//============================================
@@ -85,31 +53,35 @@ public class OI {
   public Button baseY = null;
   public Button baseA = null;
   public Button baseX = null;
-  public Button baseRightBumper = null;
-  public Button baseLeftBumper = null;
+  public Button towerX = null;
+  public Button towerA = null;
+  public Button baseRightTrigger = null;
+  public Button baseLeftTrigger = null;
   public Button towerRightTrigger = null;
 	
 	public OI() {
 
     try {
 
-      //Setup your joystick
+      // setup your joystick
       base = new Joystick(baseJoystickPort);
       tower = new Joystick(towerJoystickPort);
       baseA = new JoystickButton(base, aButtonNumber);
       baseX = new JoystickButton(base, xButtonNumber);
-      //baseB = new JoystickButton(base, bButtonNumber);
+      baseB = new JoystickButton(base, bButtonNumber);
       baseY = new JoystickButton(base, yButtonNumber);
-      baseRightBumper = new JoystickButton(base, rightBumperButtonNumber);
-      baseLeftBumper = new JoystickButton(base, leftBumperButtonNumber);
+      towerX = new JoystickButton(tower, xButtonNumber);
+      towerA = new JoystickButton(tower, aButtonNumber);
+      baseRightTrigger = new JoystickButton(base, rightTriggerButtonNumber);
+      baseLeftTrigger = new JoystickButton(base, leftTriggerButtonNumber);
 
       //Enable buttons / actions 
       setupBaseJoystick();
       setupTowerJoystick();
 
     } catch (Exception e) {
-      System.out.println("Error setting up joystick.");
-      System.out.println(e.toString());
+      //system..out.println("Error setting up joystick.");
+      //system..out.println(e.toString());
     }
 
   }
@@ -117,15 +89,16 @@ public class OI {
   public void setupBaseJoystick() {
     if (base != null) {
        baseY.whenPressed(new ToggleNeck());
-       //baseB.whenPressed(new ToggleBeak());
+       baseB.toggleWhenPressed(new StartupCollectHatch());
        baseA.whenPressed(new OpenBeak());
        baseX.whenPressed(new CloseBeak());
-       
-       baseRightBumper.whenPressed(new Collect());
-       baseRightBumper.whenReleased(new Hold());
 
-       baseLeftBumper.whenPressed(new Eject());
-       baseLeftBumper.whenReleased(new Hold());
+       towerA.whenPressed(new RaiseElevatorToPosition(RaiseElevatorToPosition.RaiseToPosition.COLLECT));
+       towerX.whenPressed(new RaiseElevatorToPosition(RaiseElevatorToPosition.RaiseToPosition.MID_ROCKET));
+       
+       baseRightTrigger.toggleWhenPressed(new AutomatedCollect());
+
+       baseLeftTrigger.toggleWhenPressed(new Eject());
     }
   }
 

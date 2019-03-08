@@ -20,14 +20,15 @@ public class Elevator extends Subsystem {
   public DigitalInput _elevatorTopSwitch = null;
   public DigitalInput _elevatorBottonSwitch = null;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
+  public double elevatorKp = 0.05;
 
   // Subsystem Constructor
   public Elevator() {
     // Define Subsystem Hardware
     _elevator = new CANSparkMax(RobotMap.elevatorMotorPort, MotorType.kBrushless);
     _enc_elevator = new CANEncoder(_elevator);
-    _elevatorTopSwitch = new DigitalInput(2);
-    _elevatorBottonSwitch = new DigitalInput(1);
+    // _elevatorTopSwitch = new DigitalInput(2);
+    // _elevatorBottonSwitch = new DigitalInput(1);
     initMotor();
   }
 
@@ -52,17 +53,13 @@ public class Elevator extends Subsystem {
 
   // Method to move the Elevator based off the joystickValue
   public void moveElevator(double joystickValue) {
-    // System.out.println("Setting Elevator Power to " + joystickValue);
-    if (joystickValue < 0) {
-      if (!getElevatorTopSwitch()) { // IS Pressed
-        joystickValue = 0;
-      }
-    } else if (joystickValue > 0) {
-      if (!getElevatorBottomSwitch()) { //Is Pressed
-        joystickValue = 0;
-      }
-    }
+    // //system..out.println("Setting Elevator Power to " + joystickValue);
     _elevator.set(joystickValue);
+  }
+
+  public void moveElevatorToPosition(double targetPosition) {
+    double elevator_motor_command = elevatorKp * (targetPosition - _enc_elevator.getPosition());
+    _elevator.set(elevator_motor_command);
   }
 
   public void initMotor() {

@@ -33,7 +33,7 @@ public class CloseBeak extends Command {
   @Override
   protected boolean isFinished() {
     // If limit switch is pressed, finished
-    if (!Robot.m_hatch.limitSwitchHatchCollected.get()) {
+    if (!Robot.m_hatch.leftLimitSwitchHatchCollected.get() || !Robot.m_hatch.rightLimitSwitchHatchCollected.get()) {
       return false;
     } else {
       return true;

@@ -25,7 +25,7 @@ public class Climber extends Subsystem {
     _climberMotor = new WPI_TalonSRX(RobotMap.climberMotorPort);
     _climberMotor.setNeutralMode(NeutralMode.Brake);
     //_enc_climber = new Encoder(ENC_DIO_CLIMBER[0], ENC_DIO_CLIMBER[1], ENC_INVERT_COUNT_FALSE, Encoder.EncodingType.k4X);
-    //SetupEncoder(_enc_climber,  "CLIMBER", false);
+    // setupEncoder(_enc_climber,  "CLIMBER", false);
   }
 
   // Method to define the default command for the Climber
@@ -37,10 +37,10 @@ public class Climber extends Subsystem {
   // Method to setup an encoder
   //  private void SetupEncoder(Encoder enc, String name, boolean reverseDirection) {
   //   enc.setName(name);
-  //   System.out.println("Encoder: " + enc.getName());
+  //   //system..out.println("Encoder: " + enc.getName());
   //   enc.setMaxPeriod(MAX_PERIOD);
   //   enc.setMinRate(MIN_RATE);
-  //   System.out.println("Distance per Pulse: " + DISTANCE_PER_PULSE);
+  //   //system..out.println("Distance per Pulse: " + DISTANCE_PER_PULSE);
   //   enc.setDistancePerPulse(DISTANCE_PER_PULSE);
   //   enc.setReverseDirection(reverseDirection);
   //   enc.setSamplesToAverage(SAMPLES_TO_AVERAGE);

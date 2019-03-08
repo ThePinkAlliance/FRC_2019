@@ -9,20 +9,30 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.OI;
 
-public class Collect extends Command {
+public class RaiseElevatorToPosition extends Command {
 
   // Init sticks
   private Joystick js = null;
   private double stickValue = 0;
+  RaiseToPosition target_position;
 
-  public Collect() {
-    
+  public enum RaiseToPosition {
+    COLLECT,
+    MID_ROCKET,
+    JOYSTICK;
+  }
+
+  public RaiseElevatorToPosition(RaiseToPosition targetPosition) {
+
     // Requires Ball collector
-    requires(Robot.m_ball);
-    js = new Joystick(OI.towerJoystickPort);
+    requires(Robot.m_elevator);
+
+    // Define sticks
+    js = Robot.m_oi.getTowerJoystick();
+    stickValue = js.getRawAxis(OI.RXAxis);
   }
 
   // Called just before this Command runs the first time
@@ -33,20 +43,22 @@ public class Collect extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    switch(target_position) {
+      case COLLECT:
+        System.out.println("////////////////////Collecting////////////////////");
+        Robot.m_elevator.moveElevatorToPosition(0);
 
-    // If collectedOpticalSwitch, collect ball
-    if (Robot.m_ball.collectedOpticalSwitch.get()) {
-      Robot.m_ball.collect();
-      //system..out.println("Switch: True");
-      ReadJoystick();
-    } 
-    // Else, hold ball that has been collected
-    else {
-      Robot.m_ball.hold();
-      //system..out.println("Switch: False");
-      ReadJoystick();
+      case MID_ROCKET:
+        System.out.println("////////////////////MID_ROCKET////////////////////");
+        Robot.m_elevator.moveElevatorToPosition(-44);
+        if (stickValue > 0.1 || stickValue < -0.1) {
+          target_position = RaiseToPosition.JOYSTICK;
+        }
+
+      case JOYSTICK:
+        ReadJoystick();
     }
-    
+    //system..out.println("Elevator Pos: " + Robot.m_elevator._enc_elevator);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -58,21 +70,24 @@ public class Collect extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_ball.hold();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_ball.hold();
   }
 
-  // Method to set motor power based of the stickValue
-  public void ReadJoystick() {
+   // Method to set motor power based of the stickValue
+   public void ReadJoystick() {
     // Read out stickValue
-        stickValue = js.getRawAxis(OI.leftStick);
+    if (js != null) {
+      if(stickValue > -0.1 && stickValue < 0.1) {
+        stickValue = 0;
+      }
       // Set _elevator Motor to stickValue
-      Robot.m_ball.moveBall(stickValue);
+      //TODO: add gain (to all things like this!), bro (JD)
+      Robot.m_elevator.moveElevator(stickValue);
     }
   }
+}
