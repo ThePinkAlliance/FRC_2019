@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.MotionProfileClimber;
 import frc.robot.subsystems.MotionProfileClimber.ClimberDirection;
+import frc.robot.subsystems.MotionProfileClimber.PodPosition;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble;
 
 public class MotionProfileClimberTestDouble extends Command {
@@ -24,6 +25,7 @@ public class MotionProfileClimberTestDouble extends Command {
   private final double UNWIND_TIME = 0.0;  //one sec to let talon unwind
   private double doneTime = 0;
   private MotionProfileClimber climberPod = null;
+  private PodPosition location;
   
   /**
    * 
@@ -32,7 +34,7 @@ public class MotionProfileClimberTestDouble extends Command {
    * @param watchDogTime amount of time this command must complete in
    * 
    */
-  public MotionProfileClimberTestDouble(MotionProfileClimber theClimberPod, ClimberDirection direction, double watchDogTime) {
+  public MotionProfileClimberTestDouble(MotionProfileClimber theClimberPod, ClimberDirection direction, PodPosition location, double watchDogTime) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(theClimberPod);
@@ -40,6 +42,9 @@ public class MotionProfileClimberTestDouble extends Command {
 
     //set the direction
     this.direction = direction;
+
+    // set the position
+    this.location = location;
    
     //cache your alloted time to complete this command
     this.watchDogTime = watchDogTime;
@@ -55,6 +60,13 @@ public class MotionProfileClimberTestDouble extends Command {
     watchDog.reset();
     watchDog.start();
 
+    if (direction == ClimberDirection.UP) {
+      // go to 0 if we are going up
+      
+    } else {
+      // go to max if we are going down
+    }
+
     //get the motion profile object associated with the subsystem
     mp = climberPod.getMP();
     climberPod.setDirection(direction);
@@ -69,7 +81,7 @@ public class MotionProfileClimberTestDouble extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    mp.control(direction);
+    mp.control(direction, location);
     mp.setMotionProfileMode();
   }
 
@@ -93,6 +105,7 @@ public class MotionProfileClimberTestDouble extends Command {
   protected void end() {
     mp.stopMotionProfile();
     //mp.stopWorking();
+    System.out.println("MotionProfileTestClimberDouble(): End");
   }
 
   // Called when another command which requires one or more of the same
@@ -101,6 +114,7 @@ public class MotionProfileClimberTestDouble extends Command {
   protected void interrupted() {
     mp.stopMotionProfile();
    // mp.stopWorking();  //only used by threading alternative
+   System.out.println("MotionProfileTestClimberDouble(): Interrupted");
   }
 
 }

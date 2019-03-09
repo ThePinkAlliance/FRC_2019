@@ -67,6 +67,10 @@ public class RobotDashboard {
             SmartDashboard.putNumber(ENC_LABEL_RIGHT_FRONT, Robot.m_driveTrain.getFrontRightPosition());
             SmartDashboard.putNumber(ENC_LABEL_LEFT_FRONT, Robot.m_driveTrain.getFrontLeftPosition());
             SmartDashboard.putNumber(ENC_LABEL_ELEVATOR, Robot.m_elevator.getElevatorHeight());
+            SmartDashboard.putNumber("PodFrontLeftEncoder", Robot.m_climberPodFrontLeft.getEncPosition());
+            SmartDashboard.putNumber("PodBackLeftEncoder", Robot.m_climberPodBackLeft.getEncPosition());
+           // SmartDashboard.putNumber("PodFrontRightEncoder", Robot.m_climberPodFrontRight.getEncPosition());
+           // SmartDashboard.putNumber("PodBackRightEncoder", Robot.m_climberPodBackRight.getEncPosition());
         }
     }
 

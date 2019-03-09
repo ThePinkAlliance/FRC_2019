@@ -30,24 +30,26 @@ public class Robot extends TimedRobot {
   //                                                                                    MotionProfileClimber.PodPosition.BACK, 
   //                                                                                    MotionProfileClimber.PodPosition.LEFT);
   public static MotionProfileClimber m_climberPodFrontLeft = new MotionProfileClimber(RobotMap.leftFrontClimberPort,
-                                                                                      MotionProfileClimber.TALON_ID_NULL,
+                                                                                      //MotionProfileClimber.TALON_ID_NULL,
+                                                                                      RobotMap.rightFrontClimberPort,
                                                                                       MotionProfileClimber.PodPosition.FRONT, 
                                                                                       MotionProfileClimber.PodPosition.LEFT);
   
   public static MotionProfileClimber m_climberPodBackLeft = new MotionProfileClimber(RobotMap.leftBackClimberPort,
-                                                                                      MotionProfileClimber.TALON_ID_NULL,
+                                                                                      //MotionProfileClimber.TALON_ID_NULL,
+                                                                                      RobotMap.rightBackClimberPort,
                                                                                       MotionProfileClimber.PodPosition.BACK, 
                                                                                       MotionProfileClimber.PodPosition.LEFT); 
                                                                                       
-  public static MotionProfileClimber m_climberPodBackRight = new MotionProfileClimber(RobotMap.rightBackClimberPort,
-                                                                                      MotionProfileClimber.TALON_ID_NULL,
-                                                                                      MotionProfileClimber.PodPosition.BACK, 
-                                                                                      MotionProfileClimber.PodPosition.RIGHT);
+  // public static MotionProfileClimber m_climberPodBackRight = new MotionProfileClimber(RobotMap.rightBackClimberPort,
+  //                                                                                     MotionProfileClimber.TALON_ID_NULL,
+  //                                                                                     MotionProfileClimber.PodPosition.BACK, 
+  //                                                                                     MotionProfileClimber.PodPosition.RIGHT);
 
-  public static MotionProfileClimber m_climberPodFrontRight = new MotionProfileClimber(RobotMap.rightFrontClimberPort,
-                                                                                      MotionProfileClimber.TALON_ID_NULL,
-                                                                                      MotionProfileClimber.PodPosition.FRONT, 
-                                                                                      MotionProfileClimber.PodPosition.RIGHT);
+  // public static MotionProfileClimber m_climberPodFrontRight = new MotionProfileClimber(RobotMap.rightFrontClimberPort,
+  //                                                                                     MotionProfileClimber.TALON_ID_NULL,
+  //                                                                                     MotionProfileClimber.PodPosition.FRONT, 
+  //                                                                                     MotionProfileClimber.PodPosition.RIGHT);
                                                                                         
                                                                                         
   public static Hatch m_hatch = new Hatch();

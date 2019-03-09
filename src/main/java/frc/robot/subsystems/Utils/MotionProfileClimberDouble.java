@@ -29,6 +29,7 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 import edu.wpi.first.wpilibj.Notifier;
 import frc.robot.subsystems.MotionProfileClimber.ClimberDirection;
+import frc.robot.subsystems.MotionProfileClimber.PodPosition;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motion.*;
@@ -100,7 +101,7 @@ public class MotionProfileClimberDouble {
 	 */
 	class PeriodicRunnable implements java.lang.Runnable {
 		public void run() {  
-						////system..out.println("Runnable: " + _setValue);
+						//System.out.println("Runnable: " + _setValue);
 						_talon.processMotionProfileBuffer();    
 					}
 	}
@@ -167,7 +168,7 @@ public class MotionProfileClimberDouble {
 					control(movingUp);
                     setMotionProfileMode();
 			}
-			//system..out.println("Exited motion profile thread");
+			System..out.println("Exited motion profile thread");
 		});
 		workerThread.start();
 	}
@@ -175,9 +176,9 @@ public class MotionProfileClimberDouble {
 	public void stopWorking() {
 		if (workerThread != null) {
 			workerThread.interrupt();
-			//system..out.println("Sent interrupt signal");
+			System..out.println("Sent interrupt signal");
 		} else {
-            //system..out.println("worker thread null");
+            System..out.println("worker thread null");
 		}
 	}
 	*/
@@ -185,7 +186,7 @@ public class MotionProfileClimberDouble {
 	/**
 	 * Called every loop.
 	 */
-	public void control(ClimberDirection direction) {
+	public void control(ClimberDirection direction, PodPosition location) {
 		/* Get the motion profile status every loop */
 		_talon.getMotionProfileStatus(_status);
 
@@ -229,7 +230,7 @@ public class MotionProfileClimberDouble {
 						_bStart = false;
 	
 						_setValue = SetValueMotionProfile.Disable;
-						startFilling(direction);
+						startFilling(direction, location);
 						/*
 						 * MP is being sent to CAN bus, wait a small amount of time
 						 */
@@ -249,7 +250,7 @@ public class MotionProfileClimberDouble {
 						_state = 2;
 						_loopTimeout = kNumLoopsTimeout;
 					} else {
-						////system..out.println("Not enough points");
+						System.out.println("Not enough points");
 					}
 					break;
 				case 2: /* check the status of the MP */
@@ -291,17 +292,23 @@ public class MotionProfileClimberDouble {
 			//_talon.processMotionProfileBuffer();
 
 			/* printfs and/or logging */
-			//Instrumentation.process(_status, _pos, _vel, _heading);
+			Instrumentation.process(_status, _pos, _vel, _heading);
 		}
 	}
 
 	/** Start filling the MPs to all of the involved Talons. */
-	private void startFilling(ClimberDirection direction) {
+	private void startFilling(ClimberDirection direction, PodPosition location) {
 		/* since this example only has one talon, just update that one */
-		if (direction == ClimberDirection.UP)
-		  startFilling(GeneratedClimberUp.Points, GeneratedClimberUp.kNumPoints);
-		else
-		  startFilling(GeneratedClimberDown.Points, GeneratedClimberDown.kNumPoints);
+		// if (direction == ClimberDirection.UP)
+		//   startFilling(GeneratedClimberUp.Points, GeneratedClimberUp.kNumPoints);
+		// else
+		//   startFilling(GeneratedClimberDown.Points, GeneratedClimberDown.kNumPoints);
+
+		if (location == PodPosition.FRONT) {
+			startFilling(GeneratedFront.Points, GeneratedFront.kNumPoints);
+		} else {
+			startFilling(GeneratedBack.Points, GeneratedBack.kNumPoints);
+		}
 	}
 
 	private void startFilling(double[][] profile, int totalCnt) {
@@ -347,8 +354,8 @@ public class MotionProfileClimberDouble {
 			if ((i + 1) == totalCnt)
 				point.isLastPoint = true; /* set this to true on the last point  */
 
-			//ErrorCode ec = _talon.pushMotionProfileTrajectory(point);
-			////system..out.println(ec);
+			_talon.pushMotionProfileTrajectory(point);
+			
 		}
 	}
 	/**
@@ -372,7 +379,7 @@ public class MotionProfileClimberDouble {
 	public boolean isMotionProfileDone() {
 		//if (_status.activePointValid &&  _status.isLast) {
 	    if (_setValue.value == SetValueMotionProfile.Hold.value) {
-			//system..out.println("On Hold: state machine says: Last point reached!");
+			System.out.println("On Hold: state machine says: Last point reached!");
 	        return true;
 		}
 		else
@@ -386,7 +393,7 @@ public class MotionProfileClimberDouble {
 		ErrorCode ec = _talon.clearMotionProfileTrajectories();
 		_talon.set(ControlMode.MotionProfile, SetValueMotionProfile.Disable.value);
 		_talon.set(ControlMode.PercentOutput, 0);
-		//system..out.println("Stopped motion profile: " + _setValue + ": " + ec + ": " + _talon.getSelectedSensorPosition());
+		System.out.println("Stopped motion profile: " + _setValue + ": " + ec + ": " + _talon.getSelectedSensorPosition());
 		//_setValue = SetValueMotionProfile.Disable;
 		//reset();
 	  }

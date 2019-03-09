@@ -98,11 +98,7 @@ public class OI {
        baseB.toggleWhenPressed(new StartupCollectHatch());
        baseA.whenPressed(new OpenBeak());
        baseX.whenPressed(new CloseBeak());
-
-       
-       
        baseRightTrigger.toggleWhenPressed(new AutomatedCollect());
-
        baseLeftTrigger.toggleWhenPressed(new Eject());
       
     }
