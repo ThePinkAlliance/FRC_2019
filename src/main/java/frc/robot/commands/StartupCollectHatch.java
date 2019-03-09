@@ -21,13 +21,6 @@ public class StartupCollectHatch extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_hatch._beak.set(true);
-    Robot.m_hatch._neck.set(true);
-    try {
-      Thread.sleep(2000);
-    } catch(Exception ex) {
-
-    }
   }
 
   // Called repeatedly when this Command is scheduled to run

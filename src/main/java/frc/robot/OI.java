@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.Hold;
 import frc.robot.commands.MotionProfileGroupClimb;
 import frc.robot.commands.MotionProfileGroupRetract;
+import frc.robot.commands.MoveElevatorToCollect;
+import frc.robot.commands.MoveElevatorToMidRocket;
 import frc.robot.commands.OpenBeak;
 import frc.robot.commands.RaiseElevatorToPosition;
 import frc.robot.commands.StartupCollectHatch;
@@ -62,6 +64,7 @@ public class OI {
   public Button baseRightTrigger = null;
   public Button baseLeftTrigger = null;
   public Button towerRightTrigger = null;
+  public Button baseRightBumper = null;
 	
 	public OI() {
 
@@ -80,6 +83,7 @@ public class OI {
       towerB = new JoystickButton(tower, bButtonNumber);
       baseRightTrigger = new JoystickButton(base, rightTriggerButtonNumber);
       baseLeftTrigger = new JoystickButton(base, leftTriggerButtonNumber);
+      baseRightBumper = new JoystickButton(base, rightBumperButtonNumber);
 
       //Enable buttons / actions 
       setupBaseJoystick();
@@ -100,7 +104,7 @@ public class OI {
        baseX.whenPressed(new CloseBeak());
        baseRightTrigger.toggleWhenPressed(new AutomatedCollect());
        baseLeftTrigger.toggleWhenPressed(new Eject());
-      
+       baseRightBumper.toggleWhenPressed(new Collect());
     }
   }
 
@@ -108,8 +112,8 @@ public class OI {
     if (tower != null) {
       towerY.whenPressed(new MotionProfileGroupClimb());
       towerB.whenPressed(new MotionProfileGroupRetract());
-      towerA.whenPressed(new RaiseElevatorToPosition(RaiseElevatorToPosition.RaiseToPosition.COLLECT));
-      towerX.whenPressed(new RaiseElevatorToPosition(RaiseElevatorToPosition.RaiseToPosition.MID_ROCKET));
+      towerA.whenPressed(new MoveElevatorToCollect());
+      towerX.whenPressed(new MoveElevatorToMidRocket());
     }
   }
 	

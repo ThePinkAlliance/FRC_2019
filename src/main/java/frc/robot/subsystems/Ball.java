@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.Hold;
+import frc.robot.subsystems.utils.PresetPositions;
 
 public class Ball extends Subsystem {
 
@@ -25,9 +26,9 @@ public class Ball extends Subsystem {
   public double collectSpeed = -1;
   public double holdSpeed = -0.2;
   public double ejectSpeed = 1;
-  public double COLLECT_POS = 60000;
-  public double LOW_ROCKET_POS = 30000;
-  public double CARGO_POS = 0;
+  public double COLLECT_POS = PresetPositions.BALL_COLLECT_POSITION;
+  public double LOW_ROCKET_POS = PresetPositions.BALL_LOW_ROCKET_POSITION;
+  public double CARGO_POS = PresetPositions.BALL_CARGO_POSITION;
 
   public Ball() {
 
