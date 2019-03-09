@@ -5,9 +5,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import frc.robot.commands.ClimberDefault;
 import frc.robot.subsystems.utils.Constants;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble;
 
@@ -20,8 +21,6 @@ public class MotionProfileClimber extends Subsystem {
   // here. Call these from Commands.
   TalonSRX _talon1 = null;
   TalonSRX _talon2 = null;
-  DigitalInput switchTop = null;
-  DigitalInput switchBottom = null;
 
   public final static boolean SWITCH_CLOSED = true;
   public final static boolean SWITCH_OPEN = false;
@@ -51,9 +50,7 @@ public class MotionProfileClimber extends Subsystem {
   public final static int TALON_ID_NULL = -1;
   
   public MotionProfileClimber(int talon1, 
-                              int talon2, 
-                              int dioIdTop,
-                              int dioIdBottom, 
+                              int talon2,
                               PodPosition face,
                               PodPosition side) {
     this.face = face;
@@ -62,8 +59,6 @@ public class MotionProfileClimber extends Subsystem {
     if (talon2 != TALON_ID_NULL)
        _talon2 = new TalonSRX(talon2);
     _example = new MotionProfileClimberDouble(_talon1, _talon2);
-    switchTop = new DigitalInput(dioIdTop);
-    switchBottom = new DigitalInput(dioIdBottom);
     setupTalon();
   }
 
@@ -95,20 +90,19 @@ public class MotionProfileClimber extends Subsystem {
     
     /**
      * the commands will call set inverted based on direction
-     *
-    if(side == PodPosition.RIGHT) {
-      _talon1.setInverted(false);
-      if (_talon2 != null) {
-        _talon2.setInverted(true);
-      }
-    } else {
-      _talon1.setInverted(true);
-      if (_talon2 != null) {
-        _talon2.setInverted(false);
-      }
-
+     */
+    if (side == PodPosition.RIGHT && face == PodPosition.FRONT) {
+      setupRightFront();
     }
-    */
+    if (side == PodPosition.RIGHT && face == PodPosition.BACK) {
+      setupRightBack();
+    }
+    if (side == PodPosition.LEFT && face == PodPosition.FRONT) {
+      setupLeftFront();
+    }
+    if (side == PodPosition.LEFT && face == PodPosition.BACK) {
+      setupLeftBack();
+    }
 
 	
 		/* Configure Selected Sensor for Motion Profile */
@@ -145,23 +139,7 @@ public class MotionProfileClimber extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new ClimberDefault(this));
-  }
-
-  public boolean limitTop() {
-    if (switchTop.get()) {
-      return SWITCH_OPEN;
-    } else {
-      return SWITCH_CLOSED;
-    }
-  }
-
-  public boolean limitBottom() {
-    if (switchBottom.get()) {
-      return SWITCH_OPEN;
-    } else {
-      return SWITCH_CLOSED;
-    }
+    setDefaultCommand(new ClimberDefault(this));
   }
 
   public void resetEncoderPosition(int position) {
@@ -190,6 +168,34 @@ public class MotionProfileClimber extends Subsystem {
 
   public PodPosition getSide() {
     return side;
+  }
+
+  public void setupLeftFront() {
+    _talon1.setInverted(true);
+    if (_talon2 != null) {
+      _talon2.setInverted(false);
+    }  
+  }
+
+  public void setupLeftBack() {
+    _talon1.setInverted(false);
+    if (_talon2 != null) {
+      _talon2.setInverted(true);
+    }
+  }
+
+  public void setupRightFront() {
+    _talon1.setInverted(true);
+    if (_talon2 != null) {
+      _talon2.setInverted(false);
+    }  
+  }
+
+  public void setupRightBack() {
+    _talon1.setInverted(true);
+    if (_talon2 != null) {
+      _talon2.setInverted(false);
+    }
   }
 
   public void setDirection(ClimberDirection direction) {

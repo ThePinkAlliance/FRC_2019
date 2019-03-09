@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.commands.MoveElevator;
+import frc.robot.commands.RaiseElevatorToPosition;
+import frc.robot.commands.RaiseElevatorToPosition.RaiseToPosition;
 
 // Subsystem used for defining Elevator hardware and methods
 public class Elevator extends Subsystem {
@@ -35,7 +36,7 @@ public class Elevator extends Subsystem {
   // Method to define the default command for the Elevator
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new MoveElevator());
+    setDefaultCommand(new RaiseElevatorToPosition(RaiseToPosition.JOYSTICK));
   }
 
   public boolean getElevatorTopSwitch() {

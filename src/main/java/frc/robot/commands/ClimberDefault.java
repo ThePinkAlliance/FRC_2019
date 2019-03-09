@@ -23,7 +23,7 @@ public class ClimberDefault extends Command {
     // eg. requires(chassis);
     requires(theClimberPod);
     this.climberPod = theClimberPod;
-    js = Robot.m_oi.getTowerJoystick();
+    js = Robot.m_oi.getBaseJoystick();
   }
 
   // Called just before this Command runs the first time
@@ -40,20 +40,14 @@ public class ClimberDefault extends Command {
         climberPod.resetEncoderPosition(0);
       }
 
-      double value =  js.getRawAxis(OI.rightStick);
-      /**
-       * YOU MUST CHECK JS VALUE and verify whether positive is down / negative is up
-       */
-      if (value > 0.0) {
-        if (climberPod.limitBottom() == MotionProfileClimber.SWITCH_CLOSED)
-           value = 0;
+      //system..out.println(value + " value from joystick");
+      if (js.getPOV() == 0) {
+        climberPod.set(0.5);
+      } else if (js.getPOV() == 180) {
+        climberPod.set(-0.5);
       } else {
-        if (climberPod.limitTop() == MotionProfileClimber.SWITCH_CLOSED)
-           value = 0;
+        climberPod.set(0);
       }
-      ////system..out.println(value + " value from joystick");
-      // climberPod.set(value);
-      // Robot.m_climberPodBackRight.set(-value);
       // Robot.m_climberPodBackLeft.set(value);
     }
   }

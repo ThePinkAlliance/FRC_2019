@@ -29,6 +29,7 @@ public class RaiseElevatorToPosition extends Command {
 
     // Requires Ball collector
     requires(Robot.m_elevator);
+    this.target_position = targetPosition;
 
     // Define sticks
     js = Robot.m_oi.getTowerJoystick();
@@ -45,18 +46,26 @@ public class RaiseElevatorToPosition extends Command {
   protected void execute() {
     switch(target_position) {
       case COLLECT:
-        System.out.println("////////////////////Collecting////////////////////");
+        System.out.println("Elevator State: Moving To COLLECT Height");
         Robot.m_elevator.moveElevatorToPosition(0);
+        break;
 
       case MID_ROCKET:
-        System.out.println("////////////////////MID_ROCKET////////////////////");
+        System.out.println("Elevator State: Moving To MID_ROCKET Height");
         Robot.m_elevator.moveElevatorToPosition(-44);
         if (stickValue > 0.1 || stickValue < -0.1) {
           target_position = RaiseToPosition.JOYSTICK;
         }
+        break;
 
       case JOYSTICK:
+      System.out.println("Elevator State: Manual Movement");
         ReadJoystick();
+        break;
+
+      default: 
+        System.out.println("Elevator State: Invalid Position Sent");
+        break;
     }
     //system..out.println("Elevator Pos: " + Robot.m_elevator._enc_elevator);
   }
