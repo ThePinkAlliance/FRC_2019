@@ -41,13 +41,13 @@ public class ClimberDefault extends Command {
       }
 
       //system..out.println(value + " value from joystick");
-      if (js.getPOV() == 0) {
-        climberPod.set(0.5);
-      } else if (js.getPOV() == 180) {
-        climberPod.set(-0.5);
-      } else {
-        climberPod.set(0);
-      }
+      // if (js.getPOV() == 0) {
+      //   climberPod.set(1);
+      // } else if (js.getPOV() == 180) {
+      //   climberPod.set(-1);
+      // } else {
+        climberPod.set(js.getRawAxis(OI.rightStick));
+    // }
       // Robot.m_climberPodBackLeft.set(value);
     }
   }

@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.Hold;
+import frc.robot.commands.MotionProfileGroupClimb;
+import frc.robot.commands.MotionProfileGroupRetract;
 import frc.robot.commands.OpenBeak;
 import frc.robot.commands.RaiseElevatorToPosition;
 import frc.robot.commands.StartupCollectHatch;
@@ -55,6 +57,8 @@ public class OI {
   public Button baseX = null;
   public Button towerX = null;
   public Button towerA = null;
+  public Button towerY = null;
+  public Button towerB = null;
   public Button baseRightTrigger = null;
   public Button baseLeftTrigger = null;
   public Button towerRightTrigger = null;
@@ -72,6 +76,8 @@ public class OI {
       baseY = new JoystickButton(base, yButtonNumber);
       towerX = new JoystickButton(tower, xButtonNumber);
       towerA = new JoystickButton(tower, aButtonNumber);
+      towerY = new JoystickButton(tower, yButtonNumber);
+      towerB = new JoystickButton(tower, bButtonNumber);
       baseRightTrigger = new JoystickButton(base, rightTriggerButtonNumber);
       baseLeftTrigger = new JoystickButton(base, leftTriggerButtonNumber);
 
@@ -80,8 +86,8 @@ public class OI {
       setupTowerJoystick();
 
     } catch (Exception e) {
-      //system..out.println("Error setting up joystick.");
-      //system..out.println(e.toString());
+      //System..out.println("Error setting up joystick.");
+      System.out.println(e.toString());
     }
 
   }
@@ -93,17 +99,21 @@ public class OI {
        baseA.whenPressed(new OpenBeak());
        baseX.whenPressed(new CloseBeak());
 
-       towerA.whenPressed(new RaiseElevatorToPosition(RaiseElevatorToPosition.RaiseToPosition.COLLECT));
-       towerX.whenPressed(new RaiseElevatorToPosition(RaiseElevatorToPosition.RaiseToPosition.MID_ROCKET));
+       
        
        baseRightTrigger.toggleWhenPressed(new AutomatedCollect());
 
        baseLeftTrigger.toggleWhenPressed(new Eject());
+      
     }
   }
 
   public void setupTowerJoystick() {
     if (tower != null) {
+      towerY.whenPressed(new MotionProfileGroupClimb());
+      towerB.whenPressed(new MotionProfileGroupRetract());
+      towerA.whenPressed(new RaiseElevatorToPosition(RaiseElevatorToPosition.RaiseToPosition.COLLECT));
+      towerX.whenPressed(new RaiseElevatorToPosition(RaiseElevatorToPosition.RaiseToPosition.MID_ROCKET));
     }
   }
 	

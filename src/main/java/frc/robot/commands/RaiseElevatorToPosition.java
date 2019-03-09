@@ -59,7 +59,7 @@ public class RaiseElevatorToPosition extends Command {
         break;
 
       case JOYSTICK:
-      System.out.println("Elevator State: Manual Movement");
+        //System.out.println("Elevator State: Manual Movement");
         ReadJoystick();
         break;
 

@@ -27,7 +27,7 @@ public class JoystickDrive extends Command {
 			left = js.getRawAxis(OI.leftStick);
 
 		// Get the right joystick while accounting for mechanical deviation
-			right = js.getRawAxis(OI.rightStick);
+			// right = js.getRawAxis(OI.rightStick);
 
 		// Use tank drive to move the base using the joystick values defined above
 		Robot.m_driveTrain.tankDriveByJoystick(left, right);
