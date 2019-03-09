@@ -38,13 +38,33 @@ public class Collect extends Command {
     if (Robot.m_ball.collectedOpticalSwitch.get()) {
       Robot.m_ball.collect();
       //system..out.println("Switch: True");
-      ReadJoystick();
+      if (js.getRawAxis(OI.leftStick) > 0.1 || js.getRawAxis(OI.leftStick) < -0.1) {
+        ReadJoystick();
+      } else if (js.getPOV() == 0) {
+        Robot.m_ball.setRotateMotorCmd(Robot.m_ball.CARGO_POS);
+      } else if (js.getPOV() == 90) {
+        Robot.m_ball.setRotateMotorCmd(Robot.m_ball.LOW_ROCKET_POS);
+      } else if (js.getPOV() == 180) {
+        Robot.m_ball.setRotateMotorCmd(Robot.m_ball.COLLECT_POS);
+      } else {
+        Robot.m_ball.setRotateMotorCmd(Robot.m_ball.getBallRotateEncoder());
+      }
     } 
     // Else, hold ball that has been collected
     else {
       Robot.m_ball.hold();
       //system..out.println("Switch: False");
-      ReadJoystick();
+      if (js.getRawAxis(OI.leftStick) > 0.1 || js.getRawAxis(OI.leftStick) < -0.1) {
+        ReadJoystick();
+      } else if (js.getPOV() == 0) {
+        Robot.m_ball.setRotateMotorCmd(Robot.m_ball.CARGO_POS);
+      } else if (js.getPOV() == 90) {
+        Robot.m_ball.setRotateMotorCmd(Robot.m_ball.LOW_ROCKET_POS);
+      } else if (js.getPOV() == 180) {
+        Robot.m_ball.setRotateMotorCmd(Robot.m_ball.COLLECT_POS);
+      } else {
+        Robot.m_ball.setRotateMotorCmd(Robot.m_ball.getBallRotateEncoder());
+      }
     }
     
   }

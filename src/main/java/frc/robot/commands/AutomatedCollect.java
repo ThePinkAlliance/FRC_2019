@@ -20,19 +20,25 @@ public class AutomatedCollect extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.m_ball.collect();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_ball.collect();
-    Robot.m_ball.setRotateMotorCmd(Robot.m_ball.COLLECT_POS);
+    if (Robot.m_ball.getCollectState()) {
+      Robot.m_ball.collect();
+      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.COLLECT_POS);
+    } else if (!Robot.m_ball.getCollectState()) {
+      Robot.m_ball.hold();
+      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.CARGO_POS);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !Robot.m_ball.getCollectState();
+    return Math.abs(Robot.m_ball.getBallRotateEncoder() - Robot.m_ball.CARGO_POS) <= 500;
   }
 
   // Called once after isFinished returns true
@@ -47,5 +53,6 @@ public class AutomatedCollect extends Command {
   @Override
   protected void interrupted() {
     Robot.m_ball.hold();
+    Robot.m_ball.setRotateMotorCmd(Robot.m_ball.getBallRotateEncoder());
   }
 }

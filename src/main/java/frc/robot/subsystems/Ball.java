@@ -25,9 +25,9 @@ public class Ball extends Subsystem {
   public double collectSpeed = -1;
   public double holdSpeed = -0.2;
   public double ejectSpeed = 1;
-  public double COLLECT_POS = 0;
-  public double LOW_ROCKET_POS = 100;
-  public double CARGO_POS = 200;
+  public double COLLECT_POS = 60000;
+  public double LOW_ROCKET_POS = 30000;
+  public double CARGO_POS = 0;
 
   public Ball() {
 
@@ -35,7 +35,6 @@ public class Ball extends Subsystem {
     _collectorMotor = new Spark(RobotMap.collectorMotorPort);
     _collectorRotateMotor = new WPI_TalonSRX(RobotMap.collectorRotateMotorPort);
     _collectorRotateMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    _enc_collectorRotate = _collectorRotateMotor.getSelectedSensorPosition();
     _collectorRotateMotor.setNeutralMode(NeutralMode.Brake);
 
     // Construct digital inputs
@@ -54,8 +53,12 @@ public class Ball extends Subsystem {
     //system..out.println("Collector Rotate Value: "+ joystickValue);
   }
 
+  public double getBallRotateEncoder() {
+    return _collectorRotateMotor.getSelectedSensorPosition();
+  }
+
   public void setRotateMotorCmd(double target_position) {
-    double rotate_motor_command = rotateKp * (target_position - _enc_collectorRotate);
+    double rotate_motor_command = 0.00005 * (target_position - getBallRotateEncoder());
     _collectorRotateMotor.set(rotate_motor_command);
   }
 
