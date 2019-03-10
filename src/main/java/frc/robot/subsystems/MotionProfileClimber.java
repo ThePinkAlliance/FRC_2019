@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -13,7 +11,6 @@ import frc.robot.subsystems.utils.Constants;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble;
-
 
 /**
  * Add your docs here.
@@ -34,33 +31,29 @@ public class MotionProfileClimber extends Subsystem {
   private PodPosition side = PodPosition.LEFT;
   private double startingPosition = 0.0;
 
-  //point of view of the face that we climb with
+  // point of view of the face that we climb with
   public static enum PodPosition {
-    FRONT, //collector side
-    BACK,  //beak side
-    LEFT,  //where front is the collector
-    RIGHT  //where front is the collector
+    FRONT, // collector side
+    BACK, // beak side
+    LEFT, // where front is the collector
+    RIGHT // where front is the collector
   }
 
-  //point of view of the robot, not the pod mechanisms
-  //e.g.:  when the robot belly pan rises, thats up
+  // point of view of the robot, not the pod mechanisms
+  // e.g.: when the robot belly pan rises, thats up
   public static enum ClimberDirection {
-    UP,
-    DOWN
+    UP, DOWN
   }
-  
-  //NOTALON ID for instance without a follower
+
+  // NOTALON ID for instance without a follower
   public final static int TALON_ID_NULL = -1;
-  
-  public MotionProfileClimber(int talon1, 
-                              int talon2,
-                              PodPosition face,
-                              PodPosition side) {
+
+  public MotionProfileClimber(int talon1, int talon2, PodPosition face, PodPosition side) {
     this.face = face;
     this.side = side;
     _talon1 = new TalonSRX(talon1);
     if (talon2 != TALON_ID_NULL)
-       _talon2 = new TalonSRX(talon2);
+      _talon2 = new TalonSRX(talon2);
     _example = new MotionProfileClimberDouble(_talon1, _talon2);
     setupTalon();
   }
@@ -74,34 +67,34 @@ public class MotionProfileClimber extends Subsystem {
   }
 
   public void setupTalon() {
-		/* Factory Default all hardware to prevent unexpected behaviour */
-		_talon1.configFactoryDefault();
-		if (_talon2 != null) {
-		  _talon2.configFactoryDefault();
-		_talon2.set(ControlMode.Follower, _talon1.getDeviceID());
-		}
-		_talon1.clearMotionProfileTrajectories(); //online
+    /* Factory Default all hardware to prevent unexpected behaviour */
+    _talon1.configFactoryDefault();
+    if (_talon2 != null) {
+      _talon2.configFactoryDefault();
+      _talon2.set(ControlMode.Follower, _talon1.getDeviceID());
+    }
+    _talon1.clearMotionProfileTrajectories(); // online
 
-		_talon1.changeMotionControlFramePeriod(5);
-		if (_talon2 != null) {
-    _talon2.changeMotionControlFramePeriod(5);
-    _talon1.setNeutralMode(NeutralMode.Brake);
+    _talon1.changeMotionControlFramePeriod(5);
+    if (_talon2 != null) {
+      _talon2.changeMotionControlFramePeriod(5);
+      _talon1.setNeutralMode(NeutralMode.Brake);
 
     }
 
     _talon1.setNeutralMode(NeutralMode.Brake);
-    
+
     /**
      * the commands will call set inverted based on direction
      */
     if (side == PodPosition.RIGHT && face == PodPosition.FRONT) {
-      setupRightFront();
+      setupRightFront(null);
       if (_talon2 != null) {
         setupLeftFront(_talon2);
       }
     }
     if (side == PodPosition.RIGHT && face == PodPosition.BACK) {
-      setupRightBack();
+      setupRightBack(null);
       if (_talon2 != null) {
         setupLeftBack(_talon2);
       }
@@ -109,48 +102,74 @@ public class MotionProfileClimber extends Subsystem {
     if (side == PodPosition.LEFT && face == PodPosition.FRONT) {
       setupLeftFront(null);
       if (_talon2 != null) {
-        setupRightFront();
+        setupRightFront(_talon2);
       }
     }
     if (side == PodPosition.LEFT && face == PodPosition.BACK) {
       setupLeftBack(null);
       if (_talon2 != null) {
-        setupRightBack();
+        setupRightBack(_talon2);
       }
     }
 
-	
-		/* Configure Selected Sensor for Motion Profile */
-	  
-			_talon1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
-												frc.robot.subsystems.utils.Constants.kPIDLoopIdx,
-												Constants.kTimeoutMs);
-			/* Keep sensor and motor in phase, postive sensor values when MC LEDs are green */
-		// _talon1.setSensorPhase(false);
-		//_talon.setSelectedSensorPosition(0);
-			
-			/**
-			 * Configure MotorController Neutral Deadband, disable Motor Controller when
-			 * requested Motor Output is too low to process
-			 */
-			_talon1.configNeutralDeadband(Constants.kNeutralDeadband, Constants.kTimeoutMs);
-	
-			/* Configure PID Gains, to be used with Motion Profile */
-			_talon1.config_kF(Constants.kPIDLoopIdx, Constants.kGains.kF, Constants.kTimeoutMs);
-			_talon1.config_kP(Constants.kPIDLoopIdx, Constants.kGains.kP, Constants.kTimeoutMs);
-			_talon1.config_kI(Constants.kPIDLoopIdx, Constants.kGains.kI, Constants.kTimeoutMs);
-			_talon1.config_kD(Constants.kPIDLoopIdx, Constants.kGains.kD, Constants.kTimeoutMs);
-	
-			/* Our profile uses 10ms timing */
-			_talon1.configMotionProfileTrajectoryPeriod(10, Constants.kTimeoutMs); 
-			
-			/* Status 10 provides the trajectory target for motion profile AND motion magic */
-			_talon1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
-	  
-      resetEncoderPosition(0);
-      startingPosition = 0;
-	  }
+    /* Configure Selected Sensor for Motion Profile */
 
+    _talon1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, frc.robot.subsystems.utils.Constants.kPIDLoopIdx,
+        Constants.kTimeoutMs);
+    /*
+     * Keep sensor and motor in phase, postive sensor values when MC LEDs are green
+     */
+
+    /**
+     * Configure MotorController Neutral Deadband, disable Motor Controller when
+     * requested Motor Output is too low to process
+     */
+    _talon1.configNeutralDeadband(Constants.kNeutralDeadband, Constants.kTimeoutMs);
+
+    /* Configure PID Gains, to be used with Motion Profile */
+
+    if (side == PodPosition.RIGHT && face == PodPosition.FRONT) {
+      _talon1.config_kF(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kF, Constants.kTimeoutMs);
+      _talon1.config_kP(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kP, Constants.kTimeoutMs);
+      _talon1.config_kI(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kI, Constants.kTimeoutMs);
+      _talon1.config_kD(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kD, Constants.kTimeoutMs);
+    }
+    if (side == PodPosition.RIGHT && face == PodPosition.BACK) {
+      _talon1.config_kF(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kF, Constants.kTimeoutMs);
+      _talon1.config_kP(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kP, Constants.kTimeoutMs);
+      _talon1.config_kI(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kI, Constants.kTimeoutMs);
+      _talon1.config_kD(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kD, Constants.kTimeoutMs);    
+     
+    }
+    if (side == PodPosition.LEFT && face == PodPosition.FRONT) {
+      _talon1.config_kF(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kF, Constants.kTimeoutMs);
+      _talon1.config_kP(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kP, Constants.kTimeoutMs);
+      _talon1.config_kI(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kI, Constants.kTimeoutMs);
+      _talon1.config_kD(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kD, Constants.kTimeoutMs); 
+    }
+    if (side == PodPosition.LEFT && face == PodPosition.BACK) {
+      _talon1.config_kF(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kF, Constants.kTimeoutMs);
+      _talon1.config_kP(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kP, Constants.kTimeoutMs);
+      _talon1.config_kI(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kI, Constants.kTimeoutMs);
+      _talon1.config_kD(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kD, Constants.kTimeoutMs); 
+    }
+
+    // _talon1.config_kF(Constants.kPIDLoopIdx, Constants.kGains.kF, Constants.kTimeoutMs);
+    // _talon1.config_kP(Constants.kPIDLoopIdx, Constants.kGains.kP, Constants.kTimeoutMs);
+    // _talon1.config_kI(Constants.kPIDLoopIdx, Constants.kGains.kI, Constants.kTimeoutMs);
+    // _talon1.config_kD(Constants.kPIDLoopIdx, Constants.kGains.kD, Constants.kTimeoutMs);
+
+    /* Our profile uses 10ms timing */
+    _talon1.configMotionProfileTrajectoryPeriod(10, Constants.kTimeoutMs);
+
+    /*
+     * Status 10 provides the trajectory target for motion profile AND motion magic
+     */
+    _talon1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
+
+    resetEncoderPosition(0);
+    startingPosition = 0;
+  }
 
   @Override
   public void initDefaultCommand() {
@@ -189,8 +208,8 @@ public class MotionProfileClimber extends Subsystem {
   public void setupLeftFront(TalonSRX follower) {
     System.out.println("Setup Left Front Running");
     if (follower == null) {
-    _talon1.setInverted(true);
-    _talon1.setSensorPhase(true); 
+      _talon1.setInverted(true);
+      _talon1.setSensorPhase(true);
     } else {
       follower.setInverted(true);
       follower.setSensorPhase(true);
@@ -198,26 +217,32 @@ public class MotionProfileClimber extends Subsystem {
   }
 
   public void setupLeftBack(TalonSRX follower) {
-
-    _talon1.setInverted(false);
-    if (_talon2 != null) {
-      _talon2.setInverted(true);
-    } 
+    if (follower == null) {
+      _talon1.setInverted(false);
+      // on practice bot default phase was right
+    } else {
+      follower.setInverted(false);
+      // on practice bot default phase was right
+    }
   }
 
-  public void setupRightFront() {
-    _talon1.setInverted(true);
-    _talon1.setSensorPhase(false); 
-    if (_talon2 != null) {
-      _talon2.setInverted(false);
-      _talon2.setSensorPhase(true);
-    }  
+  public void setupRightFront(TalonSRX follower) {
+    if (follower == null) {
+      _talon1.setInverted(true);
+      _talon1.setSensorPhase(false);
+    } else {
+      follower.setInverted(true);
+      follower.setSensorPhase(false);
+    }
   }
 
-  public void setupRightBack() {
-    _talon1.setInverted(true);
-    if (_talon2 != null) {
-      _talon2.setInverted(false);
+  public void setupRightBack(TalonSRX follower) {
+    if (follower == null) {
+      _talon1.setInverted(true);
+      // on practice bot default phase was right
+    } else {
+      follower.setInverted(true);
+      // on practice bot default phase was right
     }
   }
 
@@ -286,19 +311,19 @@ public class MotionProfileClimber extends Subsystem {
     }
   }
   // public void setDirection(ClimberDirection direction) {
-  //   if (side == PodPosition.LEFT) {
-  //     if (direction == ClimberDirection.UP) {
-  //       if (face == PodPosition.FRONT) {
-  //       _talon1.setInverted(true);
-  //     } else {
-  //       _talon1.setInverted(false);
-  //     }
-  //   } else {
-  //     if (direction == ClimberDirection.UP) {
-  //       _talon1.setInverted(false);
-  //     } else {
-  //       _talon1.setInverted(true);
-  //     }
-  //   }
+  // if (side == PodPosition.LEFT) {
+  // if (direction == ClimberDirection.UP) {
+  // if (face == PodPosition.FRONT) {
+  // _talon1.setInverted(true);
+  // } else {
+  // _talon1.setInverted(false);
+  // }
+  // } else {
+  // if (direction == ClimberDirection.UP) {
+  // _talon1.setInverted(false);
+  // } else {
+  // _talon1.setInverted(true);
+  // }
+  // }
   // }
 }

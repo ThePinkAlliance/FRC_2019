@@ -23,33 +23,28 @@ public class Robot extends TimedRobot {
   public static Ball m_ball = new Ball();
   public static DriveTrain m_driveTrain = new DriveTrain();
   public static Climber m_climber = new Climber();
-  // public static MotionProfileClimber m_climberPodBackLeft = new MotionProfileClimber(RobotMap.leftBackClimberPort,
-  //                                                                                    MotionProfileClimber.TALON_ID_NULL,
-  //                                                                                    4, //top dio id
-  //                                                                                    5, //bottom dio id
-  //                                                                                    MotionProfileClimber.PodPosition.BACK, 
-  //                                                                                    MotionProfileClimber.PodPosition.LEFT);
+  
   public static MotionProfileClimber m_climberPodFrontLeft = new MotionProfileClimber(RobotMap.leftFrontClimberPort,
-                                                                                      //MotionProfileClimber.TALON_ID_NULL,
-                                                                                      RobotMap.rightFrontClimberPort,
+                                                                                      MotionProfileClimber.TALON_ID_NULL,
+                                                                                      //RobotMap.rightFrontClimberPort,
                                                                                       MotionProfileClimber.PodPosition.FRONT, 
                                                                                       MotionProfileClimber.PodPosition.LEFT);
   
   public static MotionProfileClimber m_climberPodBackLeft = new MotionProfileClimber(RobotMap.leftBackClimberPort,
-                                                                                      //MotionProfileClimber.TALON_ID_NULL,
-                                                                                      RobotMap.rightBackClimberPort,
+                                                                                      MotionProfileClimber.TALON_ID_NULL,
+                                                                                      //RobotMap.rightBackClimberPort,
                                                                                       MotionProfileClimber.PodPosition.BACK, 
                                                                                       MotionProfileClimber.PodPosition.LEFT); 
                                                                                       
-  // public static MotionProfileClimber m_climberPodBackRight = new MotionProfileClimber(RobotMap.rightBackClimberPort,
-  //                                                                                     MotionProfileClimber.TALON_ID_NULL,
-  //                                                                                     MotionProfileClimber.PodPosition.BACK, 
-  //                                                                                     MotionProfileClimber.PodPosition.RIGHT);
+  public static MotionProfileClimber m_climberPodBackRight = new MotionProfileClimber(RobotMap.rightBackClimberPort,
+                                                                                      MotionProfileClimber.TALON_ID_NULL,
+                                                                                      MotionProfileClimber.PodPosition.BACK, 
+                                                                                      MotionProfileClimber.PodPosition.RIGHT);
 
-  // public static MotionProfileClimber m_climberPodFrontRight = new MotionProfileClimber(RobotMap.rightFrontClimberPort,
-  //                                                                                     MotionProfileClimber.TALON_ID_NULL,
-  //                                                                                     MotionProfileClimber.PodPosition.FRONT, 
-  //                                                                                     MotionProfileClimber.PodPosition.RIGHT);
+  public static MotionProfileClimber m_climberPodFrontRight = new MotionProfileClimber(RobotMap.rightFrontClimberPort,
+                                                                                      MotionProfileClimber.TALON_ID_NULL,
+                                                                                      MotionProfileClimber.PodPosition.FRONT, 
+                                                                                      MotionProfileClimber.PodPosition.RIGHT);
                                                                                         
                                                                                         
   public static Hatch m_hatch = new Hatch();
