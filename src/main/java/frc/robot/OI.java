@@ -110,8 +110,8 @@ public class OI {
 
   public void setupTowerJoystick() {
     if (tower != null) {
-      towerY.whenPressed(new MotionProfileGroupClimb());
-      towerB.whenPressed(new MotionProfileGroupRetract());
+      //towerY.whenPressed(new MotionProfileGroupClimb());
+      //towerB.whenPressed(new MotionProfileGroupRetract());
       towerA.whenPressed(new MoveElevatorToCollect());
       towerX.whenPressed(new MoveElevatorToMidRocket());
     }
