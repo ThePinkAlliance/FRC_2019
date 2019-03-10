@@ -7,23 +7,15 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.subsystems.utils.PresetPositions;
 
-public class Eject extends Command {
-
-  // Init joysticks
-  private Joystick js = null;
-  private double stickValue = 0;
-
-
-  public Eject() {
-    
-    // Requires Ball collector
-    requires(Robot.m_ball);
-    js = new Joystick(OI.towerJoystickPort);
+public class MoveElevatorToMidRocket extends Command {
+  public MoveElevatorToMidRocket() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Robot.m_elevator);
   }
 
   // Called just before this Command runs the first time
@@ -34,44 +26,23 @@ public class Eject extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_ball.eject();
-    if (js.getRawAxis(OI.leftStick) > 0.1 || js.getRawAxis(OI.leftStick) < -0.1) {
-      ReadJoystick();
-    } else if (js.getPOV() == 0) {
-      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.CARGO_POS);
-    } else if (js.getPOV() == 90) {
-      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.LOW_ROCKET_POS);
-    } else if (js.getPOV() == 180) {
-      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.COLLECT_POS);
-    } else {
-      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.getBallRotateEncoder());
-    }
+    Robot.m_elevator.moveElevatorToPosition(PresetPositions.ELEVATOR_MID_ROCKET_POSITION);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Math.abs(Robot.m_elevator.getElevatorHeight() - PresetPositions.ELEVATOR_MID_ROCKET_POSITION) <= 1;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_ball.hold();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_ball.hold();
   }
-
-  // Method to set motor power based of the stickValue
-  public void ReadJoystick() {
-    // Read out stickValue
-        stickValue = js.getRawAxis(OI.leftStick);
-      // Set _elevator Motor to stickValue
-      Robot.m_ball.moveBall(stickValue);
-    }
-  }
+}

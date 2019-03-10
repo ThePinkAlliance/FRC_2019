@@ -71,6 +71,7 @@ public class RobotDashboard {
             SmartDashboard.putNumber("PodBackLeftEncoder", Robot.m_climberPodBackLeft.getEncPosition());
             SmartDashboard.putNumber("PodFrontRightEncoder", Robot.m_climberPodFrontRight.getEncPosition());
             SmartDashboard.putNumber("PodBackRightEncoder", Robot.m_climberPodBackRight.getEncPosition());
+            SmartDashboard.putNumber("Ball Collector Position: ", Robot.m_ball.getBallRotateEncoder());
         }
     }
 

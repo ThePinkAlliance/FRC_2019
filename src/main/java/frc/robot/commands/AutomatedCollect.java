@@ -7,10 +7,12 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class AutomatedCollect extends Command {
+  private Timer timer = null;
   public AutomatedCollect() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -20,19 +22,27 @@ public class AutomatedCollect extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    timer = new Timer();
+    timer.start();
+    Robot.m_ball.collect();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_ball.collect();
-    Robot.m_ball.setRotateMotorCmd(Robot.m_ball.COLLECT_POS);
+    if (Robot.m_ball.getCollectState()) {
+      Robot.m_ball.collect();
+      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.COLLECT_POS);
+    } else if (!Robot.m_ball.getCollectState()) {
+      Robot.m_ball.hold();
+      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.CARGO_POS);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !Robot.m_ball.getCollectState();
+    return Math.abs(Robot.m_ball.getBallRotateEncoder() - Robot.m_ball.CARGO_POS) <= 250 && (timer.get() > 0.5);
   }
 
   // Called once after isFinished returns true
@@ -47,5 +57,6 @@ public class AutomatedCollect extends Command {
   @Override
   protected void interrupted() {
     Robot.m_ball.hold();
+    Robot.m_ball.setRotateMotorCmd(Robot.m_ball.getBallRotateEncoder());
   }
 }
