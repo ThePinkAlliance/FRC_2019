@@ -3,8 +3,8 @@ package frc.robot.subsystems.utils;
 public class PresetPositions {
 
     // Ball Presets 0 is stowed and approximately 90000 is the lowest
-    public static double BALL_COLLECT_POSITION = 60000;
-    public static double BALL_LOW_ROCKET_POSITION = 30000;
+    public static double BALL_COLLECT_POSITION = 120000;
+    public static double BALL_LOW_ROCKET_POSITION = 52832;
     public static double BALL_CARGO_POSITION = 0;
 
     // Elevator Presets 0 is lowest and -50 is the highest

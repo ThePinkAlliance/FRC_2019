@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.RaiseElevatorToPosition;
 import frc.robot.commands.RaiseElevatorToPosition.RaiseToPosition;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.JoystickElevator;
 
 // Subsystem used for defining Elevator hardware and methods
 public class Elevator extends Subsystem {
@@ -36,7 +39,8 @@ public class Elevator extends Subsystem {
   // Method to define the default command for the Elevator
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new RaiseElevatorToPosition(RaiseToPosition.JOYSTICK));
+    //setDefaultCommand(new RaiseElevatorToPosition(RaiseToPosition.JOYSTICK));
+    setDefaultCommand(new JoystickElevator());
   }
 
   public boolean getElevatorTopSwitch() {
@@ -54,7 +58,7 @@ public class Elevator extends Subsystem {
 
   // Method to move the Elevator based off the joystickValue
   public void moveElevator(double joystickValue) {
-    // //system..out.println("Setting Elevator Power to " + joystickValue);
+     //System.out.println("Setting Elevator Power to " + joystickValue);
     _elevator.set(joystickValue);
   }
 

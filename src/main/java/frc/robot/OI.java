@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.Hold;
 import frc.robot.commands.MotionProfileGroupClimb;
 import frc.robot.commands.MotionProfileGroupRetract;
+import frc.robot.commands.MoveBallRocket;
+import frc.robot.commands.MoveBallToStow;
 import frc.robot.commands.MoveElevatorToCollect;
 import frc.robot.commands.MoveElevatorToMidRocket;
 import frc.robot.commands.OpenBeak;
@@ -61,6 +63,7 @@ public class OI {
   public Button towerA = null;
   public Button towerY = null;
   public Button towerB = null;
+  public Button towerRightBumper = null;
   public Button baseRightTrigger = null;
   public Button baseLeftTrigger = null;
   public Button towerRightTrigger = null;
@@ -81,6 +84,7 @@ public class OI {
       towerA = new JoystickButton(tower, aButtonNumber);
       towerY = new JoystickButton(tower, yButtonNumber);
       towerB = new JoystickButton(tower, bButtonNumber);
+      towerRightBumper = new JoystickButton(tower, rightBumperButtonNumber);
       baseRightTrigger = new JoystickButton(base, rightTriggerButtonNumber);
       baseLeftTrigger = new JoystickButton(base, leftTriggerButtonNumber);
       baseRightBumper = new JoystickButton(base, rightBumperButtonNumber);
@@ -100,8 +104,8 @@ public class OI {
     if (base != null) {
        baseY.whenPressed(new ToggleNeck());
        baseB.toggleWhenPressed(new StartupCollectHatch());
-       baseA.whenPressed(new OpenBeak());
-       baseX.whenPressed(new CloseBeak());
+       baseX.whenPressed(new OpenBeak());
+       baseA.whenPressed(new CloseBeak());
        baseRightTrigger.toggleWhenPressed(new AutomatedCollect());
        baseLeftTrigger.toggleWhenPressed(new Eject());
        baseRightBumper.toggleWhenPressed(new Collect());
@@ -114,6 +118,8 @@ public class OI {
       //towerB.whenPressed(new MotionProfileGroupRetract());
       towerA.whenPressed(new MoveElevatorToCollect());
       towerX.whenPressed(new MoveElevatorToMidRocket());
+      towerB.whenPressed(new MoveBallRocket());
+      towerRightBumper.whenPressed(new MoveBallToStow());
     }
   }
 	

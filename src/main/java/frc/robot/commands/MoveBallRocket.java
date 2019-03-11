@@ -9,36 +9,31 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.utils.PresetPositions;
 
-public class ToggleBeakByLimitSwitch extends Command {
-  public ToggleBeakByLimitSwitch() {
-
-    // Requires hatch subsystem
-    requires(Robot.m_hatch);
+public class MoveBallRocket extends Command {
+  public MoveBallRocket() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Robot.m_ball);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // Evan said he wants neck to be down when beak is opened
-    // TODO: test this, is false up?
-    //if (!Robot.m_hatch.isNeckUp())
-      //Robot.m_hatch.toggleNeck();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // If limit switch is pressed, open the beak
-    if (!Robot.m_hatch.leftLimitSwitchHatchCollected.get() || !Robot.m_hatch.rightLimitSwitchHatchCollected.get()) {
-      Robot.m_hatch._beak.set(true); // Open Beak
-    }
+    Robot.m_ball.setRotateMotorCmd(PresetPositions.BALL_LOW_ROCKET_POSITION);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Math.abs(Robot.m_ball.getBallRotateEncoder() - PresetPositions.BALL_LOW_ROCKET_POSITION) <= 1;
+  
   }
 
   // Called once after isFinished returns true
