@@ -38,8 +38,8 @@ public class MotionProfileClimberMasterTest extends Command {
   public double Kp_FL = 0.0;
   public double Kp_BR = 0.0;
   public double Kp_BL = 0.0;
-  public double masterPower = climberPod.getOutput(PodPosition.FRONT, PodPosition.RIGHT);
-  public double masterPosition = climberPod.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT);
+  public double masterPower = 0.0;//climberPod.getOutput(PodPosition.FRONT, PodPosition.RIGHT);
+  public double masterPosition = 0.0;//climberPod.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT);
   public double errorFL = 0.0;//masterPosition - climberPod.getEncPosition(PodPosition.FRONT, PodPosition.LEFT);
   public double errorBR = 0.0;//masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.RIGHT);
   public double errorBL = 0.0;//masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.LEFT);
@@ -75,7 +75,7 @@ public class MotionProfileClimberMasterTest extends Command {
     watchDog = new Timer();
     profileStartTimer = new Timer();
 
-    
+    System.out.println("CLIMBER Constructor completed...");
 
   }
 
@@ -106,7 +106,7 @@ public class MotionProfileClimberMasterTest extends Command {
     mp.setMotionProfileMode();
     //mp.startWorking(movingUp); //only used by threading alternative
     mp.startMotionProfile();
-    System.out.println("MotionProfileTestClimberDouble(): initialized");
+    System.out.println("MotionProfileClimberMasterTest(): initialized");
 
     //start the timer to delay the command
     profileStartTimer.reset();

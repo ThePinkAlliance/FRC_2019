@@ -40,7 +40,7 @@ public class MotionProfileGroupClimb extends CommandGroup {
     // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackLeft,   ClimberDirection.UP, PodPosition.BACK,  .15, 4, 1));
     // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight,  ClimberDirection.UP, PodPosition.BACK,  .15, 4, 1));
     //addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft,  ClimberDirection.UP, PodPosition.FRONT, .15, 4, 1));
-    addParallel(new MotionProfileClimberMasterTest(ClimberDirection.UP, .15, 4, 1));
+    addSequential(new MotionProfileClimberMasterTest(ClimberDirection.UP, .15, 4, 1));
 
   }
 }

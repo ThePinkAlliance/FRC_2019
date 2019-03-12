@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import frc.robot.commands.ClimberDefault;
+import frc.robot.commands.ClimberDefaultMaster;
 import frc.robot.subsystems.utils.Constants;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -149,7 +150,7 @@ public class MotionProfileClimberMaster extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    //setDefaultCommand(new ClimberDefault(this));
+    setDefaultCommand(new ClimberDefaultMaster());
   }
 
   public void resetEncoderPosition(PodPosition face, PodPosition side) {
