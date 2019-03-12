@@ -33,10 +33,10 @@ public class MotionProfileGroupClimb extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    //addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft,  ClimberDirection.UP, PodPosition.FRONT, .15, 4, 1));
-    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.UP, PodPosition.FRONT, .15, 4, 1));
-    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackLeft,   ClimberDirection.UP, PodPosition.BACK,  .15, 4, 1));
-    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight,  ClimberDirection.UP, PodPosition.BACK,  .15, 4, 1));
-    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft,  ClimberDirection.UP, PodPosition.FRONT, .15, 4, 1));
+
+    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft, ClimberDirection.UP, PodPosition.FRONT, 4));
+    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.UP, PodPosition.FRONT, 4));
+    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackLeft, ClimberDirection.UP, PodPosition.BACK, 4));
+    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight, ClimberDirection.UP, PodPosition.BACK, 4));
   }
 }
