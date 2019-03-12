@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ClimberDriver;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Hatch;
@@ -22,6 +23,7 @@ import frc.robot.subsystems.Ball;
 public class Robot extends TimedRobot {
   public static Ball m_ball = new Ball();
   public static DriveTrain m_driveTrain = new DriveTrain();
+  public static ClimberDriver m_climberDriver = new ClimberDriver();
   public static Climber m_climber = new Climber();
   
   public static MotionProfileClimber m_climberPodFrontLeft = new MotionProfileClimber(RobotMap.leftFrontClimberPort,
