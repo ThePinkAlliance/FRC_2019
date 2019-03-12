@@ -32,12 +32,13 @@ public class MotionProfileClimberMasterTest extends Command {
   private double delayTime = 0;
   private double moveVoltage = 0;
   private boolean motionProfileStarted = false;
-  public double Kf_FL = 1.0;
-  public double Kf_BR = 1.0;
-  public double Kf_BL = 1.0;
-  public double Kp_FL = 0.0;
-  public double Kp_BR = 0.0;
-  public double Kp_BL = 0.0;
+  public double Kf_FL = 1.0;//2.0;
+  public double Kf_BR = 1.0;//1.0;
+  public double Kf_BL = 1.9;//2.0;
+  //==========================
+  public double Kp_FL = 0.2 / 1000.0;
+  public double Kp_BR = 0.8 / 1000.0;
+  public double Kp_BL = 0.5 / 1000.0;
   public double masterPower = 0.0;//climberPod.getOutput(PodPosition.FRONT, PodPosition.RIGHT);
   public double masterPosition = 0.0;//climberPod.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT);
   public double errorFL = 0.0;//masterPosition - climberPod.getEncPosition(PodPosition.FRONT, PodPosition.LEFT);
@@ -103,9 +104,9 @@ public class MotionProfileClimberMasterTest extends Command {
     climberPod.resetEncoderPosition(PodPosition.BACK, PodPosition.RIGHT);
     climberPod.resetEncoderPosition(PodPosition.BACK, PodPosition.LEFT);
 
-    mp.setMotionProfileMode();
+    //mp.setMotionProfileMode();
     //mp.startWorking(movingUp); //only used by threading alternative
-    mp.startMotionProfile();
+   // mp.startMotionProfile();
     System.out.println("MotionProfileClimberMasterTest(): initialized");
 
     //start the timer to delay the command
@@ -118,7 +119,7 @@ public class MotionProfileClimberMasterTest extends Command {
   protected void execute() {
 
     // //get time elapsed
-    // double delayElapsedTime = profileStartTimer.get();
+    //double delayElapsedTime = profileStartTimer.get();
 
     // //if timer popped and profile not started
     // if (delayElapsedTime >= delayTime && !motionProfileStarted)  {
@@ -131,16 +132,21 @@ public class MotionProfileClimberMasterTest extends Command {
     // }
     // else if (delayElapsedTime >= delayTime && motionProfileStarted) {
     //   //continue executing motion profile
-       mp.control(direction, location);
-       mp.setMotionProfileMode();
-       masterPower = climberPod.getOutput(PodPosition.FRONT, PodPosition.RIGHT);
-       masterPosition = climberPod.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT);
-       errorFL = masterPosition - climberPod.getEncPosition(PodPosition.FRONT, PodPosition.LEFT);
-       errorBR = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.RIGHT);
-       errorBL = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.LEFT);
+       //mp.control(direction, location);
+       //mp.setMotionProfileMode();
+       masterPower = 0.35;//climberPod.getOutput(PodPosition.FRONT, PodPosition.RIGHT);
+       //masterPosition = climberPod.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT);
+       masterPosition = climberPod.getEncVelocity(PodPosition.FRONT, PodPosition.RIGHT);
+       errorFL = masterPosition - climberPod.getEncVelocity(PodPosition.FRONT, PodPosition.LEFT);
+       errorBR = masterPosition - climberPod.getEncVelocity(PodPosition.BACK, PodPosition.RIGHT);
+       errorBL = masterPosition - climberPod.getEncVelocity(PodPosition.BACK, PodPosition.LEFT);
+      //  errorFL = masterPosition - climberPod.getEncPosition(PodPosition.FRONT, PodPosition.LEFT);
+      //  errorBR = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.RIGHT);
+      //  errorBL = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.LEFT);
        powerFL = (Kp_FL * errorFL) + (Kf_FL * masterPower);
        powerBR = (Kp_BR * errorFL) + (Kf_BR * masterPower);
        powerBL = (Kp_BL * errorFL) + (Kf_BL * masterPower);
+       climberPod.set(PodPosition.FRONT, PodPosition.RIGHT, masterPower);
        climberPod.set(PodPosition.FRONT, PodPosition.LEFT, powerFL);
        climberPod.set(PodPosition.BACK, PodPosition.RIGHT, powerBR);
        climberPod.set(PodPosition.BACK, PodPosition.LEFT, powerBL);

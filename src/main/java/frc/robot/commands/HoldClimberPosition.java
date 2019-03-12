@@ -9,24 +9,30 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.MotionProfileClimber;
+import frc.robot.subsystems.MotionProfileClimberMaster;
+import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
 
 public class HoldClimberPosition extends Command {
 
-  private MotionProfileClimber climberPod = null;
+  private MotionProfileClimberMaster climberPod = null;
   private Timer watchDog = null;
   private double watchDogTime = 0.0;
 
-  private double positionToHold = 0.0;
+  private double positionToHoldFR = 0.0;
+  private double positionToHoldFL = 0.0;
+  private double positionToHoldBR = 0.0;
+  private double positionToHoldBL = 0.0;
   
 
-  public HoldClimberPosition(MotionProfileClimber theClimberPod, double watchDogTime) {
+  public HoldClimberPosition(double watchDogTime) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(theClimberPod);
+    requires(Robot.m_climberMaster);
 
-    this.climberPod = theClimberPod;
+    this.climberPod = Robot.m_climberMaster;
     this.watchDogTime = watchDogTime;
 
     watchDog = new Timer();
@@ -40,10 +46,21 @@ public class HoldClimberPosition extends Command {
     watchDog.reset();
     watchDog.start();
 
-    positionToHold = climberPod.getEncPosition();
+    // positionToHoldFR = climberPod.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT);
+    // positionToHoldFL = climberPod.getEncPosition(PodPosition.FRONT, PodPosition.LEFT);
+    // positionToHoldBR = climberPod.getEncPosition(PodPosition.BACK, PodPosition.RIGHT);
+    // positionToHoldBL = climberPod.getEncPosition(PodPosition.BACK, PodPosition.LEFT);
 
-    climberPod.setPosition(positionToHold);
-  
+
+    // climberPod.setPosition(PodPosition.FRONT, PodPosition.RIGHT, positionToHoldFR);
+    // climberPod.setPosition(PodPosition.FRONT, PodPosition.LEFT, positionToHoldFL);
+    // climberPod.setPosition(PodPosition.BACK, PodPosition.RIGHT, positionToHoldBR);
+    // climberPod.setPosition(PodPosition.BACK, PodPosition.LEFT, positionToHoldBL);
+
+    climberPod.set(PodPosition.FRONT, PodPosition.RIGHT, 0.1);
+    climberPod.set(PodPosition.FRONT, PodPosition.LEFT, 0.1);
+    climberPod.set(PodPosition.BACK, PodPosition.RIGHT, 0.15);
+    climberPod.set(PodPosition.BACK, PodPosition.LEFT, 0.15);
 
   }
 
@@ -70,7 +87,10 @@ public class HoldClimberPosition extends Command {
   protected void end() {
 
     //set climber pod motor to zero
-    climberPod.set(0);
+    climberPod.set(PodPosition.FRONT, PodPosition.RIGHT, 0);
+    climberPod.set(PodPosition.FRONT, PodPosition.LEFT, 0);
+    climberPod.set(PodPosition.BACK, PodPosition.RIGHT, 0);
+    climberPod.set(PodPosition.BACK, PodPosition.LEFT, 0);
   }
 
   // Called when another command which requires one or more of the same
@@ -79,6 +99,9 @@ public class HoldClimberPosition extends Command {
   protected void interrupted() {
 
     //set climber pod motor to zero
-    climberPod.set(0);
+    climberPod.set(PodPosition.FRONT, PodPosition.RIGHT, 0);
+    climberPod.set(PodPosition.FRONT, PodPosition.LEFT, 0);
+    climberPod.set(PodPosition.BACK, PodPosition.RIGHT, 0);
+    climberPod.set(PodPosition.BACK, PodPosition.LEFT, 0);
   }
 }

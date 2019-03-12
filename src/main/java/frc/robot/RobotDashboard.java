@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
 // The RobotDashboard is a helper class to encapsulate 
 // displaying data to the dashboard.
@@ -76,6 +77,15 @@ public class RobotDashboard {
             // SmartDashboard.putNumber("PodBackLeftOutputVoltage", Robot.m_climberPodBackLeft.getOutput());
             // SmartDashboard.putNumber("PodFrontRightOutputVoltage", Robot.m_climberPodFrontRight.getOutput());
             // SmartDashboard.putNumber("PodBackRightOutputVoltage", Robot.m_climberPodBackRight.getOutput());
+             SmartDashboard.putNumber("PodFrontLeftEncoder", Robot.m_climberMaster.getEncPosition(PodPosition.FRONT, PodPosition.LEFT));
+             SmartDashboard.putNumber("PodBackLeftEncoder", Robot.m_climberMaster.getEncPosition(PodPosition.BACK, PodPosition.LEFT));
+             SmartDashboard.putNumber("PodFrontRightEncoder", Robot.m_climberMaster.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT));
+             SmartDashboard.putNumber("PodBackRightEncoder", Robot.m_climberMaster.getEncPosition(PodPosition.BACK, PodPosition.RIGHT));
+             SmartDashboard.putNumber("PodFrontLeftOutputVoltage", Robot.m_climberMaster.getOutput(PodPosition.FRONT, PodPosition.LEFT));
+             SmartDashboard.putNumber("PodBackLeftOutputVoltage", Robot.m_climberMaster.getOutput(PodPosition.BACK, PodPosition.LEFT));
+             SmartDashboard.putNumber("PodFrontRightOutputVoltage", Robot.m_climberMaster.getOutput(PodPosition.FRONT, PodPosition.RIGHT));
+             SmartDashboard.putNumber("PodBackRightOutputVoltage", Robot.m_climberMaster.getOutput(PodPosition.BACK, PodPosition.RIGHT));
+
         }
     }
 

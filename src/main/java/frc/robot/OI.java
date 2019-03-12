@@ -120,8 +120,8 @@ public class OI {
 
   public void setupTowerJoystick() {
     if (tower != null) {
-      towerStart.whenPressed(new ClimbToTop());
-      towerSelect.whenPressed(new HoldClimberPods());
+      //towerStart.whenPressed(new MotionProfileGroupClimb());
+      //towerSelect.whenPressed(new HoldClimberPods());
       towerA.whenPressed(new MoveElevatorToCollect());
       towerX.whenPressed(new MoveElevatorToMidRocket());
       towerB.whenPressed(new MoveBallRocket());

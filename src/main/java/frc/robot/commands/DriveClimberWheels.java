@@ -17,7 +17,7 @@ public class DriveClimberWheels extends Command {
   private Timer watchDogTimer = null;
   private Timer cruiseTimer = null;
   private double watchDogTime = 10.0;
-  private double cruiseTime = 6.0;
+  private double cruiseTime = 4.0;
   private double motorPower = 0.0;
   private double rampRate = .02;
   private double maxPower = 1;

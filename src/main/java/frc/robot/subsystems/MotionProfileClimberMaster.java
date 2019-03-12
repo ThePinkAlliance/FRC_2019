@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import frc.robot.commands.ClimberDefault;
 import frc.robot.commands.ClimberDefaultMaster;
 import frc.robot.subsystems.utils.Constants;
 
@@ -105,30 +104,30 @@ public class MotionProfileClimberMaster extends Subsystem {
 
     /* Configure PID Gains, to be used with Motion Profile */
 
-    if (side == PodPosition.RIGHT && face == PodPosition.FRONT) {
-      talon.config_kF(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kF, Constants.kTimeoutMs);
-      talon.config_kP(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kP, Constants.kTimeoutMs);
-      talon.config_kI(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kI, Constants.kTimeoutMs);
-      talon.config_kD(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kD, Constants.kTimeoutMs);
-    }
-    if (side == PodPosition.RIGHT && face == PodPosition.BACK) {
-      talon.config_kF(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kF, Constants.kTimeoutMs);
-      talon.config_kP(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kP, Constants.kTimeoutMs);
-      talon.config_kI(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kI, Constants.kTimeoutMs);
-      talon.config_kD(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kD, Constants.kTimeoutMs);    
-    }
-    if (side == PodPosition.LEFT && face == PodPosition.FRONT) {
-      talon.config_kF(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kF, Constants.kTimeoutMs);
-      talon.config_kP(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kP, Constants.kTimeoutMs);
-      talon.config_kI(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kI, Constants.kTimeoutMs);
-      talon.config_kD(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kD, Constants.kTimeoutMs); 
-    }
-    if (side == PodPosition.LEFT && face == PodPosition.BACK) {
-      talon.config_kF(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kF, Constants.kTimeoutMs);
-      talon.config_kP(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kP, Constants.kTimeoutMs);
-      talon.config_kI(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kI, Constants.kTimeoutMs);
-      talon.config_kD(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kD, Constants.kTimeoutMs); 
-    }
+    // if (side == PodPosition.RIGHT && face == PodPosition.FRONT) {
+    //   talon.config_kF(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kF, Constants.kTimeoutMs);
+    //   talon.config_kP(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kP, Constants.kTimeoutMs);
+    //   talon.config_kI(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kI, Constants.kTimeoutMs);
+    //   talon.config_kD(Constants.kPIDLoopIdx, Constants.kGainsRightFront.kD, Constants.kTimeoutMs);
+    // }
+    // if (side == PodPosition.RIGHT && face == PodPosition.BACK) {
+    //   talon.config_kF(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kF, Constants.kTimeoutMs);
+    //   talon.config_kP(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kP, Constants.kTimeoutMs);
+    //   talon.config_kI(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kI, Constants.kTimeoutMs);
+    //   talon.config_kD(Constants.kPIDLoopIdx, Constants.kGainsRightBack.kD, Constants.kTimeoutMs);    
+    // }
+    // if (side == PodPosition.LEFT && face == PodPosition.FRONT) {
+    //   talon.config_kF(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kF, Constants.kTimeoutMs);
+    //   talon.config_kP(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kP, Constants.kTimeoutMs);
+    //   talon.config_kI(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kI, Constants.kTimeoutMs);
+    //   talon.config_kD(Constants.kPIDLoopIdx, Constants.kGainsLeftFront.kD, Constants.kTimeoutMs); 
+    // }
+    // if (side == PodPosition.LEFT && face == PodPosition.BACK) {
+    //   talon.config_kF(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kF, Constants.kTimeoutMs);
+    //   talon.config_kP(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kP, Constants.kTimeoutMs);
+    //   talon.config_kI(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kI, Constants.kTimeoutMs);
+    //   talon.config_kD(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kD, Constants.kTimeoutMs); 
+    // }
 
     // _talon1.config_kF(Constants.kPIDLoopIdx, Constants.kGains.kF, Constants.kTimeoutMs);
     // _talon1.config_kP(Constants.kPIDLoopIdx, Constants.kGains.kP, Constants.kTimeoutMs);
@@ -150,7 +149,7 @@ public class MotionProfileClimberMaster extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new ClimberDefaultMaster());
+    //setDefaultCommand(new ClimberDefaultMaster());
   }
 
   public void resetEncoderPosition(PodPosition face, PodPosition side) {
@@ -182,6 +181,26 @@ public class MotionProfileClimberMaster extends Subsystem {
     else if (side == PodPosition.LEFT && face == PodPosition.BACK) {
       return _bl.getSelectedSensorPosition();
     } else {
+      System.out.println("RETURNED ZERO");
+      return 0;
+    }
+   
+  }
+
+  public int getEncVelocity(PodPosition face, PodPosition side) {
+    if (side == PodPosition.RIGHT && face == PodPosition.FRONT) {
+      return _fr.getSelectedSensorVelocity();//.getSelectedSensorPosition();
+    } 
+    else if (side == PodPosition.RIGHT && face == PodPosition.BACK) {
+      return _br.getSelectedSensorVelocity();//.getSelectedSensorPosition();
+      }
+    else  if (side == PodPosition.LEFT && face == PodPosition.FRONT) {
+      return _fl.getSelectedSensorVelocity();//.getSelectedSensorPosition();
+      }
+    else if (side == PodPosition.LEFT && face == PodPosition.BACK) {
+      return _bl.getSelectedSensorVelocity();//.getSelectedSensorPosition();
+    } else {
+      System.out.println("RETURNED ZERO");
       return 0;
     }
    
@@ -199,6 +218,21 @@ public class MotionProfileClimberMaster extends Subsystem {
       }
     else if (side == PodPosition.LEFT && face == PodPosition.BACK) {
      _bl.set(ControlMode.PercentOutput, output);
+    }
+  }
+
+  public void setPosition(PodPosition face, PodPosition side, double position) {
+    if (side == PodPosition.RIGHT && face == PodPosition.FRONT) {
+      _fr.set(ControlMode.Position, position);
+    } 
+    else if (side == PodPosition.RIGHT && face == PodPosition.BACK) {
+      _br.set(ControlMode.Position, position);
+      }
+    else  if (side == PodPosition.LEFT && face == PodPosition.FRONT) {
+      _fl.set(ControlMode.Position, position);
+      }
+    else if (side == PodPosition.LEFT && face == PodPosition.BACK) {
+     _bl.set(ControlMode.Position, position);
     }
   }
 
