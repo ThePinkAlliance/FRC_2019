@@ -31,9 +31,9 @@ public class HoldClimberPods extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    addParallel(new HoldClimberPosition(Robot.m_climberPodFrontLeft, 4));
-    addParallel(new HoldClimberPosition(Robot.m_climberPodFrontRight, 4));
-    addParallel(new HoldClimberPosition(Robot.m_climberPodBackLeft, 4));
-    addParallel(new HoldClimberPosition(Robot.m_climberPodFrontRight, 4));
+    addParallel(new HoldClimberPosition(Robot.m_climberPodFrontLeft, 20));
+    addParallel(new HoldClimberPosition(Robot.m_climberPodFrontRight, 20));
+    addParallel(new HoldClimberPosition(Robot.m_climberPodBackLeft, 20));
+    addParallel(new HoldClimberPosition(Robot.m_climberPodFrontRight, 20));
   }
 }

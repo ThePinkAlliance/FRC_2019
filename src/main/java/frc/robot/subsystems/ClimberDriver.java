@@ -27,8 +27,8 @@ public class ClimberDriver extends Subsystem {
     _climberWheelL = new WPI_VictorSPX(RobotMap.climberDriverForwardLeftMotor);
     _climberWheelR = new WPI_TalonSRX(RobotMap.climberDriverForwardRightMotor);
 
-    _climberWheelL.setInverted(false);
-    _climberWheelR.setInverted(false);
+    _climberWheelL.setInverted(true);
+    _climberWheelR.setInverted(true);
   }
 
   @Override

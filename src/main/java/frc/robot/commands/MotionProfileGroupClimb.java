@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.Robot;
 import frc.robot.subsystems.MotionProfileClimber.ClimberDirection;
 import frc.robot.subsystems.MotionProfileClimber.PodPosition;
-import frc.robot.commands.MotionProfileClimberTestDouble;
 
 public class MotionProfileGroupClimb extends CommandGroup {
   /**

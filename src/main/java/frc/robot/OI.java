@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.Hold;
+import frc.robot.commands.HoldClimberPods;
 import frc.robot.commands.MotionProfileGroupClimb;
 import frc.robot.commands.MotionProfileGroupRetract;
 import frc.robot.commands.MoveBallRocket;
@@ -18,6 +19,7 @@ import frc.robot.commands.RaiseElevatorToPosition;
 import frc.robot.commands.StartupCollectHatch;
 import frc.robot.commands.ToggleNeck;
 import frc.robot.commands.AutomatedCollect;
+import frc.robot.commands.ClimbToTop;
 import frc.robot.commands.CloseBeak;
 import frc.robot.commands.Collect;
 import frc.robot.commands.Eject;
@@ -118,8 +120,8 @@ public class OI {
 
   public void setupTowerJoystick() {
     if (tower != null) {
-      towerStart.whenPressed(new MotionProfileGroupClimb());
-      towerSelect.whenPressed(new MotionProfileGroupRetract());
+      towerStart.whenPressed(new ClimbToTop());
+      towerSelect.whenPressed(new HoldClimberPods());
       towerA.whenPressed(new MoveElevatorToCollect());
       towerX.whenPressed(new MoveElevatorToMidRocket());
       towerB.whenPressed(new MoveBallRocket());
