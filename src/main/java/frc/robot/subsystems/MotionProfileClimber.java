@@ -11,6 +11,8 @@ import frc.robot.subsystems.utils.Constants;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble;
+import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimberDirection;
+import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
 /**
  * Add your docs here.
@@ -31,19 +33,19 @@ public class MotionProfileClimber extends Subsystem {
   private PodPosition side = PodPosition.LEFT;
   private double startingPosition = 0.0;
 
-  // point of view of the face that we climb with
-  public static enum PodPosition {
-    FRONT, // collector side
-    BACK, // beak side
-    LEFT, // where front is the collector
-    RIGHT // where front is the collector
-  }
+  // // point of view of the face that we climb with
+  // public static enum PodPosition {
+  //   FRONT, // collector side
+  //   BACK, // beak side
+  //   LEFT, // where front is the collector
+  //   RIGHT // where front is the collector
+  // }
 
-  // point of view of the robot, not the pod mechanisms
-  // e.g.: when the robot belly pan rises, thats up
-  public static enum ClimberDirection {
-    UP, DOWN
-  }
+  // // point of view of the robot, not the pod mechanisms
+  // // e.g.: when the robot belly pan rises, thats up
+  // public static enum ClimberDirection {
+  //   UP, DOWN
+  // }
 
   // NOTALON ID for instance without a follower
   public final static int TALON_ID_NULL = -1;
@@ -174,7 +176,7 @@ public class MotionProfileClimber extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    //setDefaultCommand(new ClimberDefault(this));
+    setDefaultCommand(new ClimberDefault(this));
   }
 
   public void resetEncoderPosition(int position) {
@@ -309,6 +311,10 @@ public class MotionProfileClimber extends Subsystem {
         }
       }
     }
+  }
+
+  public double getOutput() {
+    return _talon1.getMotorOutputPercent();
   }
   // public void setDirection(ClimberDirection direction) {
   // if (side == PodPosition.LEFT) {

@@ -9,8 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.Robot;
-import frc.robot.subsystems.MotionProfileClimber.ClimberDirection;
-import frc.robot.subsystems.MotionProfileClimber.PodPosition;
+import frc.robot.subsystems.MotionProfileClimberMaster;
+
 
 public class MotionProfileGroupRetract extends CommandGroup {
   /**
@@ -36,7 +36,7 @@ public class MotionProfileGroupRetract extends CommandGroup {
     // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft,  ClimberDirection.DOWN, PodPosition.FRONT, 0, 4, 0));
     // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.DOWN, PodPosition.FRONT, 0, 4, 0));
     // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackLeft,   ClimberDirection.DOWN, PodPosition.BACK,  0, 4, 0));
-    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight,  ClimberDirection.DOWN, PodPosition.BACK,  0, 4, 0));
+    //addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight,  ClimberDirection.DOWN, PodPosition.BACK,  0, 4, 0));
 
   }
 }

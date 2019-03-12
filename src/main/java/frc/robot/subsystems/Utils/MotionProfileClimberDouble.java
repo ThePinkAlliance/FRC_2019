@@ -28,13 +28,25 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 
 import edu.wpi.first.wpilibj.Notifier;
-import frc.robot.subsystems.MotionProfileClimber.ClimberDirection;
-import frc.robot.subsystems.MotionProfileClimber.PodPosition;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motion.*;
 
 public class MotionProfileClimberDouble {
+
+	// point of view of the face that we climb with
+	public static enum PodPosition {
+		FRONT, // collector side
+		BACK, // beak side
+		LEFT, // where front is the collector
+		RIGHT // where front is the collector
+	  }
+	
+	  // point of view of the robot, not the pod mechanisms
+	  // e.g.: when the robot belly pan rises, thats up
+	  public static enum ClimberDirection {
+		UP, DOWN
+	  }
 
 	/**
 	 * The status of the motion profile executer and buffer inside the Talon.
