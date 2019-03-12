@@ -8,8 +8,8 @@ public class RobotMap {
 	public static int leftBackClimberPort = 21; 
 	public static int rightFrontClimberPort = 24;
 	public static int leftFrontClimberPort = 25;
-	public static int climberSmartsForwardLeftMotor = 20;
-	public static int climberSmartsForwardRightMotor = 23; // Added Motor
+	public static int climberDriverForwardLeftMotor = 20;
+	public static int climberDriverForwardRightMotor = 23; // Added Motor
 	public static int rightFrontMotorPort = 11;
 	public static int rightBackMotorPort = 13;  
 	public static int leftFrontMotorPort = 2;

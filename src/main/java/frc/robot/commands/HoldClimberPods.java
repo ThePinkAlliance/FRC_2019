@@ -9,15 +9,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.Robot;
-import frc.robot.subsystems.MotionProfileClimber.ClimberDirection;
-import frc.robot.subsystems.MotionProfileClimber.PodPosition;
-import frc.robot.commands.MotionProfileClimberTestDouble;
 
-public class MotionProfileGroupClimb extends CommandGroup {
+public class HoldClimberPods extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public MotionProfileGroupClimb() {
+  public HoldClimberPods() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -34,10 +31,9 @@ public class MotionProfileGroupClimb extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-
-    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft, ClimberDirection.UP, PodPosition.FRONT, .15, 4, 1));
-    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.UP, PodPosition.FRONT, .15, 4, 1));
-    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackLeft, ClimberDirection.UP, PodPosition.BACK, .15, 4, 1));
-    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight, ClimberDirection.UP, PodPosition.BACK, .15, 4, 1));
+    addParallel(new HoldClimberPosition(Robot.m_climberPodFrontLeft, 4));
+    addParallel(new HoldClimberPosition(Robot.m_climberPodFrontRight, 4));
+    addParallel(new HoldClimberPosition(Robot.m_climberPodBackLeft, 4));
+    addParallel(new HoldClimberPosition(Robot.m_climberPodFrontRight, 4));
   }
 }
