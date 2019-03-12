@@ -191,6 +191,10 @@ public class MotionProfileClimber extends Subsystem {
     _talon1.set(ControlMode.PercentOutput, output);
   }
 
+  public void setPosition(double position) {
+    _talon1.set(ControlMode.Position, position);
+  }
+
   public boolean isMotionProfileFinished() {
     return _example.isMotionProfileDone();
   }
