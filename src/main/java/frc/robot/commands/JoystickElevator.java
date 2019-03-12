@@ -20,11 +20,11 @@ public class JoystickElevator extends Command {
 
 	// Called repeatedly while this Command is running
 	@Override protected void execute() {
-    if(js.getRawAxis(OI.rightStick) > .1 || js.getRawAxis(OI.rightStick) < -0.1)
+    if(js.getRawAxis(OI.LXAxis) > .1 || js.getRawAxis(OI.LXAxis) < -0.1)
     {
-    Robot.m_elevator._elevator.set(js.getRawAxis(OI.rightStick));
+    Robot.m_elevator._elevator.set(js.getRawAxis(OI.LXAxis));
     } else{
-      Robot.m_elevator._elevator.set(0.166);
+      Robot.m_elevator._elevator.set(OI.LXAxis);
     }
 	}
 

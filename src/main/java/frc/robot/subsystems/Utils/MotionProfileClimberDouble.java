@@ -298,17 +298,12 @@ public class MotionProfileClimberDouble {
 
 	/** Start filling the MPs to all of the involved Talons. */
 	private void startFilling(ClimberDirection direction, PodPosition location) {
-		/* since this example only has one talon, just update that one */
-		// if (direction == ClimberDirection.UP)
-		//   startFilling(GeneratedClimberUp.Points, GeneratedClimberUp.kNumPoints);
-		// else
-		//   startFilling(GeneratedClimberDown.Points, GeneratedClimberDown.kNumPoints);
-
-		if (location == PodPosition.FRONT) {
-			startFilling(GeneratedFront.Points, GeneratedFront.kNumPoints);
-		} else {
-			startFilling(GeneratedBack.Points, GeneratedBack.kNumPoints);
-		}
+		
+		 if (location == PodPosition.FRONT) {
+		 	startFilling(GeneratedFront.Points, GeneratedFront.kNumPoints);
+		 } else {
+		 	startFilling(GeneratedBack.Points, GeneratedBack.kNumPoints);
+		 }
 	}
 
 	private void startFilling(double[][] profile, int totalCnt) {

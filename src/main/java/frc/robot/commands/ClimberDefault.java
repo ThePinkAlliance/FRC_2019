@@ -23,7 +23,7 @@ public class ClimberDefault extends Command {
     // eg. requires(chassis);
     requires(theClimberPod);
     this.climberPod = theClimberPod;
-    js = Robot.m_oi.getBaseJoystick();
+    js = Robot.m_oi.getTowerJoystick();
   }
 
   // Called just before this Command runs the first time

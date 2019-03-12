@@ -26,6 +26,11 @@ public class MotionProfileClimberTestDouble extends Command {
   private double doneTime = 0;
   private MotionProfileClimber climberPod = null;
   private PodPosition location;
+
+  private Timer profileStartTimer = null;
+  private double delayTime = 0;
+  private double moveVoltage = 0;
+  private boolean motionProfileStarted = false;
   
   /**
    * 
@@ -34,7 +39,7 @@ public class MotionProfileClimberTestDouble extends Command {
    * @param watchDogTime amount of time this command must complete in
    * 
    */
-  public MotionProfileClimberTestDouble(MotionProfileClimber theClimberPod, ClimberDirection direction, PodPosition location, double watchDogTime) {
+  public MotionProfileClimberTestDouble(MotionProfileClimber theClimberPod, ClimberDirection direction, PodPosition location, double preLoadMove, double watchDogTime, double profileDelayTime) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(theClimberPod);
@@ -45,11 +50,19 @@ public class MotionProfileClimberTestDouble extends Command {
 
     // set the position
     this.location = location;
+
+    //voltage to send to the motors before running profile
+    this.moveVoltage = preLoadMove;
    
     //cache your alloted time to complete this command
     this.watchDogTime = watchDogTime;
+
+    //how long to move motors before starting profile
+    this.delayTime = profileDelayTime;
+
     //new up the timer for later use
     watchDog = new Timer();
+    profileStartTimer = new Timer();
   }
 
   // Called just before this Command runs the first time
@@ -76,13 +89,38 @@ public class MotionProfileClimberTestDouble extends Command {
     //mp.startWorking(movingUp); //only used by threading alternative
     mp.startMotionProfile();
     System.out.println("MotionProfileTestClimberDouble(): initialized");
+
+    //start the timer to delay the command
+    profileStartTimer.reset();
+    profileStartTimer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    mp.control(direction, location);
-    mp.setMotionProfileMode();
+
+    // //get time elapsed
+    // double delayElapsedTime = profileStartTimer.get();
+
+    // //if timer popped and profile not started
+    // if (delayElapsedTime >= delayTime && !motionProfileStarted)  {
+    //   //set flag and start motion profile
+    //   climberPod.set(0);
+    //   climberPod.resetEncoderPosition(0);
+
+    //   motionProfileStarted = true;
+    //   mp.startMotionProfile();
+    // }
+    // else if (delayElapsedTime >= delayTime && motionProfileStarted) {
+    //   //continue executing motion profile
+       mp.control(direction, location);
+       mp.setMotionProfileMode();
+    // }
+    // else {
+    //   //otherwise set voltage to pod
+    //   this.climberPod.set(moveVoltage);
+    // }
+   
   }
 
   // Make this return true when this Command no longer needs to run execute()
