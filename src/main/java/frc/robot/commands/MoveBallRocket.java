@@ -32,7 +32,7 @@ public class MoveBallRocket extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.m_ball.getBallRotateEncoder() - PresetPositions.BALL_LOW_ROCKET_POSITION) <= 1;
+    return Math.abs(Robot.m_ball.getBallRotateEncoder() - PresetPositions.BALL_LOW_ROCKET_POSITION) <= 1000;
   
   }
 

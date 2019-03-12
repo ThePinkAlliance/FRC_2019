@@ -56,7 +56,7 @@ public class MoveClimber extends Command {
   public void ReadJoystick() {
     
     if (js != null) {
-      stickValue = js.getRawAxis(OI.leftStick);
+      stickValue = js.getRawAxis(OI.rightStick);
 
       if(stickValue > -0.1 && stickValue < 0.1) {
         stickValue = 0;

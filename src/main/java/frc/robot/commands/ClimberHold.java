@@ -9,13 +9,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.utils.PresetPositions;
+import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
-public class MoveBallToStow extends Command {
-  public MoveBallToStow() {
+public class ClimberHold extends Command {
+  public ClimberHold() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_ball);
+    requires(Robot.m_climber);
   }
 
   // Called just before this Command runs the first time
@@ -26,14 +26,14 @@ public class MoveBallToStow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_ball.setRotateMotorCmd(PresetPositions.BALL_CARGO_POSITION);
+    Robot.m_climberMaster.setPosition(PodPosition.FRONT, PodPosition.LEFT, 0);
+    Robot.m_climberMaster.setPosition(PodPosition.FRONT, PodPosition.LEFT, 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.m_ball.getBallRotateEncoder() - PresetPositions.BALL_CARGO_POSITION) <= 1000;
-  
+    return false;
   }
 
   // Called once after isFinished returns true
