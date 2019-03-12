@@ -63,6 +63,8 @@ public class OI {
   public Button towerA = null;
   public Button towerY = null;
   public Button towerB = null;
+  public Button towerStart = null;
+  public Button towerSelect = null;
   public Button towerRightBumper = null;
   public Button baseRightTrigger = null;
   public Button baseLeftTrigger = null;
@@ -84,6 +86,8 @@ public class OI {
       towerA = new JoystickButton(tower, aButtonNumber);
       towerY = new JoystickButton(tower, yButtonNumber);
       towerB = new JoystickButton(tower, bButtonNumber);
+      towerStart = new JoystickButton(tower, startButtonNumber);
+      towerSelect = new JoystickButton(tower, selectButtonNumber);
       towerRightBumper = new JoystickButton(tower, rightBumperButtonNumber);
       baseRightTrigger = new JoystickButton(base, rightTriggerButtonNumber);
       baseLeftTrigger = new JoystickButton(base, leftTriggerButtonNumber);
@@ -114,8 +118,8 @@ public class OI {
 
   public void setupTowerJoystick() {
     if (tower != null) {
-      //towerY.whenPressed(new MotionProfileGroupClimb());
-      //towerB.whenPressed(new MotionProfileGroupRetract());
+      towerStart.whenPressed(new MotionProfileGroupClimb());
+      towerSelect.whenPressed(new MotionProfileGroupRetract());
       towerA.whenPressed(new MoveElevatorToCollect());
       towerX.whenPressed(new MoveElevatorToMidRocket());
       towerB.whenPressed(new MoveBallRocket());

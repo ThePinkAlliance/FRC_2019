@@ -33,10 +33,10 @@ public class MotionProfileGroupRetract extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft, ClimberDirection.DOWN, PodPosition.FRONT, 4));
-    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.DOWN, PodPosition.FRONT, 4));
-    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackLeft, ClimberDirection.DOWN, PodPosition.BACK, 4));
-    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight, ClimberDirection.DOWN, PodPosition.BACK, 4));
+    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft,  ClimberDirection.DOWN, PodPosition.FRONT, 0, 4, 0));
+    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.DOWN, PodPosition.FRONT, 0, 4, 0));
+    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackLeft,   ClimberDirection.DOWN, PodPosition.BACK,  0, 4, 0));
+    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight,  ClimberDirection.DOWN, PodPosition.BACK,  0, 4, 0));
 
   }
 }
