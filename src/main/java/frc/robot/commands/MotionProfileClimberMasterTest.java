@@ -10,12 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.MotionProfileClimber;
+import frc.robot.Robot;
+import frc.robot.subsystems.MotionProfileClimberMaster;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimberDirection;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
-public class MotionProfileClimberTestDouble extends Command {
+public class MotionProfileClimberMasterTest extends Command {
 
   private Joystick js = null; 
   private MotionProfileClimberDouble mp = null;
@@ -24,13 +25,27 @@ public class MotionProfileClimberTestDouble extends Command {
   private double watchDogTime = 0.0;
   private final double UNWIND_TIME = 0.0;  //one sec to let talon unwind
   private double doneTime = 0;
-  private MotionProfileClimber climberPod = null;
+  private MotionProfileClimberMaster climberPod = null;
   private PodPosition location;
 
   private Timer profileStartTimer = null;
   private double delayTime = 0;
   private double moveVoltage = 0;
   private boolean motionProfileStarted = false;
+  public double Kf_FL = 1.0;
+  public double Kf_BR = 1.0;
+  public double Kf_BL = 1.0;
+  public double Kp_FL = 0.0;
+  public double Kp_BR = 0.0;
+  public double Kp_BL = 0.0;
+  public double masterPower = 0.0;//climberPod.getOutput(PodPosition.FRONT, PodPosition.RIGHT);
+  public double masterPosition = 0.0;//climberPod.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT);
+  public double errorFL = 0.0;//masterPosition - climberPod.getEncPosition(PodPosition.FRONT, PodPosition.LEFT);
+  public double errorBR = 0.0;//masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.RIGHT);
+  public double errorBL = 0.0;//masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.LEFT);
+  public double powerFL = 0.0;//(Kp_FL * errorFL) + (Kf_FL * masterPower);
+  public double powerBR = 0.0;//(Kp_BR * errorFL) + (Kf_BR * masterPower);
+  public double powerBL = 0.0;// (Kp_BL * errorFL) + (Kf_BL * masterPower);
   
   /**
    * 
@@ -39,17 +54,13 @@ public class MotionProfileClimberTestDouble extends Command {
    * @param watchDogTime amount of time this command must complete in
    * 
    */
-  public MotionProfileClimberTestDouble(MotionProfileClimber theClimberPod, ClimberDirection direction, PodPosition location, double preLoadMove, double watchDogTime, double profileDelayTime) {
+  public MotionProfileClimberMasterTest(ClimberDirection direction, double preLoadMove, double watchDogTime, double profileDelayTime) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(theClimberPod);
-    this.climberPod = theClimberPod;
-
+    requires(Robot.m_climberMaster);
+    climberPod = Robot.m_climberMaster;
     //set the direction
     this.direction = direction;
-
-    // set the position
-    this.location = location;
 
     //voltage to send to the motors before running profile
     this.moveVoltage = preLoadMove;
@@ -63,6 +74,9 @@ public class MotionProfileClimberTestDouble extends Command {
     //new up the timer for later use
     watchDog = new Timer();
     profileStartTimer = new Timer();
+
+    System.out.println("CLIMBER Constructor completed...");
+
   }
 
   // Called just before this Command runs the first time
@@ -84,11 +98,15 @@ public class MotionProfileClimberTestDouble extends Command {
     mp = climberPod.getMP();
     climberPod.setDirection(direction);
     mp.reset();
-    climberPod.resetEncoderPosition(0);
+    climberPod.resetEncoderPosition(PodPosition.FRONT, PodPosition.RIGHT);
+    climberPod.resetEncoderPosition(PodPosition.FRONT, PodPosition.LEFT);
+    climberPod.resetEncoderPosition(PodPosition.BACK, PodPosition.RIGHT);
+    climberPod.resetEncoderPosition(PodPosition.BACK, PodPosition.LEFT);
+
     mp.setMotionProfileMode();
     //mp.startWorking(movingUp); //only used by threading alternative
     mp.startMotionProfile();
-    System.out.println("MotionProfileTestClimberDouble(): initialized");
+    System.out.println("MotionProfileClimberMasterTest(): initialized");
 
     //start the timer to delay the command
     profileStartTimer.reset();
@@ -115,6 +133,18 @@ public class MotionProfileClimberTestDouble extends Command {
     //   //continue executing motion profile
        mp.control(direction, location);
        mp.setMotionProfileMode();
+       masterPower = climberPod.getOutput(PodPosition.FRONT, PodPosition.RIGHT);
+       masterPosition = climberPod.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT);
+       errorFL = masterPosition - climberPod.getEncPosition(PodPosition.FRONT, PodPosition.LEFT);
+       errorBR = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.RIGHT);
+       errorBL = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.LEFT);
+       powerFL = (Kp_FL * errorFL) + (Kf_FL * masterPower);
+       powerBR = (Kp_BR * errorFL) + (Kf_BR * masterPower);
+       powerBL = (Kp_BL * errorFL) + (Kf_BL * masterPower);
+       climberPod.set(PodPosition.FRONT, PodPosition.LEFT, powerFL);
+       climberPod.set(PodPosition.BACK, PodPosition.RIGHT, powerBR);
+       climberPod.set(PodPosition.BACK, PodPosition.LEFT, powerBL);
+
     // }
     // else {
     //   //otherwise set voltage to pod
@@ -144,6 +174,9 @@ public class MotionProfileClimberTestDouble extends Command {
     mp.stopMotionProfile();
     //mp.stopWorking();
     System.out.println("MotionProfileTestClimberDouble(): End");
+    climberPod.set(PodPosition.FRONT, PodPosition.LEFT, 0);
+    climberPod.set(PodPosition.BACK, PodPosition.RIGHT, 0);
+    climberPod.set(PodPosition.BACK, PodPosition.LEFT, 0);
   }
 
   // Called when another command which requires one or more of the same
@@ -153,6 +186,9 @@ public class MotionProfileClimberTestDouble extends Command {
     mp.stopMotionProfile();
    // mp.stopWorking();  //only used by threading alternative
    System.out.println("MotionProfileTestClimberDouble(): Interrupted");
+   climberPod.set(PodPosition.FRONT, PodPosition.LEFT, 0);
+    climberPod.set(PodPosition.BACK, PodPosition.RIGHT, 0);
+    climberPod.set(PodPosition.BACK, PodPosition.LEFT, 0);
   }
 
 }
