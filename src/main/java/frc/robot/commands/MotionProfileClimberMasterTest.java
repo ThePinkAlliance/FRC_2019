@@ -144,8 +144,8 @@ public class MotionProfileClimberMasterTest extends Command {
       //  errorBR = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.RIGHT);
       //  errorBL = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.LEFT);
        powerFL = (Kp_FL * errorFL) + (Kf_FL * masterPower);
-       powerBR = (Kp_BR * errorFL) + (Kf_BR * masterPower);
-       powerBL = (Kp_BL * errorFL) + (Kf_BL * masterPower);
+       powerBR = (Kp_BR * errorBR) + (Kf_BR * masterPower);
+       powerBL = (Kp_BL * errorBL) + (Kf_BL * masterPower);
        climberPod.set(PodPosition.FRONT, PodPosition.RIGHT, masterPower);
        climberPod.set(PodPosition.FRONT, PodPosition.LEFT, powerFL);
        climberPod.set(PodPosition.BACK, PodPosition.RIGHT, powerBR);
