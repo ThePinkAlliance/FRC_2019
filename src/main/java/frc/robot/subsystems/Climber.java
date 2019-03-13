@@ -5,8 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.MoveClimber;
-import frc.robot.commands.ClimberHold;
 
 // Subsystem used for defineing Climber hardware and methods
 public class Climber extends Subsystem {
@@ -16,11 +14,11 @@ public class Climber extends Subsystem {
   public static final int[] ENC_DIO_CLIMBER = {0,1};
   public static final boolean ENC_INVERT_COUNT_FALSE = false;
   public static final boolean ENC_INVERT_COUNT_TRUE = true;
-  public static final int DISTANCE_PER_PULSE = 200; // TODO: Revisit this value
-  public static final double MAX_PERIOD = 0.1; // TODO: Revisit this value
-  public static final int MIN_RATE = 10; // TODO: Revisit this value
-  public static final int SAMPLES_TO_AVERAGE = 7; // TODO: Revisit this value
-  
+  public static final int DISTANCE_PER_PULSE = 200;
+  public static final double MAX_PERIOD = 0.1;
+  public static final int MIN_RATE = 10;
+  public static final int SAMPLES_TO_AVERAGE = 7;
+   
   // Subsystem Constuctor
   public Climber() {
     // Define Subsystem Hardware
@@ -33,7 +31,7 @@ public class Climber extends Subsystem {
   // Method to define the default command for the Climber
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new ClimberHold());
+    // setDefaultCommand(new ClimberHold());
   }
 
   // Method to setup an encoder

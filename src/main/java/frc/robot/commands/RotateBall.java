@@ -97,7 +97,6 @@ public class RotateBall extends Command {
         stickValue = 0;
       }
       // Set _elevator Motor to stickValue
-      //TODO: add gain (to all things like this!), bro (JD)
       Robot.m_ball.moveBall(stickValue);
     }
   }

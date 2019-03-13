@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.MotionProfileClimber;
 import frc.robot.subsystems.MotionProfileClimberMaster;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
@@ -21,11 +20,6 @@ public class HoldClimberPosition extends Command {
   private Timer watchDog = null;
   private double watchDogTime = 0.0;
 
-  private double positionToHoldFR = 0.0;
-  private double positionToHoldFL = 0.0;
-  private double positionToHoldBR = 0.0;
-  private double positionToHoldBL = 0.0;
-  
 
   public HoldClimberPosition(double watchDogTime) {
     // Use requires() here to declare subsystem dependencies

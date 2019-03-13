@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.subsystems.MotionProfileClimber;
 import frc.robot.subsystems.MotionProfileClimberMaster;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 

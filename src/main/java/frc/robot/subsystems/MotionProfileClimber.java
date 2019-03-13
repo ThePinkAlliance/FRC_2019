@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import frc.robot.commands.ClimberDefault;
 import frc.robot.subsystems.utils.Constants;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -31,7 +30,7 @@ public class MotionProfileClimber extends Subsystem {
 
   private PodPosition face = PodPosition.FRONT;
   private PodPosition side = PodPosition.LEFT;
-  private double startingPosition = 0.0;
+  public double startingPosition = 0.0;
 
   // // point of view of the face that we climb with
   // public static enum PodPosition {
@@ -176,7 +175,7 @@ public class MotionProfileClimber extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new ClimberDefault(this));
+    // setDefaultCommand(new ClimberDefault(this));
   }
 
   public void resetEncoderPosition(int position) {
@@ -214,10 +213,10 @@ public class MotionProfileClimber extends Subsystem {
   public void setupLeftFront(TalonSRX follower) {
     System.out.println("Setup Left Front Running");
     if (follower == null) {
-      _talon1.setInverted(true);
+      _talon1.setInverted(false);
       _talon1.setSensorPhase(true);
     } else {
-      follower.setInverted(true);
+      follower.setInverted(false);
       follower.setSensorPhase(true);
     }
   }
@@ -244,10 +243,10 @@ public class MotionProfileClimber extends Subsystem {
 
   public void setupRightBack(TalonSRX follower) {
     if (follower == null) {
-      _talon1.setInverted(true);
+      _talon1.setInverted(false);
       // on practice bot default phase was right
     } else {
-      follower.setInverted(true);
+      follower.setInverted(false);
       // on practice bot default phase was right
     }
   }

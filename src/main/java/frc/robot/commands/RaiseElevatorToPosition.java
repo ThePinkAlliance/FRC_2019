@@ -95,7 +95,6 @@ public class RaiseElevatorToPosition extends Command {
         stickValue = 0;
       }
       // Set _elevator Motor to stickValue
-      //TODO: add gain (to all things like this!), bro (JD)
       Robot.m_elevator.moveElevator(stickValue);
     }
   }

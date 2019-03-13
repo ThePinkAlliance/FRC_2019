@@ -31,7 +31,7 @@ public class MotionProfileClimberMaster extends Subsystem {
 
   private PodPosition face = PodPosition.FRONT;
   private PodPosition side = PodPosition.LEFT;
-  private double startingPosition = 0.0;
+  // private double startingPosition = 0.0;
 
   // // point of view of the face that we climb with
   // public static enum PodPosition {
@@ -149,10 +149,11 @@ public class MotionProfileClimberMaster extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    //setDefaultCommand(new ClimberDefaultMaster());
+    setDefaultCommand(new ClimberDefaultMaster());
     //setDefaltCommand(new JoystickLevelClimber());
+    // setDefaultCommand(new ClimberHold());
   }
-
+ 
   public void resetEncoderPosition(PodPosition face, PodPosition side) {
     
     if (side == PodPosition.RIGHT && face == PodPosition.FRONT) {
@@ -256,7 +257,7 @@ public class MotionProfileClimberMaster extends Subsystem {
   public void setupLeftFront() {
     System.out.println("Setup Left Front Running");
     
-      _fl.setInverted(true);
+      _fl.setInverted(false);
       _fl.setSensorPhase(true);
   }
 

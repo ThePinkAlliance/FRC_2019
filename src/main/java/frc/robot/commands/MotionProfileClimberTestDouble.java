@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.MotionProfileClimber;
@@ -17,20 +16,16 @@ import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
 public class MotionProfileClimberTestDouble extends Command {
 
-  private Joystick js = null; 
   private MotionProfileClimberDouble mp = null;
   private ClimberDirection direction = ClimberDirection.UP;
   private Timer watchDog = null;
   private double watchDogTime = 0.0;
-  private final double UNWIND_TIME = 0.0;  //one sec to let talon unwind
-  private double doneTime = 0;
   private MotionProfileClimber climberPod = null;
   private PodPosition location;
 
   private Timer profileStartTimer = null;
-  private double delayTime = 0;
-  private double moveVoltage = 0;
-  private boolean motionProfileStarted = false;
+  public double delayTime = 0;
+  public double moveVoltage = 0;
   
   /**
    * 

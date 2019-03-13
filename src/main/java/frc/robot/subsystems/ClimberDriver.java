@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -15,7 +14,7 @@ public class ClimberDriver extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-
+ 
   // Declare Motors for this Subsystem
   public WPI_VictorSPX _climberWheelL = null;
   public WPI_TalonSRX _climberWheelR = null;
@@ -23,7 +22,6 @@ public class ClimberDriver extends Subsystem {
   public ClimberDriver() {
 
     // Define Motors for this Subsystem
-    //TODO: Check these ports in RobotMap
     _climberWheelL = new WPI_VictorSPX(RobotMap.climberDriverForwardLeftMotor);
     _climberWheelR = new WPI_TalonSRX(RobotMap.climberDriverForwardRightMotor);
 

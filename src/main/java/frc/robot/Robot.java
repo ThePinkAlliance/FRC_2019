@@ -10,7 +10,6 @@ import frc.robot.subsystems.ClimberDriver;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Hatch;
-import frc.robot.subsystems.MotionProfileClimber;
 import frc.robot.subsystems.MotionProfileClimberMaster;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 import frc.robot.subsystems.Ball;

@@ -3,8 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
-// The RobotDashboard is a helper class to encapsulate 
-// displaying data to the dashboard.
+// Class for Displaying Information on the RobotDashboard
 public class RobotDashboard {
   // Encoder Data
   public static final String ENC_LABEL_RIGHT_FRONT = "Right Front Distance(in)";
@@ -68,6 +67,7 @@ public class RobotDashboard {
             SmartDashboard.putNumber(ENC_LABEL_RIGHT_FRONT, Robot.m_driveTrain.getFrontRightPosition());
             SmartDashboard.putNumber(ENC_LABEL_LEFT_FRONT, Robot.m_driveTrain.getFrontLeftPosition());
             SmartDashboard.putNumber(ENC_LABEL_ELEVATOR, Robot.m_elevator.getElevatorHeight());
+            SmartDashboard.putNumber("Ball Elevator Position: ", Robot.m_ball.getBallRotateEncoder());
             // SmartDashboard.putNumber("PodFrontLeftEncoder", Robot.m_climberPodFrontLeft.getEncPosition());
             // SmartDashboard.putNumber("PodBackLeftEncoder", Robot.m_climberPodBackLeft.getEncPosition());
             // SmartDashboard.putNumber("PodFrontRightEncoder", Robot.m_climberPodFrontRight.getEncPosition());

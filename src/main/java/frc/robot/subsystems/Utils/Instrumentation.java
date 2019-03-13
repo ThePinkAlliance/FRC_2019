@@ -28,7 +28,7 @@ public class Instrumentation {
 	static double timeout = 0;
 	static int count = 0;
 
-	private static final String[] _table = {" Dis ", " En  ", "Hold "};
+	// private static final String[] _table = {" Dis ", " En  ", "Hold "};
 
 	public static void OnUnderrun() {
 		//system..out.format("%s\n", "UNDERRUN");
@@ -38,14 +38,14 @@ public class Instrumentation {
 		//system..out.format("%s\n", "NOPROGRESS");
 	}
 
-	static private String StrOutputEnable(SetValueMotionProfile sv) {
-		/* convert sv to string equiv */
-		if (sv == null)
-			return "null";
-		if (sv.value > 3)
-			return "Inval";
-		return _table[sv.value];
-	}
+	// static private String StrOutputEnable(SetValueMotionProfile sv) {
+	// 	/* convert sv to string equiv */
+	// 	if (sv == null)
+	// 		return "null";
+	// 	if (sv.value > 3)
+	// 		return "Inval";
+	// 	return _table[sv.value];
+	// }
 
 	public static void process(MotionProfileStatus status, double pos,
 			double vel, double heading) {

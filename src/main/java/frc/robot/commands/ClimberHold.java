@@ -15,7 +15,7 @@ public class ClimberHold extends Command {
   public ClimberHold() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_climber);
+    requires(Robot.m_climberMaster);
   }
 
   // Called just before this Command runs the first time
@@ -27,7 +27,7 @@ public class ClimberHold extends Command {
   @Override
   protected void execute() {
     Robot.m_climberMaster.setPosition(PodPosition.FRONT, PodPosition.LEFT, 0);
-    Robot.m_climberMaster.setPosition(PodPosition.FRONT, PodPosition.LEFT, 0);
+    Robot.m_climberMaster.setPosition(PodPosition.FRONT, PodPosition.RIGHT, 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()

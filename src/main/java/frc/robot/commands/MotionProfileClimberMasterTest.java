@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -18,27 +17,27 @@ import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
 public class MotionProfileClimberMasterTest extends Command {
 
-  private Joystick js = null; 
+  // private Joystick js = null; 
   private MotionProfileClimberDouble mp = null;
   private ClimberDirection direction = ClimberDirection.UP;
   private Timer watchDog = null;
   private double watchDogTime = 0.0;
-  private final double UNWIND_TIME = 0.0;  //one sec to let talon unwind
-  private double doneTime = 0;
+  // private final double UNWIND_TIME = 0.0;  //one sec to let talon unwind
+  // private double doneTime = 0;
   private MotionProfileClimberMaster climberPod = null;
-  private PodPosition location;
+  // private PodPosition location;
 
   private Timer profileStartTimer = null;
-  private double delayTime = 0;
-  private double moveVoltage = 0;
-  private boolean motionProfileStarted = false;
+  public double delayTime = 0;
+  public double moveVoltage = 0;
+  // private boolean motionProfileStarted = false;
   public double Kf_FL = 1.0;//2.0;
   public double Kf_BR = 1.0;//1.0;
-  public double Kf_BL = 1.9;//2.0;
+  public double Kf_BL = 1.0;//2.0;
   //==========================
-  public double Kp_FL = 0.2 / 1000.0;
-  public double Kp_BR = 0.8 / 1000.0;
-  public double Kp_BL = 0.5 / 1000.0;
+  public double Kp_FL = 0.0 / 1000.0;
+  public double Kp_BR = 0.0 / 1000.0;
+  public double Kp_BL = 0.0 / 1000.0;
   public double masterPower = 0.0;//climberPod.getOutput(PodPosition.FRONT, PodPosition.RIGHT);
   public double masterPosition = 0.0;//climberPod.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT);
   public double errorFL = 0.0;//masterPosition - climberPod.getEncPosition(PodPosition.FRONT, PodPosition.LEFT);
@@ -47,6 +46,17 @@ public class MotionProfileClimberMasterTest extends Command {
   public double powerFL = 0.0;//(Kp_FL * errorFL) + (Kf_FL * masterPower);
   public double powerBR = 0.0;//(Kp_BR * errorFL) + (Kf_BR * masterPower);
   public double powerBL = 0.0;// (Kp_BL * errorFL) + (Kf_BL * masterPower);
+  double Ki_FL = 0;
+  double Ki_BR = 0;
+  double Ki_BL = 0;
+  double originalKi_FL = Ki_FL;
+  double originalKi_BR = Ki_BR;
+  double originalKi_BL = Ki_BL;
+  double last_FL_error = 0;
+  double last_BR_error = 0;
+  double last_BL_error = 0;
+  double climberSuccessRange = 30;
+  double maxIntegralValue = 0.2;
   
   /**
    * 
@@ -134,23 +144,52 @@ public class MotionProfileClimberMasterTest extends Command {
     //   //continue executing motion profile
        //mp.control(direction, location);
        //mp.setMotionProfileMode();
-       masterPower = 0.35;//climberPod.getOutput(PodPosition.FRONT, PodPosition.RIGHT);
+       masterPower = 0.15;//climberPod.getOutput(PodPosition.FRONT, PodPosition.RIGHT);
        //masterPosition = climberPod.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT);
-       masterPosition = climberPod.getEncVelocity(PodPosition.FRONT, PodPosition.RIGHT);
-       errorFL = masterPosition - climberPod.getEncVelocity(PodPosition.FRONT, PodPosition.LEFT);
-       errorBR = masterPosition - climberPod.getEncVelocity(PodPosition.BACK, PodPosition.RIGHT);
-       errorBL = masterPosition - climberPod.getEncVelocity(PodPosition.BACK, PodPosition.LEFT);
+       masterPosition = climberPod.getEncPosition(PodPosition.FRONT, PodPosition.RIGHT);
+       errorFL = masterPosition - climberPod.getEncPosition(PodPosition.FRONT, PodPosition.LEFT);
+       errorBR = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.RIGHT);
+       errorBL = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.LEFT);
       //  errorFL = masterPosition - climberPod.getEncPosition(PodPosition.FRONT, PodPosition.LEFT);
       //  errorBR = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.RIGHT);
       //  errorBL = masterPosition - climberPod.getEncPosition(PodPosition.BACK, PodPosition.LEFT);
-       powerFL = (Kp_FL * errorFL) + (Kf_FL * masterPower);
-       powerBR = (Kp_BR * errorFL) + (Kf_BR * masterPower);
-       powerBL = (Kp_BL * errorFL) + (Kf_BL * masterPower);
-       climberPod.set(PodPosition.FRONT, PodPosition.RIGHT, masterPower);
-       climberPod.set(PodPosition.FRONT, PodPosition.LEFT, powerFL);
-       climberPod.set(PodPosition.BACK, PodPosition.RIGHT, powerBR);
-       climberPod.set(PodPosition.BACK, PodPosition.LEFT, powerBL);
+      powerFL = (Kp_FL * errorFL) + (Kf_FL * masterPower) + (originalKi_FL * (last_FL_error + errorFL));
+      powerBR = (Kp_BR * errorBR) + (Kf_BR * masterPower) + (originalKi_BR * (last_BR_error + errorBR));
+      powerBL = (Kp_BL * errorBL) + (Kf_BL * masterPower) + (originalKi_BL * (last_BL_error + errorBL));
+      climberPod.set(PodPosition.FRONT, PodPosition.RIGHT, masterPower);
+      climberPod.set(PodPosition.FRONT, PodPosition.LEFT, powerFL);
+      climberPod.set(PodPosition.BACK, PodPosition.RIGHT, powerBR);
+      climberPod.set(PodPosition.BACK, PodPosition.LEFT, powerBL);
 
+      // if (errorFL < climberSuccessRange) {
+      //   originalKi_FL = 0;
+      // } else if (last_FL_error >= maxIntegralValue) {
+      //   last_FL_error = maxIntegralValue;
+      //   originalKi_FL = Ki_FL;
+      // } else {
+      //   last_FL_error = last_FL_error + errorFL;
+      //   originalKi_FL = Ki_FL;
+      // }
+
+      if (errorBR < climberSuccessRange) {
+        originalKi_BR = 0;
+      } else if (last_BR_error >= maxIntegralValue) {
+        last_BR_error = maxIntegralValue;
+        originalKi_BR = Ki_BR;
+      } else {
+        last_BR_error = last_BR_error + errorBR;
+        originalKi_BR = Ki_BR;
+      }
+
+      if (errorBL < climberSuccessRange) {
+        Ki_BL = 0;
+      } else if (last_BL_error >= maxIntegralValue) {
+        last_BL_error = maxIntegralValue;
+        originalKi_BL = Ki_BL;
+      } else {
+        last_BL_error = last_BL_error + errorBL;
+        originalKi_BL = Ki_BL;
+      }
     // }
     // else {
     //   //otherwise set voltage to pod

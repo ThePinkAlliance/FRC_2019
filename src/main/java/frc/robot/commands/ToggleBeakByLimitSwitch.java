@@ -20,10 +20,6 @@ public class ToggleBeakByLimitSwitch extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // Evan said he wants neck to be down when beak is opened
-    // TODO: test this, is false up?
-    //if (!Robot.m_hatch.isNeckUp())
-      //Robot.m_hatch.toggleNeck();
   }
 
   // Called repeatedly when this Command is scheduled to run

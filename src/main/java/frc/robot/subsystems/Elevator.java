@@ -9,10 +9,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.commands.RaiseElevatorToPosition;
-import frc.robot.commands.RaiseElevatorToPosition.RaiseToPosition;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.JoystickElevator;
 
 // Subsystem used for defining Elevator hardware and methods
