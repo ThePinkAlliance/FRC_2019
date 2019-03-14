@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
 // The RobotDashboard is a helper class to encapsulate 
 // displaying data to the dashboard.

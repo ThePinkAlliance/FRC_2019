@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import frc.robot.commands.MotionProfileClimberJoystick;
+//import frc.robot.commands.MotionProfileClimberJoystick;
 import frc.robot.subsystems.utils.Constants;
 
 import edu.wpi.first.wpilibj.command.Subsystem;

@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.MotionProfileClimber;
@@ -17,25 +16,19 @@ import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
 public class MotionProfileClimberTestDouble extends Command {
 
-  private Joystick js = null; 
   private MotionProfileClimberDouble mp = null;
   private ClimberDirection direction = ClimberDirection.UP;
   private Timer watchDog = null;
   private double watchDogTime = 0.0;
-  private final double UNWIND_TIME = 0.0;  //one sec to let talon unwind
-  private double doneTime = 0;
   private MotionProfileClimber climberPod = null;
   private PodPosition location;
 
   private Timer profileStartTimer = null;
-  private double delayTime = 0;
-  private double moveVoltage = 0;
-  private boolean motionProfileStarted = false;
   
   /**
    * 
-   * @param direction which direction are we going UP or DOWN.  This affects
-   *                  which motion profile is loaded
+   * @param direction    which direction are we going UP or DOWN. This affects
+   *                     which motion profile is loaded
    * @param watchDogTime amount of time this command must complete in
    * 
    */
@@ -51,14 +44,8 @@ public class MotionProfileClimberTestDouble extends Command {
     // set the position
     this.location = location;
 
-    //voltage to send to the motors before running profile
-    this.moveVoltage = preLoadMove;
-   
     //cache your alloted time to complete this command
     this.watchDogTime = watchDogTime;
-
-    //how long to move motors before starting profile
-    this.delayTime = profileDelayTime;
 
     //new up the timer for later use
     watchDog = new Timer();

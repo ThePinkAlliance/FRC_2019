@@ -15,11 +15,6 @@ public class OpenBeak extends Command {
   protected void initialize() {
     // Open the beak
     Robot.m_hatch._beak.set(true);
-
-    // Evan said he wants neck to be down when beak is opened
-    // TODO: test this, is false up?
-    //if (!Robot.m_hatch.isNeckUp())
-      //Robot.m_hatch.toggleNeck();
   }
 
   // Called repeatedly when this Command is scheduled to run

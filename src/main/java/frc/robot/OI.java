@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.buttons.Button;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.Hold;
 import frc.robot.commands.MotionProfileGroupClimb;
 import frc.robot.commands.MotionProfileGroupRetract;
 import frc.robot.commands.MoveBallRocket;
@@ -14,7 +13,6 @@ import frc.robot.commands.MoveBallToStow;
 import frc.robot.commands.MoveElevatorToCollect;
 import frc.robot.commands.MoveElevatorToMidRocket;
 import frc.robot.commands.OpenBeak;
-import frc.robot.commands.RaiseElevatorToPosition;
 import frc.robot.commands.StartupCollectHatch;
 import frc.robot.commands.ToggleNeck;
 import frc.robot.commands.AutomatedCollect;
