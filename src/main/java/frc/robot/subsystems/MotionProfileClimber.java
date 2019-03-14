@@ -145,7 +145,7 @@ public class MotionProfileClimber extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new MotionProfileClimberJoystick(this));
+    //setDefaultCommand(new MotionProfileClimberJoystick(this));
   }
 
   public void resetEncoderPosition(int position) {
