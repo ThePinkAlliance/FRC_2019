@@ -312,9 +312,16 @@ public class MotionProfileClimberDouble {
 	private void startFilling(ClimberDirection direction, PodPosition location) {
 		
 		 if (location == PodPosition.FRONT) {
-		 	startFilling(GeneratedFront.Points, GeneratedFront.kNumPoints);
+			 if (direction == ClimberDirection.UP)
+				startFilling(GeneratedUpFront.Points, GeneratedUpFront.kNumPoints);
+			 else
+			    startFilling(GeneratedDownFront.Points, GeneratedDownFront.kNumPoints);
 		 } else {
-		 	startFilling(GeneratedBack.Points, GeneratedBack.kNumPoints);
+			if (direction == ClimberDirection.UP)
+				 startFilling(GeneratedUpBack.Points, GeneratedUpBack.kNumPoints);
+			else
+			     startFilling(GeneratedDownBack.Points, GeneratedDownBack.kNumPoints);
+			     
 		 }
 	}
 

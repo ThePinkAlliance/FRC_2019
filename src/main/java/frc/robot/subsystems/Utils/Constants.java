@@ -52,7 +52,7 @@ public class Constants {
 	// public static final Gains kGainsLeftBack = new Gains(0.15, 0.00013, 0.0, /*0.109728*//*1023.0/7200.0*/0.446, 0, 1.0);
 	
 	public static final Gains kGainsRightFront = new Gains(0.7, 0.002, 0.0, 0.0, 0, 1.0);
-	public static final Gains kGainsRightBack = new Gains(0.7, 0.002, 0.0, 0.0, 0, 1.0);
+	public static final Gains kGainsRightBack = new Gains(1, 0.005, 0.0, 0.0, 0, 1.0);
 	public static final Gains kGainsLeftFront = new Gains(0.7, 0.002, 0.0, 0.0, 0, 1.0);
 	public static final Gains kGainsLeftBack = new Gains(0.7, 0.002, 0.0, 0.0, 0, 1.0);
 }
