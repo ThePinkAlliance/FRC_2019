@@ -5,8 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import frc.robot.commands.ClimberDefault;
+import frc.robot.commands.MotionProfileClimberJoystick;
 import frc.robot.subsystems.utils.Constants;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,30 +22,13 @@ public class MotionProfileClimber extends Subsystem {
   TalonSRX _talon1 = null;
   TalonSRX _talon2 = null;
 
-  public final static boolean SWITCH_CLOSED = true;
-  public final static boolean SWITCH_OPEN = false;
-
+  
   /** some example logic on how one can manage an MP */
   MotionProfileClimberDouble _example = null;
 
   private PodPosition face = PodPosition.FRONT;
   private PodPosition side = PodPosition.LEFT;
-  private double startingPosition = 0.0;
-
-  // // point of view of the face that we climb with
-  // public static enum PodPosition {
-  //   FRONT, // collector side
-  //   BACK, // beak side
-  //   LEFT, // where front is the collector
-  //   RIGHT // where front is the collector
-  // }
-
-  // // point of view of the robot, not the pod mechanisms
-  // // e.g.: when the robot belly pan rises, thats up
-  // public static enum ClimberDirection {
-  //   UP, DOWN
-  // }
-
+  
   // NOTALON ID for instance without a follower
   public final static int TALON_ID_NULL = -1;
 
@@ -60,14 +42,7 @@ public class MotionProfileClimber extends Subsystem {
     setupTalon();
   }
 
-  public void invertTalon1(boolean invert) {
-    _talon1.setInverted(invert);
-  }
-
-  public void invertTalon2(boolean invert) {
-    _talon2.setInverted(invert);
-  }
-
+  
   public void setupTalon() {
     /* Factory Default all hardware to prevent unexpected behaviour */
     _talon1.configFactoryDefault();
@@ -156,11 +131,6 @@ public class MotionProfileClimber extends Subsystem {
       _talon1.config_kD(Constants.kPIDLoopIdx, Constants.kGainsLeftBack.kD, Constants.kTimeoutMs); 
     }
 
-    // _talon1.config_kF(Constants.kPIDLoopIdx, Constants.kGains.kF, Constants.kTimeoutMs);
-    // _talon1.config_kP(Constants.kPIDLoopIdx, Constants.kGains.kP, Constants.kTimeoutMs);
-    // _talon1.config_kI(Constants.kPIDLoopIdx, Constants.kGains.kI, Constants.kTimeoutMs);
-    // _talon1.config_kD(Constants.kPIDLoopIdx, Constants.kGains.kD, Constants.kTimeoutMs);
-
     /* Our profile uses 10ms timing */
     _talon1.configMotionProfileTrajectoryPeriod(10, Constants.kTimeoutMs);
 
@@ -170,13 +140,12 @@ public class MotionProfileClimber extends Subsystem {
     _talon1.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
 
     resetEncoderPosition(0);
-    startingPosition = 0;
   }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new ClimberDefault(this));
+    setDefaultCommand(new MotionProfileClimberJoystick(this));
   }
 
   public void resetEncoderPosition(int position) {
@@ -212,13 +181,12 @@ public class MotionProfileClimber extends Subsystem {
   }
 
   public void setupLeftFront(TalonSRX follower) {
-    System.out.println("Setup Left Front Running");
     if (follower == null) {
-      _talon1.setInverted(true);
-      _talon1.setSensorPhase(true);
+      _talon1.setInverted(false);
+      _talon1.setSensorPhase(true); //true
     } else {
-      follower.setInverted(true);
-      follower.setSensorPhase(true);
+      follower.setInverted(false);
+      follower.setSensorPhase(true); //true
     }
   }
 
@@ -259,7 +227,7 @@ public class MotionProfileClimber extends Subsystem {
         // FRONT
         if (side == PodPosition.LEFT) {
           // LEFT
-          _talon1.setInverted(true); // test with false while phase reversed
+          _talon1.setInverted(false); // test with false while phase reversed
           if (_talon2 != null)
             _talon2.setInverted(true);
         } else {
@@ -290,7 +258,7 @@ public class MotionProfileClimber extends Subsystem {
         // FRONT
         if (side == PodPosition.LEFT) {
           // LEFT
-          _talon1.setInverted(false); // test with false while phase reversed
+          _talon1.setInverted(true); // test with false while phase reversed
           if (_talon2 != null)
             _talon2.setInverted(false);
         } else {
@@ -320,20 +288,4 @@ public class MotionProfileClimber extends Subsystem {
   public double getOutput() {
     return _talon1.getMotorOutputPercent();
   }
-  // public void setDirection(ClimberDirection direction) {
-  // if (side == PodPosition.LEFT) {
-  // if (direction == ClimberDirection.UP) {
-  // if (face == PodPosition.FRONT) {
-  // _talon1.setInverted(true);
-  // } else {
-  // _talon1.setInverted(false);
-  // }
-  // } else {
-  // if (direction == ClimberDirection.UP) {
-  // _talon1.setInverted(false);
-  // } else {
-  // _talon1.setInverted(true);
-  // }
-  // }
-  // }
 }

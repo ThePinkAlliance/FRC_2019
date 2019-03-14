@@ -212,5 +212,28 @@ public class DriveTrain extends Subsystem {
 
     // Set Motor Power
     _diffDrive.tankDrive(leftGoverned, rightGoverned);
+  }
+  
+  // Method to drive based on joysticks while accounting for governor
+  public void tankDrive(double left, double right) {
+
+    // Invert motor direction and account for gain
+    leftGoverned = left * left;
+    rightGoverned = right * right;
+    if (left < 0) {
+      leftGoverned = leftGoverned * -1;
+    }
+    if (right < 0) {
+      rightGoverned = rightGoverned * -1;
+    }
+    leftGoverned = -left * Gains.baseMotorGain;
+    rightGoverned = -right * Gains.baseMotorGain;
+
+    // Add Telemetry 
+    //system..out.println("||----------Drive Train----------||");
+    //system..out.println("Left: " + leftGoverned +  " ---    Right: " + rightGoverned);
+
+    // Set Motor Power
+    _diffDrive.tankDrive(leftGoverned, rightGoverned);
 	}
 }

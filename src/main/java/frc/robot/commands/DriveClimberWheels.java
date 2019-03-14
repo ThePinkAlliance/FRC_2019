@@ -27,11 +27,13 @@ public class DriveClimberWheels extends Command {
   private boolean isDone = false;
 
 
-  public DriveClimberWheels() {
+  public DriveClimberWheels(double rampRate, double cruiseTime, double watchDogTime) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_climberDriver);
-
+    this.watchDogTime = watchDogTime;
+    this.rampRate = rampRate;
+    this.cruiseTime = cruiseTime;
     watchDogTimer = new Timer();
     cruiseTimer = new Timer();
   }

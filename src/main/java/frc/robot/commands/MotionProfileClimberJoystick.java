@@ -7,15 +7,23 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
+import frc.robot.subsystems.MotionProfileClimber;
 
-public class ClimberHold extends Command {
-  public ClimberHold() {
+public class MotionProfileClimberJoystick extends Command {
+
+  private Joystick js = null; 
+  private MotionProfileClimber climberPod = null;
+
+  public MotionProfileClimberJoystick(MotionProfileClimber theClimberPod) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_climber);
+    requires(theClimberPod);
+    this.climberPod = theClimberPod;
+    js = Robot.m_oi.getTowerJoystick();
   }
 
   // Called just before this Command runs the first time
@@ -26,8 +34,12 @@ public class ClimberHold extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_climberMaster.setPosition(PodPosition.FRONT, PodPosition.LEFT, 0);
-    Robot.m_climberMaster.setPosition(PodPosition.FRONT, PodPosition.LEFT, 0);
+    if (js != null) {
+      if (js.getRawButtonPressed(OI.aButtonNumber)) {
+        climberPod.resetEncoderPosition(0);
+      }      
+       climberPod.set(js.getRawAxis(OI.rightStick)*.5);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
