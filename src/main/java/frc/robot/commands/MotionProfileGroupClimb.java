@@ -20,42 +20,33 @@ public class MotionProfileGroupClimb extends CommandGroup {
   public MotionProfileGroupClimb() {
     //ROBOT UP
     double RAISEUP = 5.5;
-    // double BALLRAISEDPOSITION = 1100000;
     addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft,  ClimberDirection.UP, PodPosition.FRONT, .15, RAISEUP, 1));
-    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.UP, PodPosition.FRONT, .15, RAISEUP, 1));
-    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackLeft,   ClimberDirection.UP, PodPosition.BACK,  .15, RAISEUP, 1));
-    // addSequential(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight,  ClimberDirection.UP, PodPosition.BACK,  .15, RAISEUP, 1));
-    // addSequential(new BallRotateToPosition(BALLRAISEDPOSITION));
+    addSequential(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.UP, PodPosition.FRONT, .15, RAISEUP, 1));
     
     //HOLD and MOVE FORWARD TO CATCH the FIRST PART OF PLATFORM
     double HOLDANDMOVE = 2.4;
     addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .3, .2, 1, HOLDANDMOVE));
     addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .3, .2, 1, HOLDANDMOVE));
-    // addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodBackLeft, .3, .2, 1, HOLDANDMOVE));
-    // addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodBackRight, .3, .2, 1, HOLDANDMOVE));
-    // addParallel(new BallHoldRotation());
     addSequential(new DriveClimberWheels(0.03, 0.6, HOLDANDMOVE));
+    // addSequential(new MotionProfileClimberDriveTrain(0.2, DRIVEFORWARD));
+
     
     // //RETRACT FIRST SET OF PODS (back pods)
     // double RETRACTFIRSTSET = 3.1;
-    // // double BALLLOWEREDPOSITION = 1000;
     // addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .3, .2, 1, RETRACTFIRSTSET));
     // addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .3, .2, 1, RETRACTFIRSTSET));
-    // // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackLeft,   ClimberDirection.DOWN, PodPosition.BACK,  .15, RETRACTFIRSTSET, 1));
-    // // addSequential(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight,  ClimberDirection.DOWN, PodPosition.BACK,  .15, RETRACTFIRSTSET, 1));
-    // // addSequential(new BallRotateToPosition(BALLLOWEREDPOSITION));
     
-    // double DRIVEFORWARD = 3.0;
-    // addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .3, .2, 1, DRIVEFORWARD));
-    // addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .3, .2, 1, DRIVEFORWARD));
-    // addParallel(new DriveClimberWheels(0.03, 2.0, DRIVEFORWARD ));
-    // addSequential(new MotionProfileClimberDriveTrain(0.2, DRIVEFORWARD));
+    double DRIVEFORWARD = 3.0;
+    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .3, .2, 1, DRIVEFORWARD));
+    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .3, .2, 1, DRIVEFORWARD));
+    addParallel(new DriveClimberWheels(0.03, 2.0, DRIVEFORWARD ));
+    addSequential(new MotionProfileClimberDriveTrain(0.4, DRIVEFORWARD));
     
     
-    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft,  ClimberDirection.DOWN, PodPosition.FRONT, .15, 5.5, 1));
-    // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.DOWN, PodPosition.FRONT, .15, 5.5, 1));
-    // addParallel(new DriveClimberWheels(0.03, 30.0, 31.0 ));
-    // addSequential(new MotionProfileClimberDriveTrain(0.3, 31.0));
+    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft,  ClimberDirection.DOWN, PodPosition.FRONT, .15, 5.5, 1));
+    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.DOWN, PodPosition.FRONT, .15, 5.5, 1));
+    addParallel(new DriveClimberWheels(0.03, 30.0, 31.0 ));
+    addSequential(new MotionProfileClimberDriveTrain(0.4, 31.0));
     
     // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackLeft,   ClimberDirection.DOWN, PodPosition.BACK,  .15, 5.5, 1));
     // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight,  ClimberDirection.DOWN, PodPosition.BACK,  .15, 5.5, 1));

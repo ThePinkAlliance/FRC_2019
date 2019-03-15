@@ -147,7 +147,7 @@ public class MotionProfileClimber extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new MotionProfileClimberHoldDefault(this));
+    // setDefaultCommand(new MotionProfileClimberHoldDefault(this));
   }
 
   public void resetEncoderPosition(int position) {
@@ -184,11 +184,11 @@ public class MotionProfileClimber extends Subsystem {
 
   public void setupLeftFront(TalonSRX follower) {
     if (follower == null) {
-      _talon1.setInverted(false);
-      _talon1.setSensorPhase(true); //true
+      _talon1.setInverted(true);
+      _talon1.setSensorPhase(true); 
     } else {
-      follower.setInverted(false);
-      follower.setSensorPhase(true); //true
+      follower.setInverted(true);
+      follower.setSensorPhase(true);
     }
   }
 
@@ -204,11 +204,11 @@ public class MotionProfileClimber extends Subsystem {
 
   public void setupRightFront(TalonSRX follower) {
     if (follower == null) {
-      _talon1.setInverted(true);
-      _talon1.setSensorPhase(false);
+      _talon1.setInverted(false);
+      _talon1.setSensorPhase(true);//TODO: Reverse for Practice Bot
     } else {
-      follower.setInverted(true);
-      follower.setSensorPhase(false);
+      follower.setInverted(false);
+      follower.setSensorPhase(true);//TODO: Reverse for Practice Bot
     }
   }
 
@@ -229,14 +229,14 @@ public class MotionProfileClimber extends Subsystem {
         // FRONT
         if (side == PodPosition.LEFT) {
           // LEFT
-          _talon1.setInverted(false); // test with false while phase reversed
+          _talon1.setInverted(true); // test with false while phase reversed
           if (_talon2 != null)
-            _talon2.setInverted(true);
+            _talon2.setInverted(false);
         } else {
           // RIGHT
-          _talon1.setInverted(true);
+          _talon1.setInverted(false);
           if (_talon2 != null)
-            _talon2.setInverted(true);
+            _talon2.setInverted(false);
         }
 
       } else {
@@ -260,14 +260,14 @@ public class MotionProfileClimber extends Subsystem {
         // FRONT
         if (side == PodPosition.LEFT) {
           // LEFT
-          _talon1.setInverted(true); // test with false while phase reversed
+          _talon1.setInverted(false); // test with false while phase reversed
           if (_talon2 != null)
-            _talon2.setInverted(false);
+            _talon2.setInverted(true);
         } else {
           // RIGHT
-          _talon1.setInverted(false);
+          _talon1.setInverted(true);
           if (_talon2 != null)
-            _talon2.setInverted(false);
+            _talon2.setInverted(true);
         }
 
       } else {

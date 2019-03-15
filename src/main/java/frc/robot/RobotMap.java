@@ -27,6 +27,8 @@ public class RobotMap {
 	public static int leftLimitSwitchHatchCollectedPort = 0;
 	public static int rightLimitSwitchHatchCollectedPort = 1;
 	public static int collectedOpticalSwitchPort = 3;
+	public static int elevatorBottomLimitSwitchPort = 4;
+	public static int elevatorTopLimitSwitchPort = 5;
 	public static int bellyPanFrontSwitchPort = 8;
 	public static int bellyPanRearSwitchPort = 9;
 

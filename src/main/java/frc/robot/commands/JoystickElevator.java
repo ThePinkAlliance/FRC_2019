@@ -20,14 +20,17 @@ public class JoystickElevator extends Command {
 
 	// Called repeatedly while this Command is running
 	@Override protected void execute() {
-    if(js.getRawAxis(OI.LXAxis) > .1 || js.getRawAxis(OI.LXAxis) < -0.1)
-    {
-    Robot.m_elevator._elevator.set(js.getRawAxis(OI.LXAxis));
-    } else{
-      Robot.m_elevator._elevator.set(OI.LXAxis);
+	// if (!Robot.m_elevator.getElevatorTopSwitch() && js.getRawAxis(OI.rightStick) > 0.1) {
+	// 	Robot.m_elevator.set(0);
+	// } else if (!Robot.m_elevator.getElevatorBottomSwitch() && js.getRawAxis(OI.rightStick) < -0.1) {
+	// 	Robot.m_elevator.set(0);
+	// }
+	/*else*/ if (js.getRawAxis(OI.rightStick) > .1 || js.getRawAxis(OI.rightStick) < -0.1) {
+    	Robot.m_elevator._elevator.set(js.getRawAxis(OI.rightStick));
+    } else {
+      	Robot.m_elevator._elevator.set(0);
     }
-	}
-
+}
 	// Make this return true when this Command no longer needs to run execute()
 	@Override protected boolean isFinished() {
 

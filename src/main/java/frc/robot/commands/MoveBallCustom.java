@@ -9,13 +9,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.utils.PresetPositions;
 
-public class MoveBallRocket extends Command {
-  public MoveBallRocket() {
+public class MoveBallCustom extends Command {
+  double position = 0.0;
+
+  public MoveBallCustom(double targetposition) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_ball);
+    position = targetposition;
   }
 
   // Called just before this Command runs the first time
@@ -26,25 +28,25 @@ public class MoveBallRocket extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_ball.setRotateMotorCmd(PresetPositions.BALL_LOW_ROCKET_POSITION);
+    Robot.m_ball.setRotateMotorCmd(position);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.m_ball.getBallRotateEncoder() - PresetPositions.BALL_LOW_ROCKET_POSITION) <= 1000;
-  
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    // Robot.m_ball.holdRotation();
+    Robot.m_ball._collectorRotateMotor.set(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.m_ball._collectorRotateMotor.set(0);
   }
 }

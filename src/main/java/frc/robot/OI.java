@@ -11,6 +11,7 @@ import frc.robot.commands.MotionProfileGroupRetract;
 import frc.robot.commands.MoveBallRocket;
 import frc.robot.commands.MoveBallToStow;
 import frc.robot.commands.MoveElevatorToCollect;
+import frc.robot.commands.MoveElevatorToMax;
 import frc.robot.commands.MoveElevatorToMidRocket;
 import frc.robot.commands.OpenBeak;
 import frc.robot.commands.StartupCollectHatch;
@@ -121,6 +122,7 @@ public class OI {
       towerA.whenPressed(new MoveElevatorToCollect());
       towerX.whenPressed(new MoveElevatorToMidRocket());
       towerB.whenPressed(new MoveBallRocket());
+      towerY.whenPressed(new MoveElevatorToMax());
       towerRightBumper.whenPressed(new MoveBallToStow());
     }
   }

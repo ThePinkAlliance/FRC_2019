@@ -18,17 +18,17 @@ public class MotionProfileGroupRetract extends CommandGroup {
    * Add your docs here.
    */
   public MotionProfileGroupRetract() {
-    double DRIVEFORWARD = 3.0;
-    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .3, .2, 1, DRIVEFORWARD));
-    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .3, .2, 1, DRIVEFORWARD));
-    addParallel(new DriveClimberWheels(0.03, 2.0, DRIVEFORWARD ));
-    addSequential(new MotionProfileClimberDriveTrain(0.2, DRIVEFORWARD));
+    // double DRIVEFORWARD = 3.0;
+    // addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .3, .2, 1, DRIVEFORWARD));
+    // addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .3, .2, 1, DRIVEFORWARD));
+    // addParallel(new DriveClimberWheels(0.03, 2.0, DRIVEFORWARD ));
+    // addSequential(new MotionProfileClimberDriveTrain(0.2, DRIVEFORWARD));
     
     
     addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft,  ClimberDirection.DOWN, PodPosition.FRONT, .15, 5.5, 1));
-    addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.DOWN, PodPosition.FRONT, .15, 5.5, 1));
-    addParallel(new DriveClimberWheels(0.03, 30.0, 31.0 ));
-    addSequential(new MotionProfileClimberDriveTrain(0.3, 31.0));
+    addSequential(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.DOWN, PodPosition.FRONT, .15, 5.5, 1));
+    // addParallel(new DriveClimberWheels(0.03, 30.0, 31.0 ));
+    // addSequential(new MotionProfileClimberDriveTrain(0.3, 31.0));
 
   }
 }

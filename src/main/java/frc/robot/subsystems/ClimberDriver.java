@@ -22,12 +22,11 @@ public class ClimberDriver extends Subsystem {
   public ClimberDriver() {
 
     // Define Motors for this Subsystem
-    //TODO: Check these ports in RobotMap
     _climberWheelL = new WPI_VictorSPX(RobotMap.climberDriverForwardLeftMotor);
     _climberWheelR = new WPI_TalonSRX(RobotMap.climberDriverForwardRightMotor);
 
     _climberWheelL.setInverted(true);
-    _climberWheelR.setInverted(true);
+    _climberWheelR.setInverted(false);
   }
 
   @Override

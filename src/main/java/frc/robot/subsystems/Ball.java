@@ -83,4 +83,8 @@ public class Ball extends Subsystem {
   public boolean getCollectState() {
     return collectedOpticalSwitch.get();
   }
+
+  // public void holdRotation() {
+
+  // }
 }

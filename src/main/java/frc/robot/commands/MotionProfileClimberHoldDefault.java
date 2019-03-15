@@ -7,9 +7,6 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.MotionProfileClimber;
 
@@ -17,8 +14,6 @@ import frc.robot.subsystems.MotionProfileClimber;
 public class MotionProfileClimberHoldDefault extends Command {
 
   private MotionProfileClimber climberPod = null;
-  private Timer watchDog = null;
-  private double watchDogTime = 0.0;
 
   private double positionToHold = 0.0;
   // private double positionToHoldFL = 0.0;
@@ -39,8 +34,6 @@ public class MotionProfileClimberHoldDefault extends Command {
   protected void initialize() {
 
     //start the timer
-    watchDog.reset();
-    watchDog.start();
 
     positionToHold = 0;
     // positionToHoldFL = climberPod.getEncPosition(PodPosition.FRONT, PodPosition.LEFT);
