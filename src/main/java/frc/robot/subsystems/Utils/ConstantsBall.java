@@ -1,6 +1,6 @@
 package frc.robot.subsystems.utils;
 
-public class Constants {
+public class ConstantsBall {
 	/** 
 	 * ID of Talon on CAN Bus 
 	 */
@@ -56,4 +56,5 @@ public class Constants {
 	public static final Gains kGainsLeftFront = new Gains(0.7, 0.002, 0.0, 0.0, 0, 1.0);
 	public static final Gains kGainsLeftBack = new Gains(0.7, 0.002, 0.0, 0.0, 0, 1.0);
 
+	public static final Gains kGainsBall = new Gains(0.1, 0.0, 0.0, 0.0, 0, 1.0);
 }

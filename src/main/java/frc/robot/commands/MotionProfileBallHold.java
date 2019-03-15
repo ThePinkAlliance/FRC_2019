@@ -7,19 +7,22 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 
-public class MoveBallCustom extends Command {
-  double position = 0.0;
+public class MotionProfileBallHold extends Command {
 
-  public MoveBallCustom(double targetposition) {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+  // Init sticks
+  public Joystick js = null;
+  public double stickValue = 0.0;
+
+  public MotionProfileBallHold() {
+
+    // Requires Ball collector
     requires(Robot.m_ball);
-    position = targetposition;
+    js = new Joystick(1);
   }
 
   // Called just before this Command runs the first time
@@ -30,7 +33,18 @@ public class MoveBallCustom extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_ball.setRotateMotorCmd(position);
+    Robot.m_ball.hold();
+    if (js.getRawAxis(OI.leftStick) > 0.1 || js.getRawAxis(OI.leftStick) < -0.1) {
+      ReadJoystick();
+    } else if (js.getPOV() == 0) {
+      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.CARGO_POS);
+    } else if (js.getPOV() == 90) {
+      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.LOW_ROCKET_POS);
+    } else if (js.getPOV() == 180) {
+      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.COLLECT_POS);
+    } else {
+      Robot.m_ball.setRotateMotorCmd(Robot.m_ball.getBallRotateEncoder());
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -42,13 +56,19 @@ public class MoveBallCustom extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput, 0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput, 0);
   }
-}
+
+  // Method to set motor power based of the stickValue
+  public void ReadJoystick() {
+    // Read out stickValue
+      stickValue = js.getRawAxis(OI.leftStick);
+      // Set _elevator Motor to stickValue
+      Robot.m_ball.moveBall(stickValue);
+    }
+  }

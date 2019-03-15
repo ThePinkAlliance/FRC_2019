@@ -32,20 +32,12 @@ import edu.wpi.first.wpilibj.Notifier;
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motion.*;
 
-public class MotionProfileClimberDouble {
+public class MotionProfileBallDouble {
 
-	// point of view of the face that we climb with
-	public static enum PodPosition {
-		FRONT, // collector side
-		BACK, // beak side
-		LEFT, // where front is the collector
-		RIGHT, // where front is the collector
-		COLLECTOR // BALL COLLECTOR
-	  }
-	
+		
 	  // point of view of the robot, not the pod mechanisms
 	  // e.g.: when the robot belly pan rises, thats up
-	  public static enum ClimberDirection {
+	  public static enum CollectorDirection {
 		UP, DOWN
 	  }
 
@@ -65,7 +57,7 @@ public class MotionProfileClimberDouble {
 	 * motion profile.
 	 */
 	private TalonSRX _talon;
-	private TalonSRX _talonFollower;
+	
 	/**
 	 * State machine to make sure we let enough of the motion profile stream to
 	 * talon before we fire it.
@@ -129,18 +121,15 @@ public class MotionProfileClimberDouble {
 	 * @param talon
 	 *            reference to Talon object to fetch motion profile status from.
 	 */
-	public MotionProfileClimberDouble(TalonSRX talon, TalonSRX follower) {
+	public MotionProfileBallDouble(TalonSRX talon) {
 		_talon = talon;
-		_talonFollower = follower;
-		
+			
 
 		/*
 		 * since our MP is 10ms per point, set the control frame rate and the
 		 * notifer to half that
 		 */
 		_talon.changeMotionControlFramePeriod(5);
-		if (_talonFollower != null)
-		   _talonFollower.changeMotionControlFramePeriod(5);
 		_notifier = new Notifier(new PeriodicRunnable());
 		_notifier.startPeriodic(0.005);
 		//_notifier.stop();
@@ -199,7 +188,7 @@ public class MotionProfileClimberDouble {
 	/**
 	 * Called every loop.
 	 */
-	public void control(ClimberDirection direction, PodPosition location) {
+	public void control(CollectorDirection direction) {
 		/* Get the motion profile status every loop */
 		_talon.getMotionProfileStatus(_status);
 
@@ -243,7 +232,7 @@ public class MotionProfileClimberDouble {
 						_bStart = false;
 	
 						_setValue = SetValueMotionProfile.Disable;
-						startFilling(direction, location);
+						startFilling(direction);
 						/*
 						 * MP is being sent to CAN bus, wait a small amount of time
 						 */
@@ -310,20 +299,14 @@ public class MotionProfileClimberDouble {
 	}
 
 	/** Start filling the MPs to all of the involved Talons. */
-	private void startFilling(ClimberDirection direction, PodPosition location) {
+	private void startFilling(CollectorDirection direction) {
 		
-		 if (location == PodPosition.FRONT) {
-			 if (direction == ClimberDirection.UP)
-				startFilling(GeneratedUpFront.Points, GeneratedUpFront.kNumPoints);
+		
+			 if (direction == CollectorDirection.UP)
+				startFilling(GeneratedUpBall.Points, GeneratedUpBall.kNumPoints);
 			 else
-			    startFilling(GeneratedDownFront.Points, GeneratedDownFront.kNumPoints);
-		 } else {
-			if (direction == ClimberDirection.UP)
-				 startFilling(GeneratedUpBack.Points, GeneratedUpBack.kNumPoints);
-			else
-			     startFilling(GeneratedDownBack.Points, GeneratedDownBack.kNumPoints);
-			     
-		 }
+			    startFilling(GeneratedDownBall.Points, GeneratedDownBall.kNumPoints);
+		
 	}
 
 	private void startFilling(double[][] profile, int totalCnt) {
@@ -348,15 +331,15 @@ public class MotionProfileClimberDouble {
 		_talon.clearMotionProfileTrajectories();
 
 		/* set the base trajectory period to zero, use the individual trajectory period below */
-		_talon.configMotionProfileTrajectoryPeriod(Constants.kBaseTrajPeriodMs, Constants.kTimeoutMs);
+		_talon.configMotionProfileTrajectoryPeriod(ConstantsBall.kBaseTrajPeriodMs, ConstantsBall.kTimeoutMs);
 		
 		/* This is fast since it's just into our TOP buffer */
 		for (int i = 0; i < totalCnt; ++i) {
 			double positionRot = profile[i][0];
 			double velocityRPM = profile[i][1];
 			/* for each point, fill our structure and pass it to API */
-			point.position = positionRot * Constants.kSensorUnitsPerRotation; //Convert Revolutions to Units
-			point.velocity = velocityRPM * Constants.kSensorUnitsPerRotation / 600.0; //Convert RPM to Units/100ms
+			point.position = positionRot * ConstantsBall.kSensorUnitsPerRotation; //Convert Revolutions to Units
+			point.velocity = velocityRPM * ConstantsBall.kSensorUnitsPerRotation / 600.0; //Convert RPM to Units/100ms
 			point.headingDeg = 0; /* future feature - not used in this example*/
 			point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
 			point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */

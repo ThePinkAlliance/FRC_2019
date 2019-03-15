@@ -9,6 +9,7 @@ import frc.robot.subsystems.ClimberDriver;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Hatch;
+import frc.robot.subsystems.MotionProfileBall;
 import frc.robot.subsystems.MotionProfileClimber;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 import frc.robot.subsystems.Ball;
@@ -21,7 +22,10 @@ import frc.robot.subsystems.Ball;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static Ball m_ball = new Ball();
+  
+  //public static Ball m_ball = new Ball();
+  public static MotionProfileBall m_ball = new  MotionProfileBall();
+  
   public static DriveTrain m_driveTrain = new DriveTrain();
   public static ClimberDriver m_climberDriver = new ClimberDriver();
  
