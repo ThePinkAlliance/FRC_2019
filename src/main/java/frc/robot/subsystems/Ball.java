@@ -59,7 +59,7 @@ public class Ball extends Subsystem {
   }
 
   public void setRotateMotorCmd(double target_position) {
-    double rotate_motor_command = 0.00005 * (target_position - getBallRotateEncoder());
+    double rotate_motor_command = 0.0005 * (target_position - getBallRotateEncoder());
     _collectorRotateMotor.set(rotate_motor_command);
   }
 

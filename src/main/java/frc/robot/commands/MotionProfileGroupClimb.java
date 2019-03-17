@@ -20,13 +20,14 @@ public class MotionProfileGroupClimb extends CommandGroup {
   public MotionProfileGroupClimb() {
     //ROBOT UP
     double RAISEUP = 5.5;
+    addParallel(new CloseBeak());
     addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft,  ClimberDirection.UP, PodPosition.FRONT, .15, RAISEUP, 1));
     addSequential(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.UP, PodPosition.FRONT, .15, RAISEUP, 1));
     
     //HOLD and MOVE FORWARD TO CATCH the FIRST PART OF PLATFORM
     double HOLDANDMOVE = 2.4;
-    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .3, .2, 1, HOLDANDMOVE));
-    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .3, .2, 1, HOLDANDMOVE));
+    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .25, .2, 1, HOLDANDMOVE));
+    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .25, .2, 1, HOLDANDMOVE));
     addSequential(new DriveClimberWheels(0.03, 0.6, HOLDANDMOVE));
     // addSequential(new MotionProfileClimberDriveTrain(0.2, DRIVEFORWARD));
 
@@ -37,16 +38,16 @@ public class MotionProfileGroupClimb extends CommandGroup {
     // addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .3, .2, 1, RETRACTFIRSTSET));
     
     double DRIVEFORWARD = 3.0;
-    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .3, .2, 1, DRIVEFORWARD));
-    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .3, .2, 1, DRIVEFORWARD));
+    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .25, .2, 1, DRIVEFORWARD));
+    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .25, .2, 1, DRIVEFORWARD));
     addParallel(new DriveClimberWheels(0.03, 2.0, DRIVEFORWARD ));
-    addSequential(new MotionProfileClimberDriveTrain(0.4, DRIVEFORWARD));
+    addSequential(new MotionProfileClimberDriveTrain(0.3, DRIVEFORWARD));
     
     
     addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontLeft,  ClimberDirection.DOWN, PodPosition.FRONT, .15, 5.5, 1));
     addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodFrontRight, ClimberDirection.DOWN, PodPosition.FRONT, .15, 5.5, 1));
     addParallel(new DriveClimberWheels(0.03, 30.0, 31.0 ));
-    addSequential(new MotionProfileClimberDriveTrain(0.4, 31.0));
+    addSequential(new MotionProfileClimberDriveTrain(0.3, 31.0));
     
     // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackLeft,   ClimberDirection.DOWN, PodPosition.BACK,  .15, 5.5, 1));
     // addParallel(new MotionProfileClimberTestDouble(Robot.m_climberPodBackRight,  ClimberDirection.DOWN, PodPosition.BACK,  .15, 5.5, 1));

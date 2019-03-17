@@ -92,6 +92,14 @@ public class Collect extends Command {
   public void ReadJoystick() {
     // Read out stickValue
         stickValue = js.getRawAxis(OI.leftStick);
+
+        if (stickValue > 0) {
+          stickValue = stickValue * stickValue;
+        }
+        else if (stickValue < 0) {
+          stickValue = -stickValue * stickValue;
+        }
+        
       // Set _elevator Motor to stickValue
       Robot.m_ball.moveBall(stickValue);
     }

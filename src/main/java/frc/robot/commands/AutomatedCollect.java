@@ -35,7 +35,7 @@ public class AutomatedCollect extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.m_ball.getBallRotateEncoder() - Robot.m_ball.CARGO_POS) <= 250 && (timer.get() > 0.5);
+    return Math.abs(Robot.m_ball.getBallRotateEncoder() - Robot.m_ball.CARGO_POS) <= 100 && (timer.get() > 0.5);
   }
 
   // Called once after isFinished returns true
