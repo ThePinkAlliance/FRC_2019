@@ -16,7 +16,7 @@ import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimbLevel;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimberDirection;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
-public class MotionProfileClimberTestDouble extends Command {
+public class MotionProfileClimberTestDoubleLevel3 extends Command {
 
   private MotionProfileClimberDouble mp = null;
   private ClimberDirection direction = ClimberDirection.UP;
@@ -38,7 +38,7 @@ public class MotionProfileClimberTestDouble extends Command {
    * @param watchDogTime amount of time this command must complete in
    * 
    */
-  public MotionProfileClimberTestDouble(MotionProfileClimber theClimberPod, ClimberDirection direction,
+  public MotionProfileClimberTestDoubleLevel3(MotionProfileClimber theClimberPod, ClimberDirection direction,
       PodPosition location, ClimbLevel level, double preLoadMove, double watchDogTime, double proportionalGain,
       double position, boolean manualOverride) {
     // Use requires() here to declare subsystem dependencies

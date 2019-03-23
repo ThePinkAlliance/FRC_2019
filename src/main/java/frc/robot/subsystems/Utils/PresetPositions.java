@@ -3,13 +3,14 @@ package frc.robot.subsystems.utils;
 public class PresetPositions {
 
     // Ball Presets 0 is stowed and approximately 90000 is the lowest
-    public static double BALL_COLLECT_POSITION = 11000;
-    public static double BALL_LOW_ROCKET_POSITION = 5283;
-    public static double BALL_CARGO_POSITION = 0;
+    public static final double BALL_COLLECT_POSITION = 11000;
+    public static final double BALL_LOW_ROCKET_POSITION = 5283;
+    public static final double BALL_CARGO_POSITION = 0;
+    public static final double BALL_CLIMB_POSITION = 15000;
 
     // Elevator Presets 0 is lowest and -50 is the highest
-    public static double ELEVATOR_COLLECT_POSITION = 0;
-    public static double ELEVATOR_MID_ROCKET_POSITION = -42;
+    public static final double ELEVATOR_COLLECT_POSITION = 0;
+    public static final double ELEVATOR_MID_ROCKET_POSITION = -42;
 
     // Base Right Trigger is a toggle which will lower the ball collector to 
     //  collect position and collect until there is a ball at which point it 

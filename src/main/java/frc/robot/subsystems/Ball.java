@@ -63,6 +63,11 @@ public class Ball extends Subsystem {
     _collectorRotateMotor.set(rotate_motor_command);
   }
 
+  public void setClimberRotateMotorCmd(double target_position, double p_gain) {
+    double rotate_motor_command = p_gain * (target_position - getBallRotateEncoder());
+    _collectorRotateMotor.set(rotate_motor_command);
+  }
+
   // Method to rotate the ball collector to collect a ball
   public void collect() {
     _collectorMotor.set(collectSpeed);

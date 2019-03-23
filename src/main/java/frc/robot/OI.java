@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.MotionProfileGroupClimb;
 import frc.robot.commands.MotionProfileGroupRetract;
+import frc.robot.commands.MotionProfileLevel2GroupClimb;
+import frc.robot.commands.MotionProfileLevel3GroupClimb;
 import frc.robot.commands.MoveBallRocket;
 import frc.robot.commands.MoveBallToStow;
 import frc.robot.commands.MoveElevatorToCollect;
@@ -69,6 +71,8 @@ public class OI {
   public Button baseLeftTrigger = null;
   public Button towerRightTrigger = null;
   public Button baseRightBumper = null;
+  public Button towerStart = null;
+  public Button towerSelect = null;
 	
 	public OI() {
 
@@ -90,6 +94,8 @@ public class OI {
       towerRightBumper = new JoystickButton(tower, rightBumperButtonNumber);
       baseRightTrigger = new JoystickButton(base, rightTriggerButtonNumber);
       baseLeftTrigger = new JoystickButton(base, leftTriggerButtonNumber);
+      towerStart = new JoystickButton(tower, startButtonNumber);
+      towerSelect = new JoystickButton(tower, selectButtonNumber);
       baseRightBumper = new JoystickButton(base, rightBumperButtonNumber);
 
       //Enable buttons / actions 
@@ -112,8 +118,8 @@ public class OI {
       baseRightTrigger.toggleWhenPressed(new AutomatedCollect());
       baseLeftTrigger.toggleWhenPressed(new Eject());
       baseRightBumper.toggleWhenPressed(new Collect());
-      baseStart.whenPressed(new MotionProfileGroupClimb());
-      baseSelect.whenPressed(new MotionProfileGroupRetract());
+      baseStart.whenPressed(new MotionProfileLevel3GroupClimb());
+      baseSelect.whenPressed(new MotionProfileLevel2GroupClimb(false)); // Automated Climb to Level 2
     }
   }
 
@@ -124,6 +130,9 @@ public class OI {
       towerB.whenPressed(new MoveBallRocket());
       towerY.whenPressed(new MoveElevatorToMax());
       towerRightBumper.whenPressed(new MoveBallToStow());
+      towerStart.whenPressed(new MotionProfileLevel3GroupClimb());
+      towerSelect.whenPressed(new MotionProfileLevel2GroupClimb(true)); // Manual Climb to Level 2
+
     }
   }
 	
