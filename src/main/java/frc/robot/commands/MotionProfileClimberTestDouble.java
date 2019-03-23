@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -164,7 +166,7 @@ public class MotionProfileClimberTestDouble extends Command {
   protected void end() {
     mp.stopMotionProfile();
     if (climberPod.getSide() == PodPosition.LEFT && !manual_override) {
-      Robot.m_ball._collectorRotateMotor.set(0);
+      Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput,0);
     }
     // mp.stopWorking();
     System.out.println("MotionProfileTestClimberDouble(): End");
@@ -176,7 +178,7 @@ public class MotionProfileClimberTestDouble extends Command {
   protected void interrupted() {
     mp.stopMotionProfile();
     if (climberPod.getSide() == PodPosition.LEFT && !manual_override) {
-      Robot.m_ball._collectorRotateMotor.set(0);
+      Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput,0);
     }
     // mp.stopWorking(); //only used by threading alternative
     System.out.println("MotionProfileTestClimberDouble(): Interrupted");

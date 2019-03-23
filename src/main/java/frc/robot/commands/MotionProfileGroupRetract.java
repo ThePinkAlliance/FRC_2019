@@ -8,10 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.Robot;
-import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimbLevel;
-import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimberDirection;
-import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
 
 public class MotionProfileGroupRetract extends CommandGroup {

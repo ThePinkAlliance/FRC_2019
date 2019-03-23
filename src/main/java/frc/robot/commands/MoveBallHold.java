@@ -57,13 +57,13 @@ public class MoveBallHold extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_ball._collectorRotateMotor.set(0);
+    Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput,0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.m_ball._collectorRotateMotor.set(0);
+    Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput,0);
   }
 }

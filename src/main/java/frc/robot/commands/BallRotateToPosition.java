@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -46,7 +48,7 @@ public class BallRotateToPosition extends Command {
   @Override
   protected void end() {
     if (!manualOverride) {
-      Robot.m_ball._collectorRotateMotor.set(0);
+      Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput, 0);
     }
   }
 
@@ -55,7 +57,7 @@ public class BallRotateToPosition extends Command {
   @Override
   protected void interrupted() {
     if (!manualOverride) {
-      Robot.m_ball._collectorRotateMotor.set(0);
+      Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput,0);
     }  
   }
 }

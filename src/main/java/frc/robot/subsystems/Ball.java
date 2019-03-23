@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
@@ -14,7 +16,7 @@ public class Ball extends Subsystem {
 
   // Init motor controllers
   public Spark _collectorMotor = null;
-  public WPI_TalonSRX _collectorRotateMotor = null;
+  public TalonSRX _collectorRotateMotor = null;
   public double _enc_collectorRotate = 0.0;
 
   // Init digital inputs
@@ -50,7 +52,7 @@ public class Ball extends Subsystem {
 
   // Method to move the Collector based off the joystickValue
   public void moveBall(double joystickValue) {
-    _collectorRotateMotor.set(joystickValue);
+    _collectorRotateMotor.set(ControlMode.PercentOutput, joystickValue);
     //system..out.println("Collector Rotate Value: "+ joystickValue);
   }
 
@@ -60,12 +62,12 @@ public class Ball extends Subsystem {
 
   public void setRotateMotorCmd(double target_position) {
     double rotate_motor_command = 0.0005 * (target_position - getBallRotateEncoder());
-    _collectorRotateMotor.set(rotate_motor_command);
+    _collectorRotateMotor.set(ControlMode.PercentOutput,rotate_motor_command);
   }
 
   public void setClimberRotateMotorCmd(double target_position, double p_gain) {
     double rotate_motor_command = p_gain * (target_position - getBallRotateEncoder());
-    _collectorRotateMotor.set(rotate_motor_command);
+    _collectorRotateMotor.set(ControlMode.PercentOutput, rotate_motor_command);
   }
 
   // Method to rotate the ball collector to collect a ball

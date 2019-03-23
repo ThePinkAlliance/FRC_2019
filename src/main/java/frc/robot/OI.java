@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj.buttons.Button;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.MotionProfileGroupClimb;
-import frc.robot.commands.MotionProfileGroupRetract;
 import frc.robot.commands.MotionProfileLevel2GroupClimb;
 import frc.robot.commands.MotionProfileLevel3GroupClimb;
 import frc.robot.commands.MoveBallRocket;
