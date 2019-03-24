@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -10,7 +11,10 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.Hold;
+import frc.robot.subsystems.utils.ConstantsBall;
+import frc.robot.subsystems.utils.MotionProfileBallDouble;
 import frc.robot.subsystems.utils.PresetPositions;
+import frc.robot.subsystems.utils.MotionProfileBallDouble.CollectorDirection;
 
 public class Ball extends Subsystem {
 
@@ -18,6 +22,7 @@ public class Ball extends Subsystem {
   public Spark _collectorMotor = null;
   public TalonSRX _collectorRotateMotor = null;
   public double _enc_collectorRotate = 0.0;
+  public MotionProfileBallDouble _example = null;
 
   // Init digital inputs
   public DigitalInput collectedOpticalSwitch = null;
@@ -36,12 +41,59 @@ public class Ball extends Subsystem {
 
     // Construct motor controllers
     _collectorMotor = new Spark(RobotMap.collectorMotorPort);
-    _collectorRotateMotor = new WPI_TalonSRX(RobotMap.collectorRotateMotorPort);
+    _collectorRotateMotor = new TalonSRX(RobotMap.collectorRotateMotorPort);
     _collectorRotateMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     _collectorRotateMotor.setNeutralMode(NeutralMode.Brake);
 
     // Construct digital inputs
     collectedOpticalSwitch = new DigitalInput(RobotMap.collectedOpticalSwitchPort);
+    _example = new MotionProfileBallDouble(_collectorRotateMotor);
+    setupTalon();
+  }
+
+  public void setupTalon() {
+    /* Factory Default all hardware to prevent unexpected behaviour */
+    _collectorRotateMotor.configFactoryDefault();
+    _collectorRotateMotor.clearMotionProfileTrajectories(); // online
+    _collectorRotateMotor.changeMotionControlFramePeriod(5);
+    _collectorRotateMotor.setNeutralMode(NeutralMode.Brake);
+
+    //TODO: setup default invert and phase
+    _collectorRotateMotor.setInverted(false);
+    _collectorRotateMotor.setSensorPhase(false);
+
+    /* Configure Selected Sensor for Motion Profile */
+
+    _collectorRotateMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, ConstantsBall.kPIDLoopIdx,
+        ConstantsBall.kTimeoutMs);
+    /*
+     * Keep sensor and motor in phase, postive sensor values when MC LEDs are green
+     */
+
+    /**
+     * Configure MotorController Neutral Deadband, disable Motor Controller when
+     * requested Motor Output is too low to process
+     */
+    _collectorRotateMotor.configNeutralDeadband(ConstantsBall.kNeutralDeadband, ConstantsBall.kTimeoutMs);
+
+    /* Configure PID Gains, to be used with Motion Profile */
+
+   
+    _collectorRotateMotor.config_kF(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGainsRightFront.kF, ConstantsBall.kTimeoutMs);
+    _collectorRotateMotor.config_kP(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGainsRightFront.kP, ConstantsBall.kTimeoutMs);
+    _collectorRotateMotor.config_kI(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGainsRightFront.kI, ConstantsBall.kTimeoutMs);
+    _collectorRotateMotor.config_kD(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGainsRightFront.kD, ConstantsBall.kTimeoutMs);
+   
+
+    /* Our profile uses 10ms timing */
+    _collectorRotateMotor.configMotionProfileTrajectoryPeriod(10, ConstantsBall.kTimeoutMs);
+
+    /*
+     * Status 10 provides the trajectory target for motion profile AND motion magic
+     */
+    _collectorRotateMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, ConstantsBall.kTimeoutMs);
+
+    resetEncoderPosition(0);
   }
 
   @Override
@@ -70,10 +122,32 @@ public class Ball extends Subsystem {
     _collectorRotateMotor.set(ControlMode.PercentOutput, rotate_motor_command);
   }
 
+  public boolean isMotionProfileFinished() {
+    return _example.isMotionProfileDone();
+  }
+
+  public MotionProfileBallDouble getMP() {
+    return _example;
+  }
+
   // Method to rotate the ball collector to collect a ball
   public void collect() {
     _collectorMotor.set(collectSpeed);
     //system..out.println("Collector Power: " + _collectorMotor.get());
+  }
+
+  public void setDirection(CollectorDirection direction) {
+    if (direction == CollectorDirection.UP) {
+      // UP
+      _collectorRotateMotor.setInverted(false);
+    } else {
+      // DOWN
+      _collectorRotateMotor.setInverted(true);
+    }
+  }
+
+  public void resetEncoderPosition(int position) {
+    _collectorRotateMotor.setSelectedSensorPosition(position);
   }
 
   // Method to set ball collector to hold ball in

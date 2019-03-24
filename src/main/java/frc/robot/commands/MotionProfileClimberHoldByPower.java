@@ -7,9 +7,15 @@
 
 package frc.robot.commands;
 
+
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.MotionProfileClimber;
+import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
 
 public class MotionProfileClimberHoldByPower extends Command {
@@ -23,6 +29,9 @@ public class MotionProfileClimberHoldByPower extends Command {
   private double power1 = 0.0;
   private double power2 = 0.0;
 
+  private boolean manual_override = false;
+  private double ballPosition = 0;
+
   
   /**
    * 
@@ -31,10 +40,14 @@ public class MotionProfileClimberHoldByPower extends Command {
    * @param watchDogTime amount of time this command must complete in
    * 
    */
-  public MotionProfileClimberHoldByPower(MotionProfileClimber theClimberPod, double power1, double power2, double phase1Time, double watchDogTime) {
+  public MotionProfileClimberHoldByPower(MotionProfileClimber theClimberPod, double power1, double power2, double phase1Time, double watchDogTime, boolean manual_override) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(theClimberPod);
+    if (theClimberPod.getSide() == PodPosition.LEFT) {
+       requires(Robot.m_ball);
+    }
+
     this.climberPod = theClimberPod;
 
     //voltage to send to the motors before running profile
@@ -45,7 +58,8 @@ public class MotionProfileClimberHoldByPower extends Command {
     this.watchDogTime = watchDogTime;
     this.phase1Time = phase1Time;
 
-    
+    this.manual_override = manual_override;
+
     //new up the timer for later use
     watchDog = new Timer();
     phase1Timer = new Timer();
@@ -62,6 +76,7 @@ public class MotionProfileClimberHoldByPower extends Command {
     phase1Timer.reset();
     phase1Timer.start();
 
+    ballPosition = Robot.m_ball._collectorRotateMotor.getSelectedSensorPosition();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -72,6 +87,10 @@ public class MotionProfileClimberHoldByPower extends Command {
        climberPod.set(power1);
     else
        climberPod.set(power2);
+
+    if (climberPod.getSide() == PodPosition.LEFT  && !manual_override) {
+       Robot.m_ball._collectorRotateMotor.set(ControlMode.Position, ballPosition);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -92,6 +111,10 @@ public class MotionProfileClimberHoldByPower extends Command {
   @Override
   protected void end() {
     climberPod.set(0);
+    if (climberPod.getSide() == PodPosition.LEFT  && !manual_override) {
+      Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput, 0);
+    }
+
   }
 
   // Called when another command which requires one or more of the same
@@ -99,6 +122,9 @@ public class MotionProfileClimberHoldByPower extends Command {
   @Override
   protected void interrupted() {
    climberPod.set(0);
+   if (climberPod.getSide() == PodPosition.LEFT  && !manual_override) {
+     Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput, 0);
+    }
   }
 
 }

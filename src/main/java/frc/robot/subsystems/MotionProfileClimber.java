@@ -149,7 +149,7 @@ public class MotionProfileClimber extends Subsystem {
   }
 
   public void resetEncoderPosition(int position) {
-    _talon1.setSelectedSensorPosition(0);
+    _talon1.setSelectedSensorPosition(position);
   }
 
   public double getEncPosition() {

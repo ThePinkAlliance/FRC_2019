@@ -70,13 +70,13 @@ public class DriveClimberWheels extends Command {
       return;
     }
 
-    if (motorPower > 0) {
-      motorPower -= rampRate;
-      Robot.m_climberDriver.setClimberWheels(motorPower);
-    }
-    else {
+    // if (motorPower > 0) {
+    //   motorPower -= rampRate;
+    //   Robot.m_climberDriver.setClimberWheels(motorPower);
+    // }
+    // else {
       isDone = true;
-    }
+    // }
 
   }
 

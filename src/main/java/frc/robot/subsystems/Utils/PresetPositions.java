@@ -7,6 +7,7 @@ public class PresetPositions {
     public static final double BALL_LOW_ROCKET_POSITION = 5283;
     public static final double BALL_CARGO_POSITION = 0;
     public static final double BALL_CLIMB_POSITION = 15000;
+    public static final double BALL_CLIMB_LEVEL3_MOVE1 = 6000;
 
     // Elevator Presets 0 is lowest and -50 is the highest
     public static final double ELEVATOR_COLLECT_POSITION = 0;

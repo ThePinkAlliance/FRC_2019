@@ -13,15 +13,19 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.MotionProfileClimber;
+import frc.robot.subsystems.utils.MotionProfileBallDouble;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble;
+import frc.robot.subsystems.utils.MotionProfileBallDouble.CollectorDirection;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimbLevel;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimberDirection;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 
 public class MotionProfileClimberTestDoubleLevel3 extends Command {
 
-  private MotionProfileClimberDouble mp = null;
+  private MotionProfileClimberDouble climber_mp = null;
+  private MotionProfileBallDouble ball_mp = null;
   private ClimberDirection direction = ClimberDirection.UP;
+  private CollectorDirection ball_direction = CollectorDirection.UP;
   private ClimbLevel level = ClimbLevel.LEVEL3;
   private Timer watchDog = null;
   private double watchDogTime = 0.0;
@@ -42,7 +46,7 @@ public class MotionProfileClimberTestDoubleLevel3 extends Command {
    */
   public MotionProfileClimberTestDoubleLevel3(MotionProfileClimber theClimberPod, ClimberDirection direction,
       PodPosition location, ClimbLevel level, double preLoadMove, double watchDogTime, double proportionalGain,
-      double position, boolean manualOverride) {
+      double position, boolean manualOverride, CollectorDirection ball_direction) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(theClimberPod);
@@ -52,6 +56,8 @@ public class MotionProfileClimberTestDoubleLevel3 extends Command {
 
     this.climberPod = theClimberPod;
 
+    this.ball_direction = ball_direction;
+    
     // set the direction
     this.direction = direction;
 
@@ -89,14 +95,29 @@ public class MotionProfileClimberTestDoubleLevel3 extends Command {
     }
 
     // get the motion profile object associated with the subsystem
-    mp = climberPod.getMP();
+    climber_mp = climberPod.getMP();
     climberPod.setDirection(direction);
-    mp.reset();
+    climber_mp.reset();
     climberPod.resetEncoderPosition(0);
-    mp.setMotionProfileMode();
+    climber_mp.setMotionProfileMode();
     // mp.startWorking(movingUp); //only used by threading alternative
-    mp.startMotionProfile();
+    climber_mp.startMotionProfile();
     System.out.println("MotionProfileTestClimberDouble(): initialized");
+
+    // get the motion profile object associated with the subsystem
+    if (climberPod.getSide() == PodPosition.LEFT && !manual_override) {
+      if (ball_direction == CollectorDirection.UP) {
+        ball_mp = Robot.m_ball.getMP();
+        Robot.m_ball.setDirection(ball_direction);
+        ball_mp.reset();
+        Robot.m_ball.resetEncoderPosition(0);
+        ball_mp.setMotionProfileMode();
+        ball_mp.startMotionProfile();
+        System.out.println("MotionProfileTestClimberDouble(): initialized");
+      } else {
+        Robot.m_ball._collectorRotateMotor.set(ControlMode.Position, target_position);
+      }
+    }
 
     // start the timer to delay the command
     profileStartTimer.reset();
@@ -106,29 +127,33 @@ public class MotionProfileClimberTestDoubleLevel3 extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    // //get time elapsed
-    // double delayElapsedTime = profileStartTimer.get();
-
-    // //if timer popped and profile not started
-    // if (delayElapsedTime >= delayTime && !motionProfileStarted) {
-    // //set flag and start motion profile
-    // climberPod.set(0);
-    // climberPod.resetEncoderPosition(0);
-
-    // motionProfileStarted = true;
-    // mp.startMotionProfile();
-    // }
-    // else if (delayElapsedTime >= delayTime && motionProfileStarted) {
-    // //continue executing motion profile
+    double climberPosition = 0.0; 
     if (manual_override) {
-      mp.control(direction, location, level);
-      mp.setMotionProfileMode();
+      climber_mp.control(direction, location, level);
+      climber_mp.setMotionProfileMode();
     } else {
-      mp.control(direction, location, level);
-      mp.setMotionProfileMode();
+      if (climberPod.isMotionProfileFinished()) {
+        climberPod.setPosition(climberPosition);
+        //climberPod.set(0.25);
+      } else {
+        climber_mp.control(direction, location, level);
+        climber_mp.setMotionProfileMode();
+        climberPosition = climberPod.getEncPosition();
+      }
+
       if (climberPod.getSide() == PodPosition.LEFT) {
-        Robot.m_ball.setClimberRotateMotorCmd(target_position, p_gain);
+        if (ball_direction == CollectorDirection.UP) {
+          if (Robot.m_ball.isMotionProfileFinished()) {
+            double ballPosition = Robot.m_ball.getBallRotateEncoder();
+            Robot.m_ball._collectorRotateMotor.set(ControlMode.Position, ballPosition);
+          } else {
+            ball_mp.control(ball_direction);
+            ball_mp.setMotionProfileMode();
+          }
+        } else {
+          Robot.m_ball._collectorRotateMotor.set(ControlMode.Position, target_position);
+        }
+         
       }
     }
     // }
@@ -146,27 +171,44 @@ public class MotionProfileClimberTestDoubleLevel3 extends Command {
     // Robot.m_oi.getBaseJoystick().getRawButton(OI.aButtonNumber);
     // System.out.println("mpPressed: " + mpPressed);
     double elapsedTime = watchDog.get();
-    boolean bMPDone = false;
-    if (direction == ClimberDirection.UP || manual_override) {
-      bMPDone = mp.isMotionProfileDone();
+    boolean bMPDone = climber_mp.isMotionProfileDone();
+    boolean bMPOtherSideDone = true;
+    if (climberPod.getSide() == PodPosition.RIGHT) {
+      bMPOtherSideDone = Robot.m_climberPodFrontLeft.isMotionProfileFinished();
     } else {
-      bMPDone = (mp.isMotionProfileDone()
-          && (Math.abs(Robot.m_ball.getBallRotateEncoder() - Robot.m_ball.CARGO_POS) <= 100));
+      bMPOtherSideDone = Robot.m_climberPodFrontRight.isMotionProfileFinished();
+    }
+    bMPDone = (bMPDone && bMPOtherSideDone);
+    boolean bMPBallDone = false;
+    boolean bCommandDone = false;
+    if (direction == ClimberDirection.UP || manual_override) { 
+      bCommandDone = bMPDone;
+    } else {
+      if (climberPod.getSide() == PodPosition.LEFT && ball_direction == CollectorDirection.UP) {
+        bMPBallDone = ball_mp.isMotionProfileDone();
+        bCommandDone = (bMPDone && bMPBallDone);
+      } else {
+        bCommandDone = bMPDone;
+      }
     }
     if (elapsedTime >= watchDogTime) {
       System.out.println("Watch Dog timer popped.");
       return true;
     }
 
-    return bMPDone;
+    return bCommandDone;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    mp.stopMotionProfile();
+    climber_mp.stopMotionProfile();
     if (climberPod.getSide() == PodPosition.LEFT && !manual_override) {
-      Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput, 0);
+      if (ball_direction == CollectorDirection.UP) {
+        ball_mp.stopMotionProfile();
+      } else {
+        Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput, 0);
+      }
     }
     // mp.stopWorking();
     System.out.println("MotionProfileTestClimberDouble(): End");
@@ -176,9 +218,13 @@ public class MotionProfileClimberTestDoubleLevel3 extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    mp.stopMotionProfile();
+    climber_mp.stopMotionProfile();
     if (climberPod.getSide() == PodPosition.LEFT && !manual_override) {
-      Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput,0);
+      if (ball_direction == CollectorDirection.UP) {
+        ball_mp.stopMotionProfile();
+      } else {
+        Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput, 0);
+      }
     }
     // mp.stopWorking(); //only used by threading alternative
     System.out.println("MotionProfileTestClimberDouble(): Interrupted");

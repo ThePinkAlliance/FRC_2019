@@ -129,7 +129,7 @@ public class OI {
       towerY.whenPressed(new MoveElevatorToMax());
       towerRightBumper.whenPressed(new MoveBallToStow());
       towerStart.whenPressed(new MotionProfileLevel3GroupClimb());
-      towerSelect.whenPressed(new MotionProfileLevel2GroupClimb(true)); // Manual Climb to Level 2
+      towerSelect.whenPressed(new MotionProfileLevel2GroupClimb(true)); // Manual Climb to  Level 2
 
     }
   }

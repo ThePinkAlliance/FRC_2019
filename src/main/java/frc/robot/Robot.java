@@ -31,13 +31,13 @@ public class Robot extends TimedRobot {
                                                                                       PodPosition.FRONT, 
                                                                                       PodPosition.LEFT);
   
-  public static MotionProfileClimber m_climberPodBackLeft = null;
+  //public static MotionProfileClimber m_climberPodBackLeft = null;
   // new MotionProfileClimber(RobotMap.leftBackClimberPort,
                                                                                       // MotionProfileClimber.TALON_ID_NULL,                                                                             
                                                                                       // PodPosition.BACK, 
                                                                                       // PodPosition.LEFT); 
                                                                                       // 
-  public static MotionProfileClimber m_climberPodBackRight = null;
+  //public static MotionProfileClimber m_climberPodBackRight = null;
   //  new MotionProfileClimber(RobotMap.rightBackClimberPort,
   //                                                                                     MotionProfileClimber.TALON_ID_NULL,
   //                                                                                     PodPosition.BACK, 

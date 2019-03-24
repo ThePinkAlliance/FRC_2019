@@ -28,13 +28,13 @@ public class MotionProfileGroupClimb extends CommandGroup {
     
     //HOLD and MOVE FORWARD TO CATCH the FIRST PART OF PLATFORM
     double HOLDANDMOVE = 2.4;
-    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .25, .2, 1, HOLDANDMOVE));
-    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .25, .2, 1, HOLDANDMOVE));
+    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .25, .2, 1, HOLDANDMOVE, true));
+    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .25, .2, 1, HOLDANDMOVE, true));
     addSequential(new DriveClimberWheels(0.03, 0.6, HOLDANDMOVE));
    
     double DRIVEFORWARD = 3.0;
-    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .25, .2, 1, DRIVEFORWARD));
-    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .25, .2, 1, DRIVEFORWARD));
+    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontLeft, .25, .2, 1, DRIVEFORWARD, true));
+    addParallel(new MotionProfileClimberHoldByPower(Robot.m_climberPodFrontRight, .25, .2, 1, DRIVEFORWARD, true));
     addParallel(new DriveClimberWheels(0.03, 2.0, DRIVEFORWARD ));
     addSequential(new MotionProfileClimberDriveTrain(0.3, DRIVEFORWARD));
     
