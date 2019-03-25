@@ -300,9 +300,13 @@ public class MotionProfileBallDouble {
 	/** Start filling the MPs to all of the involved Talons. */
 	private void startFilling(CollectorDirection direction) {
 			 if (direction == CollectorDirection.UP)
-				startFilling(GeneratedBallPhase1.Points, GeneratedBallPhase1.kNumPoints);
-			 else
-			    startFilling(GeneratedBallDown.Points, GeneratedBallDown.kNumPoints);	
+				startFilling(GeneratedBallLevel3Up.Points, GeneratedBallLevel3Up.kNumPoints);
+			 else {
+				//THERE IS NO MOTION PROFILE FOR DOWN
+				//Create GeneratedBallLevel3Down.java and then uncomment this next line.
+				//startFilling(GeneratedBallLevel3Down.Points, GeneratedBallLevel3Down.kNumPoints);
+			 }
+			    	
 	}
 
 	private void startFilling(double[][] profile, int totalCnt) {

@@ -1,5 +1,5 @@
 package frc.robot.subsystems.utils;
-public class GeneratedBallPhase1 {			
+public class GeneratedBallLevel3Up {			
 			
 // Position (rotations)	Velocity (RPM)	Duration (ms)
 public static final int kNumPoints =320;		
