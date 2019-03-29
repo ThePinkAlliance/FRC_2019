@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.MotionProfileLevel2GroupClimb;
 import frc.robot.commands.MotionProfileLevel3GroupClimb;
+import frc.robot.commands.MotionProfileGroupClimb;
 import frc.robot.commands.MoveBallRocket;
 import frc.robot.commands.MoveBallToStow;
 import frc.robot.commands.MoveElevatorToCollect;
@@ -128,7 +129,7 @@ public class OI {
       towerB.whenPressed(new MoveBallRocket());
       towerY.whenPressed(new MoveElevatorToMax());
       towerRightBumper.whenPressed(new MoveBallToStow());
-      towerStart.whenPressed(new MotionProfileLevel3GroupClimb(true));  // Manual Climb to Level 3
+      towerStart.whenPressed(new MotionProfileGroupClimb());  // Manual Climb to Level 3
       towerSelect.whenPressed(new MotionProfileLevel2GroupClimb(true)); // Manual Climb to  Level 2
 
     }
