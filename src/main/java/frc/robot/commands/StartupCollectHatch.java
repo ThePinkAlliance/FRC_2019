@@ -26,16 +26,17 @@ public class StartupCollectHatch extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_elevator.moveElevatorToPosition(-21);
     if (!Robot.m_hatch.leftLimitSwitchHatchCollected.get() || !Robot.m_hatch.rightLimitSwitchHatchCollected.get()) {
-      Robot.m_hatch._beak.set(false); // Open Beak
-    }
+      Robot.m_hatch._beak.set(true); // Open Beak
+      Robot.m_elevator.moveElevatorToPosition(-35);
+    } else
+      Robot.m_elevator.moveElevatorToPosition(-23);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (!Robot.m_hatch.leftLimitSwitchHatchCollected.get() || !Robot.m_hatch.rightLimitSwitchHatchCollected.get() || Robot.m_elevator._enc_elevator.getPosition() == -20) {
+    if (Robot.m_elevator._enc_elevator.getPosition() <= -27) {
       return true;
     } else {
       return false;
@@ -45,7 +46,6 @@ public class StartupCollectHatch extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_hatch._neck.set(false);
   }
 
   // Called when another command which requires one or more of the same

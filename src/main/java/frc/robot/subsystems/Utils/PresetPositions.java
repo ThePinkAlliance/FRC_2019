@@ -5,7 +5,7 @@ public class PresetPositions {
     // Ball Presets 0 is stowed and approximately 90000 is the lowest
     public static final double BALL_COLLECT_POSITION = 11000;
     public static final double BALL_LOW_ROCKET_POSITION = 5283;
-    public static final double BALL_CARGO_POSITION = 0;
+    public static final double BALL_CARGO_POSITION = 100;
     public static final double BALL_CLIMB_POSITION = 15000;
     public static final double BALL_CLIMB_LEVEL3_MOVE1 = 6000;
 

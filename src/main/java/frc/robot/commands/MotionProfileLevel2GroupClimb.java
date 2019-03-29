@@ -22,7 +22,7 @@ public class MotionProfileLevel2GroupClimb extends CommandGroup {
   public MotionProfileLevel2GroupClimb(boolean manual_override) {
     //ROBOT UP
     double SETUP = 0.7;
-    addParallel(new ToggleNeck());
+    // addParallel(new ToggleNeck());
     addSequential(new BallRotateToPosition(PresetPositions.BALL_CLIMB_POSITION, 0.0005, SETUP, manual_override));
 
     double RAISEUP = 3;

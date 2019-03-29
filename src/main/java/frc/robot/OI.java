@@ -16,6 +16,7 @@ import frc.robot.commands.MoveElevatorToMax;
 import frc.robot.commands.MoveElevatorToMidRocket;
 import frc.robot.commands.OpenBeak;
 import frc.robot.commands.StartupCollectHatch;
+import frc.robot.commands.StartupCollectHatchGroup;
 import frc.robot.commands.ToggleNeck;
 import frc.robot.commands.AutomatedCollect;
 import frc.robot.commands.CloseBeak;
@@ -111,7 +112,7 @@ public class OI {
   public void setupBaseJoystick() {
     if (base != null) {
       baseY.whenPressed(new ToggleNeck());
-      baseB.toggleWhenPressed(new StartupCollectHatch());
+      baseB.toggleWhenPressed(new StartupCollectHatchGroup());
       baseX.whenPressed(new OpenBeak());
       baseA.whenPressed(new CloseBeak());
       baseRightTrigger.toggleWhenPressed(new AutomatedCollect());
