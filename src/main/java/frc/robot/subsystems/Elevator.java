@@ -21,7 +21,7 @@ public class Elevator extends Subsystem {
   public DigitalInput _elevatorBottonSwitch = null;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
   public double elevatorKp = 0.05;
-  private int currentLimit = 10;
+  private int currentLimit = 15;
 
   // Subsystem Constructor
   public Elevator() {

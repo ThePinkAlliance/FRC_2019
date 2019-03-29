@@ -182,10 +182,10 @@ public class MotionProfileClimber extends Subsystem {
 
   public void setupLeftFront(TalonSRX follower) {
     if (follower == null) {
-      _talon1.setInverted(true);
+      _talon1.setInverted(false);
       _talon1.setSensorPhase(true); 
     } else {
-      follower.setInverted(true);
+      follower.setInverted(false);
       follower.setSensorPhase(true);
     }
   }
@@ -202,10 +202,10 @@ public class MotionProfileClimber extends Subsystem {
 
   public void setupRightFront(TalonSRX follower) {
     if (follower == null) {
-      _talon1.setInverted(false);
+      _talon1.setInverted(true);
       _talon1.setSensorPhase(true);
     } else {
-      follower.setInverted(false);
+      follower.setInverted(true);
       follower.setSensorPhase(true);
     }
   }
@@ -223,37 +223,6 @@ public class MotionProfileClimber extends Subsystem {
   public void setDirection(ClimberDirection direction) {
     if (direction == ClimberDirection.UP) {
       // UP
-      if (face == PodPosition.FRONT) {
-        // FRONT
-        if (side == PodPosition.LEFT) {
-          // LEFT
-          _talon1.setInverted(true); // test with false while phase reversed
-          if (_talon2 != null)
-            _talon2.setInverted(true);
-        } else {
-          // RIGHT
-          _talon1.setInverted(false);
-          if (_talon2 != null)
-            _talon2.setInverted(false);
-        }
-
-      } else {
-        // BACK
-        if (side == PodPosition.LEFT) {
-          // LEFT
-          _talon1.setInverted(false); // need testing
-          if (_talon2 != null)
-            _talon2.setInverted(true);
-        } else {
-          // RIGHT
-          _talon1.setInverted(true); // need testing
-          if (_talon2 != null)
-            _talon2.setInverted(false);
-        }
-      }
-
-    } else {
-      // DOWN
       if (face == PodPosition.FRONT) {
         // FRONT
         if (side == PodPosition.LEFT) {
@@ -280,6 +249,37 @@ public class MotionProfileClimber extends Subsystem {
           _talon1.setInverted(false); // need testing
           if (_talon2 != null)
             _talon2.setInverted(true);
+        }
+      }
+
+    } else {
+      // DOWN
+      if (face == PodPosition.FRONT) {
+        // FRONT
+        if (side == PodPosition.LEFT) {
+          // LEFT
+          _talon1.setInverted(true); // test with false while phase reversed
+          if (_talon2 != null)
+            _talon2.setInverted(true);
+        } else {
+          // RIGHT
+          _talon1.setInverted(false);
+          if (_talon2 != null)
+            _talon2.setInverted(false);
+        }
+
+      } else {
+        // BACK
+        if (side == PodPosition.LEFT) {
+          // LEFT
+          _talon1.setInverted(false); // need testing
+          if (_talon2 != null)
+            _talon2.setInverted(true);
+        } else {
+          // RIGHT
+          _talon1.setInverted(true); // need testing
+          if (_talon2 != null)
+            _talon2.setInverted(false);
         }
       }
     }
