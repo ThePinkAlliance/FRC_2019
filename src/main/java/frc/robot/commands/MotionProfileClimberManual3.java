@@ -29,6 +29,8 @@ public class MotionProfileClimberManual3 extends Command {
 
   private ClimbLevel level = ClimbLevel.LEVEL3;
 
+  private boolean encoderRead = false;
+
   private Timer profileStartTimer = null;
 
   public MotionProfileClimberManual3(MotionProfileClimber theClimberPod, ClimberDirection direction, PodPosition location, double preLoadMove, double watchDogTime, double profileDelayTime) {
@@ -88,12 +90,16 @@ public class MotionProfileClimberManual3 extends Command {
     double climberPosition = 0.0; 
 
     if (climberPod.isMotionProfileFinished()) {
+
+      if (!encoderRead) {
+        climberPosition = climberPod.getEncPosition();
+        encoderRead = true;
+      }
       climberPod.setPosition(climberPosition);
       //climberPod.set(0.25);
     } else {
       mp.control(direction, location, level);
       mp.setMotionProfileMode();
-      climberPosition = climberPod.getEncPosition();
     }
   }
 
