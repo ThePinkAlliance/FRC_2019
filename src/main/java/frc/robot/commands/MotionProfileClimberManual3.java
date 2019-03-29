@@ -14,6 +14,8 @@ import frc.robot.subsystems.utils.MotionProfileClimberDouble;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimbLevel;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimberDirection;
 import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
+import frc.robot.Robot;
+
 
 
 public class MotionProfileClimberManual3 extends Command {
@@ -82,8 +84,17 @@ public class MotionProfileClimberManual3 extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    mp.control(direction, location, level);
-    mp.setMotionProfileMode();
+
+    double climberPosition = 0.0; 
+
+    if (climberPod.isMotionProfileFinished()) {
+      climberPod.setPosition(climberPosition);
+      //climberPod.set(0.25);
+    } else {
+      mp.control(direction, location, level);
+      mp.setMotionProfileMode();
+      climberPosition = climberPod.getEncPosition();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -93,6 +104,13 @@ public class MotionProfileClimberManual3 extends Command {
     //System.out.println("mpPressed: " + mpPressed);
     double elapsedTime = watchDog.get();
     boolean bMPDone = mp.isMotionProfileDone();
+    boolean bMPOtherSideDone = true;
+    if (climberPod.getSide() == PodPosition.RIGHT) {
+      bMPOtherSideDone = Robot.m_climberPodFrontLeft.isMotionProfileFinished();
+    } else {
+      bMPOtherSideDone = Robot.m_climberPodFrontRight.isMotionProfileFinished();
+    }
+    bMPDone = (bMPDone && bMPOtherSideDone);
     if (elapsedTime >= watchDogTime) {
       System.out.println("Watch Dog timer popped.");
       return true;
