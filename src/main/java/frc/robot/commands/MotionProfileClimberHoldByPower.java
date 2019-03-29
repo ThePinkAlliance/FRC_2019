@@ -44,7 +44,7 @@ public class MotionProfileClimberHoldByPower extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(theClimberPod);
-    if (theClimberPod.getSide() == PodPosition.LEFT) {
+    if (theClimberPod.getSide() == PodPosition.LEFT && !manual_override) {
        requires(Robot.m_ball);
     }
 

@@ -50,7 +50,7 @@ public class MotionProfileClimberTestDoubleLevel3 extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(theClimberPod);
-    if (theClimberPod.getSide() == PodPosition.LEFT ) {
+    if (theClimberPod.getSide() == PodPosition.LEFT && !manualOverride) {
       requires(Robot.m_ball);
     }
 
@@ -128,6 +128,7 @@ public class MotionProfileClimberTestDoubleLevel3 extends Command {
   @Override
   protected void execute() {
     double climberPosition = 0.0; 
+    double ballPosition = 0.0;
     if (manual_override) {
       climber_mp.control(direction, location, level);
       climber_mp.setMotionProfileMode();
@@ -144,11 +145,11 @@ public class MotionProfileClimberTestDoubleLevel3 extends Command {
       if (climberPod.getSide() == PodPosition.LEFT) {
         if (ball_direction == CollectorDirection.UP) {
           if (Robot.m_ball.isMotionProfileFinished()) {
-            double ballPosition = Robot.m_ball.getBallRotateEncoder();
             Robot.m_ball._collectorRotateMotor.set(ControlMode.Position, ballPosition);
           } else {
             ball_mp.control(ball_direction);
             ball_mp.setMotionProfileMode();
+            ballPosition = Robot.m_ball.getBallRotateEncoder();
           }
         } else {
           Robot.m_ball._collectorRotateMotor.set(ControlMode.Position, target_position);
@@ -181,7 +182,7 @@ public class MotionProfileClimberTestDoubleLevel3 extends Command {
     bMPDone = (bMPDone && bMPOtherSideDone);
     boolean bMPBallDone = false;
     boolean bCommandDone = false;
-    if (direction == ClimberDirection.UP || manual_override) { 
+    if (direction == ClimberDirection.UP && manual_override) { 
       bCommandDone = bMPDone;
     } else {
       if (climberPod.getSide() == PodPosition.LEFT && ball_direction == CollectorDirection.UP) {
