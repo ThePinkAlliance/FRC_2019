@@ -9,41 +9,32 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.MotionProfileClimber;
-import frc.robot.subsystems.utils.MotionProfileClimberDouble;
-import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimbLevel;
-import frc.robot.subsystems.utils.MotionProfileClimberDouble.ClimberDirection;
-import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
+import frc.robot.subsystems.HoustonClimber;
+import frc.robot.subsystems.HoustonClimber.ClimbLevel;
+import frc.robot.subsystems.HoustonClimber.PodAction;
+import frc.robot.subsystems.utils.HoustonMotionProfileExecutor;
 import frc.robot.Robot;
 
 
 
-public class MotionProfileClimberManual3 extends Command {
+public class HoustonManualLevel3Climb extends Command {
 
-  private MotionProfileClimberDouble mp = null;
-  private ClimberDirection direction = ClimberDirection.UP;
+  private HoustonMotionProfileExecutor mp = null;
+  private PodAction action = PodAction.CLIMB;
   private Timer watchDog = null;
   private double watchDogTime = 0.0;
-  private MotionProfileClimber climberPod = null;
-  private PodPosition location;
-
+  private HoustonClimber climberPod = null;
   private ClimbLevel level = ClimbLevel.LEVEL3;
-
-  private boolean encoderRead = false;
-
   private Timer profileStartTimer = null;
 
-  public MotionProfileClimberManual3(MotionProfileClimber theClimberPod, ClimberDirection direction, PodPosition location, double preLoadMove, double watchDogTime, double profileDelayTime) {
+  public HoustonManualLevel3Climb(PodAction action, double watchDogTime) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(theClimberPod);
-    this.climberPod = theClimberPod;
+    requires(Robot.m_climber);
+    this.climberPod = Robot.m_climber;
 
     //set the direction
-    this.direction = direction;
-
-    // set the position
-    this.location = location;
+    this.action = action;
 
     //cache your alloted time to complete this command
     this.watchDogTime = watchDogTime;
@@ -60,23 +51,16 @@ public class MotionProfileClimberManual3 extends Command {
         //prep your time
         watchDog.reset();
         watchDog.start();
-    
-        if (direction == ClimberDirection.UP) {
-          // go to 0 if we are going up
-          
-        } else {
-          // go to max if we are going down
-        }
-    
+     
         //get the motion profile object associated with the subsystem
         mp = climberPod.getMP();
-        climberPod.setDirection(direction);
+        climberPod.setAction(action);
         mp.reset();
         climberPod.resetEncoderPosition(0);
         mp.setMotionProfileMode();
         //mp.startWorking(movingUp); //only used by threading alternative
         mp.startMotionProfile();
-        System.out.println("MotionProfileTestClimberDouble(): initialized");
+        System.out.println("HoustonMotionProfileExecutor(): initialized");
     
         //start the timer to delay the command
         profileStartTimer.reset();
@@ -86,37 +70,16 @@ public class MotionProfileClimberManual3 extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    double climberPosition = 0.0; 
-
-    if (climberPod.isMotionProfileFinished()) {
-
-      if (!encoderRead) {
-        climberPosition = climberPod.getEncPosition();
-        encoderRead = true;
-      }
-      climberPod.setPosition(climberPosition);
-      //climberPod.set(0.25);
-    } else {
-      mp.control(direction, location, level);
+      mp.control(action, level);
       mp.setMotionProfileMode();
-    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    //boolean mpPressed = Robot.m_oi.getBaseJoystick().getRawButton(OI.aButtonNumber);
-    //System.out.println("mpPressed: " + mpPressed);
     double elapsedTime = watchDog.get();
     boolean bMPDone = mp.isMotionProfileDone();
-    boolean bMPOtherSideDone = true;
-    if (climberPod.getSide() == PodPosition.RIGHT) {
-      bMPOtherSideDone = Robot.m_climberPodFrontLeft.isMotionProfileFinished();
-    } else {
-      bMPOtherSideDone = Robot.m_climberPodFrontRight.isMotionProfileFinished();
-    }
-    bMPDone = (bMPDone && bMPOtherSideDone);
+    
     if (elapsedTime >= watchDogTime) {
       System.out.println("Watch Dog timer popped.");
       return true;
@@ -129,8 +92,7 @@ public class MotionProfileClimberManual3 extends Command {
   @Override
   protected void end() {
     mp.stopMotionProfile();
-    //mp.stopWorking();
-    System.out.println("MotionProfileTestClimberDouble(): End");
+    System.out.println("Houston Climb: End");
   }
 
   // Called when another command which requires one or more of the same
@@ -138,7 +100,6 @@ public class MotionProfileClimberManual3 extends Command {
   @Override
   protected void interrupted() {
     mp.stopMotionProfile();
-    // mp.stopWorking();  //only used by threading alternative
-    System.out.println("MotionProfileTestClimberDouble(): Interrupted");
+    System.out.println("Houston Climb: Interrupted");
   }
 }

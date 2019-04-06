@@ -22,6 +22,7 @@ import frc.robot.commands.AutomatedCollect;
 import frc.robot.commands.CloseBeak;
 import frc.robot.commands.Collect;
 import frc.robot.commands.Eject;
+import frc.robot.commands.HoustonManualLevel3GroupClimb;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -118,8 +119,8 @@ public class OI {
       baseRightTrigger.toggleWhenPressed(new AutomatedCollect());
       baseLeftTrigger.toggleWhenPressed(new Eject());
       baseRightBumper.toggleWhenPressed(new Collect());
-      baseStart.whenPressed(new MotionProfileLevel3GroupClimb(false)); // Automated Climb to Level 3
-      baseSelect.whenPressed(new MotionProfileLevel2GroupClimb(false)); // Automated Climb to Level 2
+      //baseStart.whenPressed(new MotionProfileLevel3GroupClimb(false)); // Automated Climb to Level 3
+      //baseSelect.whenPressed(new MotionProfileLevel2GroupClimb(false)); // Automated Climb to Level 2
     }
   }
 
@@ -130,8 +131,9 @@ public class OI {
       towerB.whenPressed(new MoveBallRocket());
       towerY.whenPressed(new MoveElevatorToMax());
       towerRightBumper.whenPressed(new MoveBallToStow());
-      towerStart.whenPressed(new MotionProfileGroupClimb());  // Manual Climb to Level 3
-      towerSelect.whenPressed(new MotionProfileLevel2GroupClimb(true)); // Manual Climb to  Level 2
+      //towerStart.whenPressed(new MotionProfileGroupClimb());  // Manual Climb to Level 3
+      towerSelect.whenPressed(new HoustonManualLevel3GroupClimb());
+      //towerSelect.whenPressed(new MotionProfileLevel2GroupClimb(true)); // Manual Climb to  Level 2
 
     }
   }

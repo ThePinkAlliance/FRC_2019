@@ -67,14 +67,14 @@ public class RobotDashboard {
             SmartDashboard.putNumber(ENC_LABEL_RIGHT_FRONT, Robot.m_driveTrain.getFrontRightPosition());
             SmartDashboard.putNumber(ENC_LABEL_LEFT_FRONT, Robot.m_driveTrain.getFrontLeftPosition());
             SmartDashboard.putNumber(ENC_LABEL_ELEVATOR, Robot.m_elevator.getElevatorHeight());
-            SmartDashboard.putNumber("PodFrontLeftEncoder", Robot.m_climberPodFrontLeft.getEncPosition());
+            SmartDashboard.putNumber("PodMasterEncoder", Robot.m_climber.getEncPositionMaster());
             // SmartDashboard.putNumber("PodBackLeftEncoder", Robot.m_climberPodBackLeft.getEncPosition());
-            SmartDashboard.putNumber("PodFrontRightEncoder", Robot.m_climberPodFrontRight.getEncPosition());
+            SmartDashboard.putNumber("PodFollowerEncoder", Robot.m_climber.getEncPositionFollower());
             // SmartDashboard.putNumber("PodBackRightEncoder", Robot.m_climberPodBackRight.getEncPosition());
             SmartDashboard.putNumber("Ball Collector Position: ", Robot.m_ball.getBallRotateEncoder());
-            SmartDashboard.putNumber("PodFrontLeftOutputVoltage", Robot.m_climberPodFrontLeft.getOutput());
+            //SmartDashboard.putNumber("PodFrontLeftOutputVoltage", Robot.m_climberPodFrontLeft.getOutput());
             // SmartDashboard.putNumber("PodBackLeftOutputVoltage", Robot.m_climberPodBackLeft.getOutput());
-            SmartDashboard.putNumber("PodFrontRightOutputVoltage", Robot.m_climberPodFrontRight.getOutput());
+            //SmartDashboard.putNumber("PodFrontRightOutputVoltage", Robot.m_climberPodFrontRight.getOutput());
             // SmartDashboard.putNumber("PodBackRightOutputVoltage", Robot.m_climberPodBackRight.getOutput());
 
         }
