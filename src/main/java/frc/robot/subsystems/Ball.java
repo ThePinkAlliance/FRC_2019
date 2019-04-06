@@ -5,16 +5,14 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.Hold;
 import frc.robot.subsystems.utils.ConstantsBall;
-import frc.robot.subsystems.utils.MotionProfileBallDouble;
+import frc.robot.subsystems.utils.HoustonMotionProfileBallExecutor;
 import frc.robot.subsystems.utils.PresetPositions;
-import frc.robot.subsystems.utils.MotionProfileBallDouble.CollectorDirection;
 
 public class Ball extends Subsystem {
 
@@ -22,7 +20,7 @@ public class Ball extends Subsystem {
   public Spark _collectorMotor = null;
   public TalonSRX _collectorRotateMotor = null;
   public double _enc_collectorRotate = 0.0;
-  public MotionProfileBallDouble _example = null;
+  public HoustonMotionProfileBallExecutor _example = null;
 
   // Init digital inputs
   public DigitalInput collectedOpticalSwitch = null;
@@ -47,7 +45,7 @@ public class Ball extends Subsystem {
 
     // Construct digital inputs
     collectedOpticalSwitch = new DigitalInput(RobotMap.collectedOpticalSwitchPort);
-    _example = new MotionProfileBallDouble(_collectorRotateMotor);
+    _example = new HoustonMotionProfileBallExecutor(_collectorRotateMotor);
     setupTalon();
   }
 
@@ -126,7 +124,7 @@ public class Ball extends Subsystem {
     return _example.isMotionProfileDone();
   }
 
-  public MotionProfileBallDouble getMP() {
+  public HoustonMotionProfileBallExecutor getMP() {
     return _example;
   }
 
@@ -134,16 +132,6 @@ public class Ball extends Subsystem {
   public void collect() {
     _collectorMotor.set(collectSpeed);
     //system..out.println("Collector Power: " + _collectorMotor.get());
-  }
-
-  public void setDirection(CollectorDirection direction) {
-    if (direction == CollectorDirection.UP) {
-      // UP
-      _collectorRotateMotor.setInverted(false);
-    } else {
-      // DOWN
-      _collectorRotateMotor.setInverted(true);
-    }
   }
 
   public void resetEncoderPosition(int position) {
@@ -164,8 +152,4 @@ public class Ball extends Subsystem {
   public boolean getCollectState() {
     return collectedOpticalSwitch.get();
   }
-
-  // public void holdRotation() {
-
-  // }
 }

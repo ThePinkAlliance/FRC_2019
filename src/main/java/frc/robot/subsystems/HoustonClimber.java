@@ -119,8 +119,8 @@ public class HoustonClimber extends Subsystem {
 
     //Setup initial invert and phase (default to climb invert, 
     //phase only set once - green led must generate positive encoder tick counts)
-    setupLeft();
-    setupRight();
+    setupLeftDefault();
+    setupRightDefault();
 
     resetEncoderPosition(0);
   }
@@ -161,7 +161,7 @@ public class HoustonClimber extends Subsystem {
     return _example;
   }
 
-  public void setupLeft() {
+  public void setupLeftDefault() {
     if (_masterPosition == PodPosition.LEFT) {
       _master.setInverted(false);
       _master.setSensorPhase(true); 
@@ -171,20 +171,12 @@ public class HoustonClimber extends Subsystem {
     }
   }
 
-  public void setupLeftRetract() {
-    if (_masterPosition == PodPosition.LEFT) {
-      _master.setInverted(true);
-    } else {
-      _follower.setInverted(true);
-    }
-  }
-
-  public void setupRight() {
+  public void setupRightDefault() {
     if (_masterPosition == PodPosition.RIGHT) {
-      _master.setInverted(true);
+      _master.setInverted(false);
       _master.setSensorPhase(false);  //TODO: this is different on competition bot
     } else {
-      _follower.setInverted(true);
+      _follower.setInverted(false);
       _follower.setSensorPhase(false);  //TODO: this is different on competition bot
     }
   }
@@ -198,9 +190,9 @@ public class HoustonClimber extends Subsystem {
     }
     //RIGHT
     if (_masterPosition == PodPosition.RIGHT) {
-      _master.setInverted(true);
+      _master.setInverted(false);
     } else {
-      _follower.setInverted(true);
+      _follower.setInverted(false);
     }
   }
 
@@ -214,9 +206,9 @@ public class HoustonClimber extends Subsystem {
     }
     //RIGHT
     if (_masterPosition == PodPosition.RIGHT) {
-      _master.setInverted(false);
+      _master.setInverted(true);
     } else {
-      _follower.setInverted(false);
+      _follower.setInverted(true);
     }
   }
 

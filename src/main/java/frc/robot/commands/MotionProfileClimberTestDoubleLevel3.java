@@ -107,8 +107,8 @@ public class MotionProfileClimberTestDoubleLevel3 extends Command {
     // get the motion profile object associated with the subsystem
     if (climberPod.getSide() == PodPosition.LEFT && !manual_override) {
       if (ball_direction == CollectorDirection.UP) {
-        ball_mp = Robot.m_ball.getMP();
-        Robot.m_ball.setDirection(ball_direction);
+        //ball_mp = Robot.m_ball.getMP();
+        //Robot.m_ball.setDirection(ball_direction);
         ball_mp.reset();
         Robot.m_ball.resetEncoderPosition(0);
         ball_mp.setMotionProfileMode();

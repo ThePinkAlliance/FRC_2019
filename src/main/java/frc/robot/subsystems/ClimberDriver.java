@@ -26,7 +26,7 @@ public class ClimberDriver extends Subsystem {
     _climberWheelR = new WPI_TalonSRX(RobotMap.climberDriverForwardRightMotor);
 
     _climberWheelL.setInverted(true);
-    _climberWheelR.setInverted(false);
+    _climberWheelR.setInverted(true); //TODO reversed on competition bot
   }
 
   @Override

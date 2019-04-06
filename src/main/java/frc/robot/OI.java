@@ -18,10 +18,12 @@ import frc.robot.commands.OpenBeak;
 import frc.robot.commands.StartupCollectHatch;
 import frc.robot.commands.StartupCollectHatchGroup;
 import frc.robot.commands.ToggleNeck;
+import frc.robot.subsystems.HoustonClimber.PodAction;
 import frc.robot.commands.AutomatedCollect;
 import frc.robot.commands.CloseBeak;
 import frc.robot.commands.Collect;
 import frc.robot.commands.Eject;
+import frc.robot.commands.HoustonManualLevel3Climb;
 import frc.robot.commands.HoustonManualLevel3GroupClimb;
 
 /**
@@ -132,7 +134,9 @@ public class OI {
       towerY.whenPressed(new MoveElevatorToMax());
       towerRightBumper.whenPressed(new MoveBallToStow());
       //towerStart.whenPressed(new MotionProfileGroupClimb());  // Manual Climb to Level 3
-      towerSelect.whenPressed(new HoustonManualLevel3GroupClimb());
+      towerStart.whenPressed(new HoustonManualLevel3GroupClimb());
+      //towerStart.whenPressed(new HoustonManualLevel3Climb(PodAction.CLIMB, 5.5));
+      //towerSelect.whenPressed(new HoustonManualLevel3Climb(PodAction.RETRACT, 3.0));
       //towerSelect.whenPressed(new MotionProfileLevel2GroupClimb(true)); // Manual Climb to  Level 2
 
     }
