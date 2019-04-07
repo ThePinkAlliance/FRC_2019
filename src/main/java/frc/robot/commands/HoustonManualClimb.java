@@ -17,7 +17,7 @@ import frc.robot.Robot;
 
 
 
-public class HoustonManualLevel3Climb extends Command {
+public class HoustonManualClimb extends Command {
 
   private HoustonMotionProfileExecutor mp = null;
   private PodAction action = PodAction.CLIMB;
@@ -25,9 +25,8 @@ public class HoustonManualLevel3Climb extends Command {
   private double watchDogTime = 0.0;
   private HoustonClimber climberPod = null;
   private ClimbLevel level = ClimbLevel.LEVEL3;
-  private Timer profileStartTimer = null;
-
-  public HoustonManualLevel3Climb(PodAction action, double watchDogTime) {
+  
+  public HoustonManualClimb(PodAction action, ClimbLevel level, double watchDogTime) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_climber);
@@ -36,13 +35,14 @@ public class HoustonManualLevel3Climb extends Command {
     //set the direction
     this.action = action;
 
+    //set the level
+    this.level = level;
+
     //cache your alloted time to complete this command
     this.watchDogTime = watchDogTime;
 
     //new up the timer for later use
     watchDog = new Timer();
-    profileStartTimer = new Timer();
-
   }
 
   // Called just before this Command runs the first time
@@ -58,13 +58,8 @@ public class HoustonManualLevel3Climb extends Command {
         mp.reset();
         climberPod.resetEncoderPosition(0);
         mp.setMotionProfileMode();
-        //mp.startWorking(movingUp); //only used by threading alternative
         mp.startMotionProfile();
         System.out.println("HoustonMotionProfileExecutor(): initialized");
-    
-        //start the timer to delay the command
-        profileStartTimer.reset();
-        profileStartTimer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run

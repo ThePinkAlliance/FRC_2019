@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.subsystems.HoustonClimber.ClimbLevel;
 import frc.robot.subsystems.HoustonClimber.PodAction;
 
 
@@ -19,7 +20,7 @@ public class HoustonManualLevel3GroupClimb extends CommandGroup {
     //ROBOT UP
     double RAISEUP = 5.5;
     addParallel(new CloseBeak());
-    addSequential(new HoustonManualLevel3Climb(PodAction.CLIMB, RAISEUP));
+    addSequential(new HoustonManualClimb(PodAction.CLIMB, ClimbLevel.LEVEL3, RAISEUP));
     
     //HOLD and MOVE FORWARD TO CATCH the FIRST PART OF PLATFORM
     double HOLDANDMOVE = 2.4;
@@ -28,18 +29,15 @@ public class HoustonManualLevel3GroupClimb extends CommandGroup {
 
     addParallel(new DriveClimberWheels(0.03, 1.73, HOLDANDMOVE));
     addSequential(new HoustonClimberManualHold(HOLDPOWER1, HOLDPOWER2, 1, HOLDANDMOVE));
-    // addSequential(new HoustonClimberManualHoldByPosition(HOLDANDMOVE));
-    
+        
     double DRIVEFORWARD = 2.0;
-    addParallel(new HoustonManualLevel3Climb(PodAction.RETRACT, DRIVEFORWARD));
+    addParallel(new HoustonManualClimb(PodAction.RETRACT, ClimbLevel.LEVEL3, DRIVEFORWARD));
     addParallel(new DriveClimberWheels(1.0, DRIVEFORWARD, DRIVEFORWARD ));
-    addSequential(new MotionProfileClimberDriveTrain(0.3, DRIVEFORWARD));
+    addSequential(new HoustonClimberDriveTrain(0.3, DRIVEFORWARD));
     
     double FINALFORWARD = 30.0;
     addParallel(new DriveClimberWheels(0.03, FINALFORWARD, FINALFORWARD ));
-    addSequential(new MotionProfileClimberDriveTrain(0.3, FINALFORWARD));
-    
-    
+    addSequential(new HoustonClimberDriveTrain(0.3, FINALFORWARD));
   }
 }
 

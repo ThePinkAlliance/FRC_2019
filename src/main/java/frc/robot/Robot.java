@@ -10,8 +10,6 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Hatch;
 import frc.robot.subsystems.HoustonClimber;
-import frc.robot.subsystems.MotionProfileClimber;
-import frc.robot.subsystems.HoustonClimber.PodAction;
 import frc.robot.subsystems.HoustonClimber.PodPosition;
 //import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 import frc.robot.subsystems.Ball;
@@ -27,20 +25,6 @@ public class Robot extends TimedRobot {
   public static Ball m_ball = new Ball();
   public static DriveTrain m_driveTrain = new DriveTrain();
   public static ClimberDriver m_climberDriver = new ClimberDriver();
- 
-  
-   public static MotionProfileClimber m_climberPodFrontLeft = null;//new MotionProfileClimber(RobotMap.leftFrontClimberPort,
-  //                                                                                     MotionProfileClimber.TALON_ID_NULL,                                                                                
-  //                                                                                     PodPosition.FRONT, 
-  //                                                                                     PodPosition.LEFT);
-  
-  //                                                                                     PodPosition.RIGHT);
-
-   public static MotionProfileClimber m_climberPodFrontRight = null;// new MotionProfileClimber(RobotMap.rightFrontClimberPort,
-  //                                                                                     MotionProfileClimber.TALON_ID_NULL,
-  //                                                                                     PodPosition.FRONT, 
-  //                                                                                     PodPosition.RIGHT);
-                                                                                        
   public static HoustonClimber m_climber = new HoustonClimber(RobotMap.leftFrontClimberPort, RobotMap.rightFrontClimberPort, PodPosition.LEFT);                                                         
   public static Hatch m_hatch = new Hatch();
   public static Elevator m_elevator = new Elevator();

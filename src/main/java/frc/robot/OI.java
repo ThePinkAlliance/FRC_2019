@@ -6,24 +6,20 @@ import edu.wpi.first.wpilibj.buttons.Button;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.MotionProfileLevel2GroupClimb;
-import frc.robot.commands.MotionProfileLevel3GroupClimb;
-import frc.robot.commands.MotionProfileGroupClimb;
 import frc.robot.commands.MoveBallRocket;
 import frc.robot.commands.MoveBallToStow;
 import frc.robot.commands.MoveElevatorToCollect;
 import frc.robot.commands.MoveElevatorToMax;
 import frc.robot.commands.MoveElevatorToMidRocket;
 import frc.robot.commands.OpenBeak;
-import frc.robot.commands.StartupCollectHatch;
 import frc.robot.commands.StartupCollectHatchGroup;
 import frc.robot.commands.ToggleNeck;
-import frc.robot.subsystems.HoustonClimber.PodAction;
 import frc.robot.commands.AutomatedCollect;
 import frc.robot.commands.CloseBeak;
 import frc.robot.commands.Collect;
 import frc.robot.commands.Eject;
-import frc.robot.commands.HoustonManualLevel3Climb;
+import frc.robot.commands.HoustonAutoLevel2GroupClimb;
+import frc.robot.commands.HoustonAutoLevel3GroupClimb;
 import frc.robot.commands.HoustonManualLevel3GroupClimb;
 
 /**
@@ -121,8 +117,7 @@ public class OI {
       baseRightTrigger.toggleWhenPressed(new AutomatedCollect());
       baseLeftTrigger.toggleWhenPressed(new Eject());
       baseRightBumper.toggleWhenPressed(new Collect());
-      //baseStart.whenPressed(new MotionProfileLevel3GroupClimb(false)); // Automated Climb to Level 3
-      //baseSelect.whenPressed(new MotionProfileLevel2GroupClimb(false)); // Automated Climb to Level 2
+      baseStart.whenPressed(new HoustonAutoLevel3GroupClimb());
     }
   }
 
@@ -133,12 +128,8 @@ public class OI {
       towerB.whenPressed(new MoveBallRocket());
       towerY.whenPressed(new MoveElevatorToMax());
       towerRightBumper.whenPressed(new MoveBallToStow());
-      //towerStart.whenPressed(new MotionProfileGroupClimb());  // Manual Climb to Level 3
+      towerSelect.whenPressed(new HoustonAutoLevel2GroupClimb());  
       towerStart.whenPressed(new HoustonManualLevel3GroupClimb());
-      //towerStart.whenPressed(new HoustonManualLevel3Climb(PodAction.CLIMB, 5.5));
-      //towerSelect.whenPressed(new HoustonManualLevel3Climb(PodAction.RETRACT, 3.0));
-      //towerSelect.whenPressed(new MotionProfileLevel2GroupClimb(true)); // Manual Climb to  Level 2
-
     }
   }
 	
