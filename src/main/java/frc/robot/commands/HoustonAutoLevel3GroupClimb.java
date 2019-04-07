@@ -19,35 +19,38 @@ public class HoustonAutoLevel3GroupClimb extends CommandGroup {
    */
   public HoustonAutoLevel3GroupClimb() {
     //ROBOT UP
-    double PREPARE = 1.0;
+    double PREP = 1.0;
+    
     addParallel(new CloseBeak());
-    addSequential(new BallRotateToPosition(PresetPositions.BALL_CLIMB_LEVEL3_MOVE1, 0.0003, PREPARE, false));
-
+    addSequential(new BallRotateToPosition(PresetPositions.BALL_CLIMB_LEVEL3_MOVE1, 0.0003, PREP, false));
+    
     double RAISEUP = 5.5;
     addSequential(new HoustonAutoLevel3Climb(PodAction.CLIMB, RAISEUP));
     
     //HOLD and MOVE FORWARD TO CATCH the FIRST PART OF PLATFORM
     double HOLDANDMOVE = 2.4;
-    double HOLDPOWER1 = .25;
-    double HOLDPOWER2 = .2;
-    addParallel(new DriveClimberWheels(0.03, 1.73, HOLDANDMOVE));
+    double HOLDPOWER1 = .15;
+    double HOLDPOWER2 = .15;
+    addParallel(new DriveClimberWheelsMove(1.0, HOLDANDMOVE));
     addSequential(new HoustonClimberAutoHold(HOLDPOWER1, HOLDPOWER2, 1, HOLDANDMOVE));
        
     double DRIVEFORWARD = 3.0;
     //retracting climber pods is manual, raise ball collector by set position rather than by motion profile
     addParallel(new HoustonManualClimb(PodAction.RETRACT, ClimbLevel.LEVEL3, DRIVEFORWARD));
     addParallel(new BallRotateToPosition(0, 0.0003, DRIVEFORWARD, false));
-    addParallel(new DriveClimberWheels(1.0, 2.37, DRIVEFORWARD ));
+    addParallel(new DriveClimberWheelsMove(1.0, DRIVEFORWARD ));
     addSequential(new HoustonClimberDriveTrain(0.3, DRIVEFORWARD));
     
     double ALMOSTFINALFORWARD = 1;
-    addParallel(new BallRotateToPosition(-(PresetPositions.BALL_CLIMB_LEVEL3_MOVE1), 0.0003, ALMOSTFINALFORWARD, false));
-    addParallel(new DriveClimberWheels(1.0, ALMOSTFINALFORWARD, ALMOSTFINALFORWARD ));
+    addParallel(new BallRotateToPosition(0, 0.0003, ALMOSTFINALFORWARD, false));
+    addParallel(new DriveClimberWheelsMove(1.0, ALMOSTFINALFORWARD ));
+    //addParallel(new DriveClimberWheels(1.0, ALMOSTFINALFORWARD, ALMOSTFINALFORWARD ));
     addSequential(new HoustonClimberDriveTrain(0.3, ALMOSTFINALFORWARD));
     
     double FINALFORWARD = 30.0;
-    addParallel(new HoustonBallFindStowAgain());
-    addParallel(new DriveClimberWheels(0.03, FINALFORWARD, FINALFORWARD ));
+   // addParallel(new HoustonBallFindStowAgain());
+    addParallel(new DriveClimberWheelsMove(1, FINALFORWARD ));
+    //addParallel(new DriveClimberWheels(0.03, FINALFORWARD, FINALFORWARD ));
     addSequential(new HoustonClimberDriveTrain(0.3, FINALFORWARD));
     
   }

@@ -34,18 +34,20 @@ public class DriveClimberWheels extends Command {
     this.watchDogTime = watchDogTime;
     this.rampRate = rampRate;
     this.cruiseTime = cruiseTime;
-    watchDogTimer = new Timer();
-    cruiseTimer = new Timer();
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
+    watchDogTimer = new Timer();
+    cruiseTimer = new Timer();
     watchDogTimer.reset();
     watchDogTimer.start();
-
-
+    cruiseTimer.reset();
+    motorPower = 1.0;
+    ramped = false;
+    cruiseStarted = false;
+    isDone = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -64,6 +66,7 @@ public class DriveClimberWheels extends Command {
      cruiseTimer.reset();
      cruiseTimer.start();
      cruiseStarted = true;
+
     }
 
     if(cruiseTimer.get() < cruiseTime) {
@@ -75,7 +78,7 @@ public class DriveClimberWheels extends Command {
     //   Robot.m_climberDriver.setClimberWheels(motorPower);
     // }
     // else {
-      isDone = true;
+    isDone = true;
     // }
 
   }

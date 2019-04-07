@@ -86,8 +86,8 @@ public class HoustonAutoLevel2Climb extends Command {
     double elapsedTime = watchDog.get();
     boolean bMPDone = mp.isMotionProfileDone();
 
-    bMPDone = (mp.isMotionProfileDone()
-        && (Math.abs(Robot.m_ball.getBallRotateEncoder() - Robot.m_ball.CARGO_POS) <= 100));
+    bMPDone = (mp.isMotionProfileDone());
+        //&& (Math.abs(Robot.m_ball.getBallRotateEncoder() - Robot.m_ball.CARGO_POS) <= 100));
 
     if (elapsedTime >= watchDogTime) {
       System.out.println("Watch Dog timer popped.");
@@ -101,6 +101,7 @@ public class HoustonAutoLevel2Climb extends Command {
   @Override
   protected void end() {
     mp.stopMotionProfile();
+    climberPod.set(0.1);
     Robot.m_ball._collectorRotateMotor.set(ControlMode.PercentOutput, 0);
     System.out.println("Houston Climb: End");
   }

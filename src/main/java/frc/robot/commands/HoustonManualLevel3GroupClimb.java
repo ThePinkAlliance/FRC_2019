@@ -18,25 +18,29 @@ public class HoustonManualLevel3GroupClimb extends CommandGroup {
    */
   public HoustonManualLevel3GroupClimb() {
     //ROBOT UP
+    //RAISE ROBOT
     double RAISEUP = 5.5;
     addParallel(new CloseBeak());
     addSequential(new HoustonManualClimb(PodAction.CLIMB, ClimbLevel.LEVEL3, RAISEUP));
     
     //HOLD and MOVE FORWARD TO CATCH the FIRST PART OF PLATFORM
     double HOLDANDMOVE = 2.4;
-    double HOLDPOWER1 = .25;
-    double HOLDPOWER2 = .2;
-
-    addParallel(new DriveClimberWheels(0.03, 1.73, HOLDANDMOVE));
+    double HOLDPOWER1 = .15;
+    double HOLDPOWER2 = .15;
+    addParallel(new DriveClimberWheelsMove(1.0, HOLDANDMOVE));
     addSequential(new HoustonClimberManualHold(HOLDPOWER1, HOLDPOWER2, 1, HOLDANDMOVE));
-        
-    double DRIVEFORWARD = 2.0;
+    
+    //RETRACT AND REMAIN ON PLATFORM
+    double DRIVEFORWARD = 3.0;
     addParallel(new HoustonManualClimb(PodAction.RETRACT, ClimbLevel.LEVEL3, DRIVEFORWARD));
-    addParallel(new DriveClimberWheels(1.0, DRIVEFORWARD, DRIVEFORWARD ));
+    addParallel(new DriveClimberWheelsMove(1.0, DRIVEFORWARD));
+    //addParallel(new DriveClimberWheels(1.0, DRIVEFORWARD, DRIVEFORWARD ));
     addSequential(new HoustonClimberDriveTrain(0.3, DRIVEFORWARD));
     
+    //KEEP MOVING FORWARD FOR SAFETY
     double FINALFORWARD = 30.0;
-    addParallel(new DriveClimberWheels(0.03, FINALFORWARD, FINALFORWARD ));
+    //addParallel(new DriveClimberWheels(0.03, FINALFORWARD, FINALFORWARD ));
+    addParallel(new DriveClimberWheelsMove(1.0, FINALFORWARD));
     addSequential(new HoustonClimberDriveTrain(0.3, FINALFORWARD));
   }
 }

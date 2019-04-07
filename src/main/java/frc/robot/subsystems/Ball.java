@@ -77,10 +77,10 @@ public class Ball extends Subsystem {
     /* Configure PID Gains, to be used with Motion Profile */
 
    
-    _collectorRotateMotor.config_kF(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGainsRightFront.kF, ConstantsBall.kTimeoutMs);
-    _collectorRotateMotor.config_kP(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGainsRightFront.kP, ConstantsBall.kTimeoutMs);
-    _collectorRotateMotor.config_kI(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGainsRightFront.kI, ConstantsBall.kTimeoutMs);
-    _collectorRotateMotor.config_kD(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGainsRightFront.kD, ConstantsBall.kTimeoutMs);
+    _collectorRotateMotor.config_kF(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGains.kF, ConstantsBall.kTimeoutMs);
+    _collectorRotateMotor.config_kP(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGains.kP, ConstantsBall.kTimeoutMs);
+    _collectorRotateMotor.config_kI(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGains.kI, ConstantsBall.kTimeoutMs);
+    _collectorRotateMotor.config_kD(ConstantsBall.kPIDLoopIdx, ConstantsBall.kGains.kD, ConstantsBall.kTimeoutMs);
    
 
     /* Our profile uses 10ms timing */

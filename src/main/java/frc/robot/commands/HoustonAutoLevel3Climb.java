@@ -74,6 +74,7 @@ public class HoustonAutoLevel3Climb extends Command {
         mp.startMotionProfile();
         System.out.println("HoustonMotionProfileExecutor(): initialized");
         //BALL
+        ball_mp = ball.getMP();
         ball_mp.reset();
         preBallProfileEncoderPosition = Robot.m_ball.getBallRotateEncoder();
         Robot.m_ball.resetEncoderPosition(0);
@@ -130,6 +131,7 @@ public class HoustonAutoLevel3Climb extends Command {
   @Override
   protected void end() {
     mp.stopMotionProfile();
+    climberPod.set(0.1);
     ball_mp.stopMotionProfile();
     System.out.println("Houston Climb: End");
   }

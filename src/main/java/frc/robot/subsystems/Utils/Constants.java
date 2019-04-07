@@ -45,11 +45,13 @@ public class Constants {
     /* Gains used in Position Closed Loop, to be adjusted accordingly
      * Gains(kp, ki, kd, kf, izone, peak output);
      */
-	public static final Gains kGains = new Gains(0.2, 0.0, 0.0, 0.0 /*0.1097281023.0/7200.0*/, 0, 1.0);
-	public static final Gains kGainsRightFront = new Gains(0.15, 0.00013, 0.0, /*0.109728*//*1023.0/7200.0*/0.417, 0, 1.0);
-	public static final Gains kGainsRightBack = new Gains(0.15, 0.00013, 0.0, /*0.109728*//*1023.0/7200.0*/0.434, 0, 1.0);
-	public static final Gains kGainsLeftFront = new Gains(0.15, 0.00013, 0.0, /*0.109728*//*1023.0/7200.0*/0.435, 0, 1.0);
-	public static final Gains kGainsLeftBack = new Gains(0.15, 0.00013, 0.0, /*0.109728*//*1023.0/7200.0*/0.446, 0, 1.0);
+	public static final Gains kGains = new Gains(0.2, 0.0, 0.0, 0.2, 0, 1.0);
+
+	// These values give each pod a different feed forward
+	// public static final Gains kGainsRightFront = new Gains(0.15, 0.00013, 0.0, /*0.109728*//*1023.0/7200.0*/0.417, 0, 1.0);
+	// public static final Gains kGainsRightBack = new Gains(0.15, 0.00013, 0.0, /*0.109728*//*1023.0/7200.0*/0.434, 0, 1.0);
+	// public static final Gains kGainsLeftFront = new Gains(0.15, 0.00013, 0.0, /*0.109728*//*1023.0/7200.0*/0.435, 0, 1.0);
+	// public static final Gains kGainsLeftBack = new Gains(0.15, 0.00013, 0.0, /*0.109728*//*1023.0/7200.0*/0.446, 0, 1.0);
 	
 	// public static final Gains kGainsRightFront = new Gains(0.7, 0.002, 0.0, 0.0, 0, 1.0);
 	// public static final Gains kGainsRightBack = new Gains(1, 0.005, 0.0, 0.0, 0, 1.0);

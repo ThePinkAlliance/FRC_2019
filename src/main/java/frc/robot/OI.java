@@ -14,12 +14,16 @@ import frc.robot.commands.MoveElevatorToMidRocket;
 import frc.robot.commands.OpenBeak;
 import frc.robot.commands.StartupCollectHatchGroup;
 import frc.robot.commands.ToggleNeck;
+import frc.robot.subsystems.HoustonClimber.ClimbLevel;
+import frc.robot.subsystems.HoustonClimber.PodAction;
 import frc.robot.commands.AutomatedCollect;
 import frc.robot.commands.CloseBeak;
 import frc.robot.commands.Collect;
 import frc.robot.commands.Eject;
 import frc.robot.commands.HoustonAutoLevel2GroupClimb;
 import frc.robot.commands.HoustonAutoLevel3GroupClimb;
+import frc.robot.commands.HoustonClimberPrep;
+import frc.robot.commands.HoustonManualClimb;
 import frc.robot.commands.HoustonManualLevel3GroupClimb;
 
 /**
@@ -118,21 +122,22 @@ public class OI {
       baseLeftTrigger.toggleWhenPressed(new Eject());
       baseRightBumper.toggleWhenPressed(new Collect());
       baseStart.whenPressed(new HoustonAutoLevel3GroupClimb());
+      baseSelect.whenPressed(new HoustonAutoLevel2GroupClimb()); 
     }
   }
-
+ 
   public void setupTowerJoystick() {
     if (tower != null) {
       towerA.whenPressed(new MoveElevatorToCollect());
       towerX.whenPressed(new MoveElevatorToMidRocket());
       towerB.whenPressed(new MoveBallRocket());
       towerY.whenPressed(new MoveElevatorToMax());
-      towerRightBumper.whenPressed(new MoveBallToStow());
-      towerSelect.whenPressed(new HoustonAutoLevel2GroupClimb());  
+      towerRightBumper.whenPressed(new MoveBallToStow());  
       towerStart.whenPressed(new HoustonManualLevel3GroupClimb());
+      towerSelect.whenPressed(new HoustonManualClimb(PodAction.CLIMB, ClimbLevel.LEVEL3, 5.5));
     }
   }
-	
+	 
 	public Joystick getBaseJoystick() {
 		return base;
   }

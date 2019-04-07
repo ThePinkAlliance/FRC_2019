@@ -10,23 +10,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.HoustonClimber;
-import frc.robot.subsystems.HoustonClimber.ClimbLevel;
 import frc.robot.subsystems.HoustonClimber.PodAction;
-import frc.robot.subsystems.utils.HoustonMotionProfileExecutor;
 import frc.robot.Robot;
 
 
 
-public class HoustonManualClimb extends Command {
-
-  private HoustonMotionProfileExecutor mp = null;
+public class HoustonClimberPrep extends Command {
   private PodAction action = PodAction.CLIMB;
   private Timer watchDog = null;
   private double watchDogTime = 0.0;
   private HoustonClimber climberPod = null;
-  private ClimbLevel level = ClimbLevel.LEVEL3;
+  private double prepPower = 0.0;
   
-  public HoustonManualClimb(PodAction action, ClimbLevel level, double watchDogTime) {
+  public HoustonClimberPrep(PodAction action, double prepPower, double watchDogTime) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_climber);
@@ -35,8 +31,9 @@ public class HoustonManualClimb extends Command {
     //set the direction
     this.action = action;
 
-    //set the level
-    this.level = level;
+    //set the prep power
+    prepPower = Math.abs(prepPower);
+    this.prepPower = ((this.action == PodAction.CLIMB) ? prepPower : -prepPower);
 
     //cache your alloted time to complete this command
     this.watchDogTime = watchDogTime;
@@ -51,52 +48,44 @@ public class HoustonManualClimb extends Command {
         //prep your time
         watchDog.reset();
         watchDog.start();
-     
-        //get the motion profile object associated with the subsystem
-        mp = climberPod.getMP();
-        climberPod.setAction(action);
-        mp.reset();
-        climberPod.resetEncoderPosition(0);
-        mp.setMotionProfileMode();
-        mp.startMotionProfile();
-        System.out.println("HoustonMotionProfileExecutor(): initialized");
+        //By having the default invert, we can safely decide on which sign touse on prepPower
+        climberPod.setupLeftDefault();
+        climberPod.setupRightDefault();
+        System.out.println("Prep: initialized");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      mp.control(action, level);
-      mp.setMotionProfileMode();
+     climberPod.set(prepPower);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     double elapsedTime = watchDog.get();
-    boolean bMPDone = mp.isMotionProfileDone();
+    
     
     if (elapsedTime >= watchDogTime) {
-      System.out.println("Watch Dog timer popped.");
+      System.out.println("Prep: Watch Dog timer popped.");
       return true;
     }
 
-    return bMPDone;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    mp.stopMotionProfile();
-    if (action == PodAction.CLIMB )
-       climberPod.set(0.1);
-    System.out.println("Houston Climb: End");
+    climberPod.set(0);
+    System.out.println("Prep: End");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    mp.stopMotionProfile();
-    System.out.println("Houston Climb: Interrupted");
+    climberPod.set(0);
+    System.out.println("Prep: Interrupted");
   }
 }

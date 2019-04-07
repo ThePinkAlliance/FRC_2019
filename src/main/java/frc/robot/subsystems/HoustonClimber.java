@@ -129,7 +129,7 @@ public class HoustonClimber extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new up your command here);
-    setDefaultCommand(new HoustonClimberTestJoystick());
+    //setDefaultCommand(new HoustonClimberTestJoystick());
   }
 
   public void resetEncoderPosition(int position) {
