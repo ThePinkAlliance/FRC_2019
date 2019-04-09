@@ -235,5 +235,11 @@ public class DriveTrain extends Subsystem {
 
     // Set Motor Power
     _diffDrive.tankDrive(leftGoverned, rightGoverned);
+  }
+  
+  public void rawTankDrive(double left, double right) {
+
+    // Set Motor Power
+    _diffDrive.tankDrive(left, right);
 	}
 }

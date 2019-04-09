@@ -29,6 +29,12 @@ public class JoystickDrive extends Command {
 		// Get the right joystick while accounting for mechanical deviation
 			right = js.getRawAxis(OI.rightStick);
 
+
+			if( js.getRawButton(OI.leftBumperButtonNumber)) {
+				AimAtTarget cmd = new AimAtTarget();
+				cmd.start();
+			  }
+
 		// Use tank drive to move the base using the joystick values defined above
 		Robot.m_driveTrain.tankDriveByJoystick(left, right);
 	}
