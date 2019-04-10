@@ -51,7 +51,7 @@ public class AimAtTarget extends Command implements PIDOutput{
 
     pidSource = new LimeLightPID();
 
-    turnController = new PIDController(.01, 0, 0, pidSource, this);
+    turnController = new PIDController(.004, 0, 0, pidSource, this);
 
     turnController.setInputRange(-29.8, 29.8);
     turnController.setAbsoluteTolerance(1);
@@ -101,8 +101,8 @@ public class AimAtTarget extends Command implements PIDOutput{
   @Override
   public void pidWrite(double output) {
 
-    double left = .5;
-    double right = .5;
+    double left = 0.35;
+    double right = 0.35;
 
     double targetArea = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
 
