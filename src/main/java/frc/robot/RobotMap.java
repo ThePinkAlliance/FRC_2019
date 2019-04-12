@@ -22,6 +22,7 @@ public class RobotMap {
 	// Pnuematics
 	public static int beakPort = 0;
 	public static int neckPort = 1;
+	public static int pushPort = 2;
 
 	// Switches
 	public static int leftLimitSwitchHatchCollectedPort = 0;

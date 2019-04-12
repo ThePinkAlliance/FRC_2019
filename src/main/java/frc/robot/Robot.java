@@ -14,6 +14,10 @@ import frc.robot.subsystems.HoustonClimber.PodPosition;
 //import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 import frc.robot.subsystems.Ball;
 
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.PathfinderFRC;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.followers.EncoderFollower;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -96,6 +100,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
+
+    //these need to be backwards for the time being, with left for right,
+    //and vice versa
+    //Trajectory leftTrajectory = PathfinderFRC.getTrajectory("Test1.right");
+    //Trajectory rightTrajectory = PathfinderFRC.getTrajectory("Test1.left");
+
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",

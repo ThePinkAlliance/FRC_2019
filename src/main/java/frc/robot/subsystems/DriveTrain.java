@@ -14,6 +14,7 @@ import frc.robot.subsystems.utils.Gains;
 // Subsystem used for defining DriveTrain hardware and methods
 public class DriveTrain extends Subsystem {
 
+
   // Define Motor controllers
   private CANSparkMax _rightFront = new CANSparkMax(RobotMap.rightFrontMotorPort, MotorType.kBrushless);
   private CANSparkMax _rightRear = new CANSparkMax(RobotMap.rightBackMotorPort, MotorType.kBrushless);
@@ -68,7 +69,7 @@ public class DriveTrain extends Subsystem {
   // Method that will return the current encoder position of the front right motor
   public double getFrontRightPosition() {
     if (_enc_rightFront != null)
-       return _enc_rightFront.getPosition();
+       return -_enc_rightFront.getPosition();
     else
        return 0.0;
   }

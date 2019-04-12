@@ -11,6 +11,7 @@ public class Hatch extends Subsystem {
   // Declare Subsystem Variables
   public Solenoid _beak = null;
   public Solenoid _neck = null;
+  public Solenoid _push = null;
   public DigitalInput leftLimitSwitchHatchCollected = null;
   public DigitalInput rightLimitSwitchHatchCollected = null;
   public boolean _beakOpen = true;
@@ -22,6 +23,7 @@ public class Hatch extends Subsystem {
     // Define Subsystem Hardware
     _beak = new Solenoid(RobotMap.beakPort);
     _neck = new Solenoid(RobotMap.neckPort);
+    _push = new Solenoid(RobotMap.pushPort);
     leftLimitSwitchHatchCollected = new DigitalInput(RobotMap.leftLimitSwitchHatchCollectedPort);
     rightLimitSwitchHatchCollected = new DigitalInput(RobotMap.rightLimitSwitchHatchCollectedPort);
   }
