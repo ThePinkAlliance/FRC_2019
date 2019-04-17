@@ -116,7 +116,7 @@ public class OI {
       baseX.whenPressed(new OpenBeak());
       baseA.whenPressed(new CloseBeak());
       baseRightTrigger.toggleWhenPressed(new AutomatedCollect());
-      baseLeftTrigger.toggleWhenPressed(new Eject());
+      baseLeftTrigger.whileHeld(new Eject());
       baseRightBumper.toggleWhenPressed(new Collect());
       baseStart.whenPressed(new MotionProfileLevel3GroupClimb(false)); // Automated Climb to Level 3
       baseSelect.whenPressed(new MotionProfileLevel2GroupClimb(false)); // Automated Climb to Level 2

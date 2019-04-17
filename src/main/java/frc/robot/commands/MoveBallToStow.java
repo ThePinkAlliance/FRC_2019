@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.utils.PresetPositions;
 
 public class MoveBallToStow extends Command {
   public MoveBallToStow() {
@@ -26,13 +25,13 @@ public class MoveBallToStow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_ball.setRotateMotorCmd(PresetPositions.BALL_CARGO_POSITION);
+    Robot.m_ball.setRotateMotorCmd(0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.m_ball.getBallRotateEncoder() - PresetPositions.BALL_CARGO_POSITION) <= 100;
+    return Math.abs(Robot.m_ball.getBallRotateEncoder()) <= 100;
   
   }
 

@@ -64,18 +64,14 @@ public class RobotDashboard {
      */
     public void displayEncoderValues() {
         if (Robot.m_driveTrain != null) {
-            SmartDashboard.putNumber(ENC_LABEL_RIGHT_FRONT, Robot.m_driveTrain.getFrontRightPosition());
-            SmartDashboard.putNumber(ENC_LABEL_LEFT_FRONT, Robot.m_driveTrain.getFrontLeftPosition());
-            SmartDashboard.putNumber(ENC_LABEL_ELEVATOR, Robot.m_elevator.getElevatorHeight());
-            SmartDashboard.putNumber("PodFrontLeftEncoder", Robot.m_climberPodFrontLeft.getEncPosition());
-            // SmartDashboard.putNumber("PodBackLeftEncoder", Robot.m_climberPodBackLeft.getEncPosition());
-            SmartDashboard.putNumber("PodFrontRightEncoder", Robot.m_climberPodFrontRight.getEncPosition());
-            // SmartDashboard.putNumber("PodBackRightEncoder", Robot.m_climberPodBackRight.getEncPosition());
-            SmartDashboard.putNumber("Ball Collector Position: ", Robot.m_ball.getBallRotateEncoder());
-            SmartDashboard.putNumber("PodFrontLeftOutputVoltage", Robot.m_climberPodFrontLeft.getOutput());
-            // SmartDashboard.putNumber("PodBackLeftOutputVoltage", Robot.m_climberPodBackLeft.getOutput());
-            SmartDashboard.putNumber("PodFrontRightOutputVoltage", Robot.m_climberPodFrontRight.getOutput());
-            // SmartDashboard.putNumber("PodBackRightOutputVoltage", Robot.m_climberPodBackRight.getOutput());
+            SmartDashboard.putNumber("Drive Train Right Position (inches)", Robot.m_driveTrain.getFrontRightPosition());
+            SmartDashboard.putNumber("Drive Train Left Position (inches)", Robot.m_driveTrain.getFrontLeftPosition());
+            SmartDashboard.putNumber("Elevator Position (counts)", Robot.m_elevator.getElevatorHeight());
+            SmartDashboard.putNumber("Climber Pod Left Position (counts)", Robot.m_climberPodFrontLeft.getEncPosition());
+            SmartDashboard.putNumber("Climber Pod Right Position (counts)", Robot.m_climberPodFrontRight.getEncPosition());
+            SmartDashboard.putNumber("Ball Rotate Position (counts)", Robot.m_ball.getBallRotateEncoder());
+            SmartDashboard.putNumber("Climber Pod Left Voltage", Robot.m_climberPodFrontLeft.getOutput());
+            SmartDashboard.putNumber("Climber Pod Right Voltage", Robot.m_climberPodFrontRight.getOutput());
 
         }
     }
@@ -85,15 +81,15 @@ public class RobotDashboard {
      */
     public void displayGyroValues() {
         if (Robot.m_driveTrain != null) {
-            SmartDashboard.putNumber(NAVX_LABEL_ANGLE, Robot.m_driveTrain.getGyroAngle());
-            SmartDashboard.putNumber(NAVX_LABEL_YAW, Robot.m_driveTrain.getGyroYaw());
+            SmartDashboard.putNumber("NavX Angle", Robot.m_driveTrain.getGyroAngle());
+            SmartDashboard.putNumber("NavX Yaw", Robot.m_driveTrain.getGyroYaw());
         }
     }
 
     public void displayPIDValues() {
         if (Robot.m_driveTrain != null) {
-            SmartDashboard.putNumber(BASE_KD, Robot.m_driveTrain.baseKd);
-            SmartDashboard.putNumber(BASE_KP, Robot.m_driveTrain.baseKp);
+            SmartDashboard.putNumber("Drive Train Derivative Gain", Robot.m_driveTrain.baseKd);
+            SmartDashboard.putNumber("Drive Train Proportional Gain", Robot.m_driveTrain.baseKp);
         }
     }
 
