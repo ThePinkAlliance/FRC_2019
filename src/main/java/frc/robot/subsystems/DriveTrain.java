@@ -4,12 +4,16 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import frc.robot.RobotMap;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.subsystems.utils.Gains;
+import jaci.pathfinder.followers.EncoderFollower;
 
 // Subsystem used for defining DriveTrain hardware and methods
 public class DriveTrain extends Subsystem {
@@ -29,6 +33,10 @@ public class DriveTrain extends Subsystem {
   CANEncoder _enc_leftFront = new CANEncoder(_leftFront);
   CANEncoder _enc_rightRear = new CANEncoder(_rightRear);
   CANEncoder _enc_rightFront = new CANEncoder(_rightFront);
+
+  private EncoderFollower m_left_follower = null;
+  private EncoderFollower m_right_follower = null;
+
 
   // Declare class variables
   public double leftGoverned = 0.0;
@@ -242,5 +250,14 @@ public class DriveTrain extends Subsystem {
 
     // Set Motor Power
     _diffDrive.tankDrive(left, right);
-	}
+  }
+
+  public EncoderFollower getLeftFollower() {
+    return m_left_follower;
+  }
+
+  public EncoderFollower getRightFollower() {
+    return m_right_follower;
+  }
+
 }

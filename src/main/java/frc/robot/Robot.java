@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -11,6 +12,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Hatch;
 import frc.robot.subsystems.HoustonClimber;
 import frc.robot.subsystems.HoustonClimber.PodPosition;
+import frc.robot.commands.FollowPathWeaver;
 //import frc.robot.subsystems.utils.MotionProfileClimberDouble.PodPosition;
 import frc.robot.subsystems.Ball;
 
@@ -55,6 +57,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", m_chooser);
 
     //DriveTrain
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+
 
 
   }
@@ -101,11 +105,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
 
-    //these need to be backwards for the time being, with left for right,
-    //and vice versa
-    //Trajectory leftTrajectory = PathfinderFRC.getTrajectory("Test1.right");
-    //Trajectory rightTrajectory = PathfinderFRC.getTrajectory("Test1.left");
-
+    //FollowPathWeaver cmd = new FollowPathWeaver();
+    //cmd.start();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",

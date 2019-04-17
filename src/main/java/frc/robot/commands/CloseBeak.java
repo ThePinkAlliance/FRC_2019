@@ -14,7 +14,7 @@ import frc.robot.Robot;
 public class CloseBeak extends Command {
 
   public Timer waitTime = null;
-  public double endTime = .3;
+  public double endTime = 2;
 
   public CloseBeak() {
     // Use requires() here to declare subsystem dependencies

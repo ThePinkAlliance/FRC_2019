@@ -59,6 +59,8 @@ public class AimAtTarget extends Command implements PIDOutput{
     turnController.setSetpoint(0);
     turnController.enable();
 
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -87,6 +89,8 @@ public class AimAtTarget extends Command implements PIDOutput{
     turnController.disable();
     turnController.close();
     Robot.m_driveTrain.stopDriveTrain();
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+
   }
 
   // Called when another command which requires one or more of the same
@@ -96,19 +100,27 @@ public class AimAtTarget extends Command implements PIDOutput{
     turnController.disable();
     turnController.close();
     Robot.m_driveTrain.stopDriveTrain();
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+
   }
 
   @Override
   public void pidWrite(double output) {
 
-    double left = 0.35;
-    double right = 0.35;
+    double left = 0.5;
+    double right = 0.5;
 
     double targetArea = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    double validTargets = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
 
     if ( targetArea > 0 && targetArea < 2 ) {
       left = .8;
       right = .8;
+    }
+
+    if ( validTargets == 0 ) {
+      left = .6;
+      right = .6;
     }
 
 

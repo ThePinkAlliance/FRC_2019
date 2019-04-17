@@ -173,11 +173,11 @@ public class HoustonClimber extends Subsystem {
 
   public void setupRightDefault() {
     if (_masterPosition == PodPosition.RIGHT) {
-      _master.setInverted(false);
+      _master.setInverted(true);
       _master.setSensorPhase(false);  //TODO: this is different on competition bot
     } else {
       _follower.setInverted(false);
-      _follower.setSensorPhase(false);  //TODO: this is different on competition bot
+      _follower.setSensorPhase(true);  //TODO: this is different on competition bot
     }
   }
 
