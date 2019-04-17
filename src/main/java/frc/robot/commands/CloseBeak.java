@@ -51,7 +51,6 @@ public class CloseBeak extends Command {
         || waitTime.get() <= endTime ){    
       return false;
     } else {
-      Robot.m_hatch._push.set(false);
       return true;
     }  
   }
@@ -59,6 +58,8 @@ public class CloseBeak extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_hatch._push.set(false);
+
     
   }
 
@@ -66,5 +67,7 @@ public class CloseBeak extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.m_hatch._push.set(false);
+
   }
 }

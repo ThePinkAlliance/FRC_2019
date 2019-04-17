@@ -190,9 +190,9 @@ public class HoustonClimber extends Subsystem {
     }
     //RIGHT
     if (_masterPosition == PodPosition.RIGHT) {
-      _master.setInverted(false);
+      _master.setInverted(true);
     } else {
-      _follower.setInverted(false);
+      _follower.setInverted(true);
     }
   }
 
@@ -206,9 +206,9 @@ public class HoustonClimber extends Subsystem {
     }
     //RIGHT
     if (_masterPosition == PodPosition.RIGHT) {
-      _master.setInverted(true);
+      _master.setInverted(false);
     } else {
-      _follower.setInverted(true);
+      _follower.setInverted(false);
     }
   }
 
